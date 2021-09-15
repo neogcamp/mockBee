@@ -1,72 +1,129 @@
-import React, { useState, useEffect } from "react";
-import "./app.css";
+import React, { useState, useEffect } from 'react';
 
-function App() {
-  // State for books
-  const [books, setBooks] = useState([]);
+export default function App() {
   let [token, setToken] = useState()
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [wishList,setWishList] = useState([])
+  const encodedToken = localStorage.getItem('token')
 
   useEffect(() => {
-    fetch("/api/auth")
-      .then(res => res.json())
-      .then(data => {
-        if (localStorage.length === 0) {
-          localStorage.setItem('token', data.encodedToken)
-          setToken("ENCODED SECRET MESSAGE")
-        }
-      })
-  })
-
-  function decodeToken() {
-    const encodedToken = localStorage.getItem('token')
-    fetch("/api/decode", {
-      headers: {
-        Authorization: encodedToken
-      }
-    })
-  }
-
-  // Call API
-  useEffect(() => {
-    // Interval: will call itself after specified interval of time
-    setInterval(() => {
-      // Fetch Data
-      fetch("/api/books")
+      fetch("/api/products")
         .then((resp) => resp.json())
         .then((data) => {
-          setBooks(data);
+          setProducts(data.products);
         });
-    }, 2000);
   }, []);
 
-  // Add Book
-  const addBook = () => {
-    const title = prompt("Enter Book Title");
-    const author = prompt("Enter Book Author");
+  useEffect(() => {
+    if(token){
+        fetchCartDetails();
+        fetchWishListDetails();
+    } 
+  },[token, encodedToken])
 
-    // If Data is not there
-    if (!title || !author) {
-      return false;
-    }
-    // Call post api
-    fetch("api/add", {
-      method: "POST",
-      // Stringify data and send it
-      body: JSON.stringify({ title, author }),
-    }).catch((err) => {
-      console.log("Error", err);
-    });
-  };
 
-  // If data is loading
-  if (!books.length) {
-    return <h2>Loading</h2>;
+
+  const fetchCartDetails = () => {
+    fetch("/api/user/cart", {headers: {
+      authorization: encodedToken
+    },})
+        .then((resp) => resp.json())
+        .then((data) => {
+          setCart(data.cart)         
+        });
   }
 
+  const fetchWishListDetails = () => {
+    fetch("/api/user/wishlist", {headers: {
+      authorization: encodedToken
+    },})
+        .then((resp) => resp.json())
+        .then((data) => {
+          setWishList(data.wishList)         
+        });
+  }
+
+  // signup API call
+  const signupHandler = () => {
+    fetch("api/signup", {method: "POST", body: JSON.stringify({ firstName: "Soham", lastName: "Shah", username: "sohamsshah", password: "123" }),})
+      .then(res => res.json())
+      .then(data => {
+          localStorage.setItem('token', data.encodedToken)
+          setToken("ENCODED SECRET MESSAGE")
+      })}
+  
+  // signup API call
+  const loginHandler = () => {
+    fetch("api/login", {method: "POST", body: JSON.stringify({ username: "sohamsshah", password: "123" }),})
+      .then(res => res.json())
+      .then(data => {
+          localStorage.setItem('token', data.encodedToken)
+          setToken("ENCODED SECRET MESSAGE")
+      })}
+
+    // Cart Handlers
+    const addToCart = (product) => {
+      // Call post api
+      fetch("api/user/cart", {
+        method: "POST",
+        headers: {
+          authorization: encodedToken
+        },
+        // Stringify data and send it
+        body: JSON.stringify({ product }),
+      }).then(data => data.json()).then(data => setCart(data.cart)).catch((err) => {
+        console.log("Error", err);
+      });
+
+    };
+
+    const addToWishList = (product) => {
+      // Call post api
+      fetch("api/user/wishlist", {
+        method: "POST",
+        headers: {
+          authorization: encodedToken
+        },
+        // Stringify data and send it
+        body: JSON.stringify({ product }),
+      }).then(data => data.json()).then(data => setWishList(data.wishList)).catch((err) => {
+        console.log("Error", err);
+      });
+
+    };
+
+    const removeFromCart = (product) => {
+      fetch("api/user/cart", {
+        method: "DELETE",
+        headers: {
+          authorization: encodedToken
+        },
+        // Stringify data and send it
+        body: JSON.stringify({ product }),
+      }).then(data => data.json()).then(data => setCart(data.cart)).catch((err) => {
+        console.log("Error", err);
+      });
+
+    };
+    const removeFromWishList = (product) => {
+      fetch("api/user/wishlist", {
+        method: "DELETE",
+        headers: {
+          authorization: encodedToken
+        },
+        // Stringify data and send it
+        body: JSON.stringify({ product }),
+      }).then(data => data.json()).then(data => setWishList(data.wishList)).catch((err) => {
+        console.log("Error", err);
+      });
+
+    };
+  
   return (
-    <div className="main-container">
-      <button onClick={() => decodeToken()}>Click me to decode!</button>
-      <h2>Available Books</h2>
+    
+    <div>
+      <h2>Available Products</h2>
       <table border="1">
         <thead>
           <tr>
@@ -76,19 +133,32 @@ function App() {
         </thead>
 
         <tbody>
-          {books.map((book, index) => {
+          {products.map((product, index) => {
             return (
               <tr key={index}>
-                <td>{book.title}</td>
-                <td>{book.author}</td>
+                <td>{product.title}</td>
+                <td>{product.author}</td>
+                <td><button onClick={() => addToCart(product)}> 🚀 </button></td>
+                <td><button onClick={() => addToWishList(product)}> 📦 </button></td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      <button onClick={addBook}>Add Book</button>
+      <button onClick={() => signupHandler()}> Signup</button>
+      <button onClick={() => loginHandler()}> Login</button>
+      <div>
+        <h1>Cart </h1>
+        <ul>
+          {cart.map(product => <li>{product.title} <button onClick={() => removeFromCart(product)}> Remove</button></li>)}
+        </ul>
+      </div>
+      <div>
+        <h1>WishList </h1>
+        <ul>
+          {wishList.map(product => <li>{product.title} <button onClick={() => removeFromWishList(product)}> Remove</button></li>)}
+        </ul>
+      </div>
     </div>
-  );
+  )
 }
-
-export default App;
