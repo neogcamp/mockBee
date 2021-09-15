@@ -1,8 +1,9 @@
-import {addItemToCartHandler, getCartItemsHandler, removeItemFromCartHandler} from './backend/controllers/CartController'
+import {addItemToCartHandler, getCartItemsHandler, removeItemFromCartHandler, updateCartItemHandler} from './backend/controllers/CartController'
 import { addItemToWishListHandler, getWishListItemsHandler, removeItemFromWishListHandler } from './backend/controllers/WishListController';
 import { Server, Model, RestSerializer} from "miragejs"
 import { products } from './backend/db/products';
 import { loginHandler, signupHandler } from './backend/controllers/AuthController';
+import { getAllProductsHandler, getProductHandler } from './backend/controllers/ProductController';
 
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
@@ -19,33 +20,31 @@ export function makeServer({ environment = "development" } = {}) {
     
     seeds(server) {
     products.forEach(item => {
-      server.create("product", item);
+      server.create("product", {...item, qty:1});
     })
     },
 
     routes() {
       this.namespace = "api"
-      // auth routes
+      // auth routes (public)
       this.post("/signup", signupHandler.bind(this))
       this.post("/login", loginHandler.bind(this))
 
-      // products routes
-      this.get("/products", (schema) => {
-          return {products: this.db.products};
-      });
+      // products routes (public)
+      this.get("/products", getAllProductsHandler);
+      this.get("/products/:productId", getProductHandler)
 
-      // cart routes
+      // cart routes (private)
       this.get("/user/cart", getCartItemsHandler.bind(this)) 
       this.post("/user/cart", addItemToCartHandler.bind(this))
       this.delete("/user/cart", removeItemFromCartHandler.bind(this)) 
+      this.post("/user/cart/:productId", updateCartItemHandler.bind(this))
 
-      // wishlist routes
+      // wishlist routes (private)
       this.get("/user/wishlist", getWishListItemsHandler.bind(this)) 
       this.post("/user/wishlist", addItemToWishListHandler.bind(this))
       this.delete("/user/wishlist", removeItemFromWishListHandler.bind(this)) 
     },
-    
-    
   })
   return server
 }

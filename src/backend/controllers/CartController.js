@@ -28,3 +28,26 @@ export const getCartItemsHandler = function(schema, request) {
     }
     return new Response(404, { errors: [ 'The user you request does not exist. Not Found error.'] });
   }
+
+  export const updateCartItemHandler = function(schema, request) {
+    const productId = request.params.productId;
+    const user = requiresAuth.call(this, request);
+    if(user){
+      const {action} = JSON.parse(request.requestBody);
+      if(action.type === "increment"){
+          user.cart.forEach(product => {
+              if(product._id === productId){
+                  product.qty+=1
+              }
+          })
+      }else if(action.type === "decrement"){
+        user.cart.forEach(product => {
+            if(product._id === productId){
+                product.qty-=1
+            }
+        })
+      }
+      return new Response(201, {}, {cart: user.cart} );
+    }
+    return new Response(401, { errors: [ 'The token is invalid. Unauthorized access error.'] });
+  }
