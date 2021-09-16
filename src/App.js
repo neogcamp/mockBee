@@ -61,7 +61,7 @@ export default function App() {
       .then((res) => res.json())
       .then((data) => {
         localStorage.setItem("token", data.encodedToken);
-        setToken("ENCODED SECRET MESSAGE");
+        setToken(data.encodedToken);
       });
   };
 
@@ -74,7 +74,7 @@ export default function App() {
       .then((res) => res.json())
       .then((data) => {
         localStorage.setItem("token", data.encodedToken);
-        setToken("ENCODED SECRET MESSAGE");
+        setToken(data.encodedToken);
       });
   };
 
