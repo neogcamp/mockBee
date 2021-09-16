@@ -14,6 +14,11 @@ export default function App() {
         console.log(data);
         setProducts(data.products);
       });
+      fetch("/api/categories/c15bc7cf-98bd-43a2-83ba-7cccb36999fc")
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log("here", data);
+      });
   }, []);
 
   useEffect(() => {

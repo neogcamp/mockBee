@@ -20,7 +20,7 @@ export const getAllProductsHandler = function (){
  * send GET Request at /api/user/products/:productId
  * */
 
-export const getProductHandler =  function (request) {
+export const getProductHandler =  function (schema, request) {
     const productId = request.params.productId;
     const product = this.db.products.findBy({_id: productId});
     return new Response(201, {}, { product });
