@@ -28,7 +28,7 @@ export const addItemToCartHandler = function(schema, request) {
   const user = requiresAuth.call(this, request);
   if(user){
     const {product} = JSON.parse(request.requestBody);
-    user.cart.push(product);
+    user.cart.push({...product, qty: 1});
     return new Response(201, {}, {cart: user.cart} );
   }
   return new Response(401, { errors: [ 'The token is invalid. Unauthorized access error.'] });

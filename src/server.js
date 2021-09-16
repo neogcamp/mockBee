@@ -37,7 +37,7 @@ export function makeServer({ environment = "development" } = {}) {
     seeds(server) {
       products.forEach((item) => {
         // TODO: Quantity should not in product 😢
-        server.create("product", { ...item, qty: 1 });
+        server.create("product", { ...item });
       });
 
       users.forEach((item) =>
