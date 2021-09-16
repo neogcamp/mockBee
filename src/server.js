@@ -27,8 +27,8 @@ export function makeServer({ environment = "development" } = {}) {
     routes() {
       this.namespace = "api"
       // auth routes (public)
-      this.post("/signup", signupHandler.bind(this))
-      this.post("/login", loginHandler.bind(this))
+      this.post("/auth/signup", signupHandler.bind(this))
+      this.post("/auth/login", loginHandler.bind(this))
 
       // products routes (public)
       this.get("/products", getAllProductsHandler);

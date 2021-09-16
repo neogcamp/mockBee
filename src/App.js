@@ -48,12 +48,12 @@ export default function App() {
 
   // signup API call
   const signupHandler = () => {
-    fetch("api/signup", {
+    fetch("api/auth/signup", {
       method: "POST",
       body: JSON.stringify({
         firstName: "Soham",
         lastName: "Shah",
-        username: "sohamsshah",
+        email: "sohamshah456@gmail.com",
         password: "123",
       }),
     })
@@ -66,9 +66,9 @@ export default function App() {
 
   // signup API call
   const loginHandler = () => {
-    fetch("api/login", {
+    fetch("api/auth/login", {
       method: "POST",
-      body: JSON.stringify({ username: "sohamsshah", password: "123" }),
+      body: JSON.stringify({ email: "sohamshah456@gmail.com", password: "123" }),
     })
       .then((res) => res.json())
       .then((data) => {
