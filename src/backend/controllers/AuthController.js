@@ -3,6 +3,11 @@ import { Response } from "miragejs";
 const jwt = require("jsonwebtoken");
 
 /**
+ * All the routes related to Auth are present here.
+ * These are Publicly accessible routes.
+ * */
+
+/**
  * This handler handles user signups.
  * send POST Request at /api/auth/signup
  * body contains {firstName, lastName, email, password}
@@ -12,6 +17,7 @@ export const signupHandler = (schema, request) => {
   const { email, password, firstName, lastName } = JSON.parse(
     request.requestBody
   );
+  // TODO: Add check if email already exists
   const newUser = {
     cart: [],
     wishList: [],
@@ -28,6 +34,12 @@ export const signupHandler = (schema, request) => {
   );
   return new Response(201, {}, { createdUser, encodedToken });
 };
+
+/**
+ * This handler handles user login.
+ * send POST Request at /api/auth/login
+ * body contains {email, password}
+ * */
 
 export const loginHandler = (schema, request) => {
   const { email, password } = JSON.parse(request.requestBody);

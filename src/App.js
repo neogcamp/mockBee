@@ -11,6 +11,7 @@ export default function App() {
     fetch("/api/products")
       .then((resp) => resp.json())
       .then((data) => {
+        console.log(data);
         setProducts(data.products);
       });
   }, []);
@@ -68,7 +69,7 @@ export default function App() {
   const loginHandler = () => {
     fetch("api/auth/login", {
       method: "POST",
-      body: JSON.stringify({ email: "sohamshah456@gmail.com", password: "123" }),
+      body: JSON.stringify({ email: "dhruvishah@gmail.com", password: "dhruviShah123" }),
     })
       .then((res) => res.json())
       .then((data) => {

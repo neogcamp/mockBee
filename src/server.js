@@ -1,50 +1,71 @@
-import {addItemToCartHandler, getCartItemsHandler, removeItemFromCartHandler, updateCartItemHandler} from './backend/controllers/CartController'
-import { addItemToWishListHandler, getWishListItemsHandler, removeItemFromWishListHandler } from './backend/controllers/WishListController';
-import { Server, Model, RestSerializer} from "miragejs"
-import { products } from './backend/db/products';
-import { loginHandler, signupHandler } from './backend/controllers/AuthController';
-import { getAllProductsHandler, getProductHandler } from './backend/controllers/ProductController';
+import {
+  addItemToCartHandler,
+  getCartItemsHandler,
+  removeItemFromCartHandler,
+  updateCartItemHandler,
+} from "./backend/controllers/CartController";
+import {
+  addItemToWishListHandler,
+  getWishListItemsHandler,
+  removeItemFromWishListHandler,
+} from "./backend/controllers/WishListController";
+import { Server, Model, RestSerializer } from "miragejs";
+import { products } from "./backend/db/products";
+import { users } from "./backend/db/users";
+import {
+  loginHandler,
+  signupHandler,
+} from "./backend/controllers/AuthController";
+import {
+  getAllProductsHandler,
+  getProductHandler,
+} from "./backend/controllers/ProductController";
 
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
     serializers: {
-      application: RestSerializer
+      application: RestSerializer,
     },
     environment,
     models: {
       product: Model,
       wishList: Model,
       cart: Model,
-      user: Model
+      user: Model,
     },
-    
+
     seeds(server) {
-    products.forEach(item => {
-      server.create("product", {...item, qty:1});
-    })
+      products.forEach((item) => {
+        // TODO: Quantity should not in product 😢
+        server.create("product", { ...item, qty: 1 });
+      });
+
+      users.forEach((item) =>
+        server.create("user", { ...item, cart: [], wishList: [] })
+      );
     },
 
     routes() {
-      this.namespace = "api"
+      this.namespace = "api";
       // auth routes (public)
-      this.post("/auth/signup", signupHandler.bind(this))
-      this.post("/auth/login", loginHandler.bind(this))
+      this.post("/auth/signup", signupHandler.bind(this));
+      this.post("/auth/login", loginHandler.bind(this));
 
       // products routes (public)
-      this.get("/products", getAllProductsHandler);
-      this.get("/products/:productId", getProductHandler)
+      this.get("/products", getAllProductsHandler.bind(this));
+      this.get("/products/:productId", getProductHandler.bind(this));
 
       // cart routes (private)
-      this.get("/user/cart", getCartItemsHandler.bind(this)) 
-      this.post("/user/cart", addItemToCartHandler.bind(this))
-      this.delete("/user/cart", removeItemFromCartHandler.bind(this)) 
-      this.post("/user/cart/:productId", updateCartItemHandler.bind(this))
+      this.get("/user/cart", getCartItemsHandler.bind(this));
+      this.post("/user/cart", addItemToCartHandler.bind(this));
+      this.delete("/user/cart", removeItemFromCartHandler.bind(this));
+      this.post("/user/cart/:productId", updateCartItemHandler.bind(this));
 
       // wishlist routes (private)
-      this.get("/user/wishlist", getWishListItemsHandler.bind(this)) 
-      this.post("/user/wishlist", addItemToWishListHandler.bind(this))
-      this.delete("/user/wishlist", removeItemFromWishListHandler.bind(this)) 
+      this.get("/user/wishlist", getWishListItemsHandler.bind(this));
+      this.post("/user/wishlist", addItemToWishListHandler.bind(this));
+      this.delete("/user/wishlist", removeItemFromWishListHandler.bind(this));
     },
-  })
-  return server
+  });
+  return server;
 }
