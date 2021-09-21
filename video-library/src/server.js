@@ -8,7 +8,7 @@ import { getAllVideosHandler, getVideoHandler } from "./backend/controllers/Vide
 import { videos } from "./backend/db/videos";
 import { categories } from "./backend/db/categories";
 import { getAllCategoriesHandler, getCategoryHandler } from "./backend/controllers/CategoryController";
-
+import { getLikedVideosHandler, addItemToLikedVideos, removeItemFromLikedVideos } from "./backend/controllers/LikeController";
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
     serializers: {
@@ -52,9 +52,9 @@ export function makeServer({ environment = "development" } = {}) {
       this.get("/categories/:categoryId", getCategoryHandler.bind(this));
 
       // likes routes (private)
-      // this.get("/user/likes", getLikedVideosHandler.bind(this));
-      // this.post("/user/likes", addItemToLikedVideos.bind(this));
-      // this.delete("/user/likes", removeItemFromLikedVideos.bind(this));
+      this.get("/user/likes", getLikedVideosHandler.bind(this));
+      this.post("/user/likes", addItemToLikedVideos.bind(this));
+      this.delete("/user/likes", removeItemFromLikedVideos.bind(this));
 
       // // playlist routes (private)
       // this.get("/user/playlists", getAllPlaylistsHandler.bind(this));
