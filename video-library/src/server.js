@@ -4,7 +4,7 @@ import {
   signupHandler,
   logoutHandler,
 } from "./backend/controllers/AuthController";
-import { getAllVideosHandler } from "./backend/controllers/VideoController";
+import { getAllVideosHandler, getVideoHandler } from "./backend/controllers/VideoController";
 import { videos } from "./backend/db/videos";
 
 export function makeServer({ environment = "development" } = {}) {
@@ -39,6 +39,35 @@ export function makeServer({ environment = "development" } = {}) {
 
       // video routes (public)
       this.get("/videos", getAllVideosHandler.bind(this));
+      this.get("video/:videoId", getVideoHandler)
+
+      // TODO: POST VIDEO TO DB 
+
+      // categories routes (public)
+      this.get("/categories", getAllCategoriesHandler.bind(this));
+      this.get("/categories/:categoryId", getCategoryHandler.bind(this));
+
+      // likes routes (private)
+      this.get("/user/likes", getLikedVideosHandler.bind(this));
+      this.post("/user/likes", addItemToLikedVideos.bind(this));
+      this.delete("/user/likes", removeItemFromLikedVideos.bind(this));
+
+      // playlist routes (private)
+      this.get("/user/playlists", getAllPlaylistsHandler.bind(this));
+      this.post("/user/playlists", addItemToPlaylistsHandler.bind(this));
+      this.delete("/user/playlists", removeItemFromPlaylistHandler.bind(this));
+      
+      this.get("/user/playlists/:playlistId", getVideosFromPlaylistHandler.bind(this));
+      this.post("/user/playlists/:playlistId", addVideoToPlaylistHandler.bind(this));
+      this.delete("/user/playlists/:playlistId", removeVideoFromPlaylistHandler.bind(this));
+
+      // history routes (private)
+      this.get("/user/history", getHistoryVideosHandler.bind(this));
+      this.post("/user/history", addVideoToHistoryHandler.bind(this));
+      this.delete("/user/history", removeVideoFromHistoryHandler.bind(this));
+      this.delete("/user/history/all", clearHistoryHandler.bind(this));
+
+      // TODO: Recommendations routes (private)
     }
   });
   return server;
