@@ -43,8 +43,8 @@ export const addItemToCartHandler = function(schema, request) {
 export const removeItemFromCartHandler = function(schema, request) {
   const user = requiresAuth.call(this, request);
   if(user){
-    const {product} = JSON.parse(request.requestBody);
-    const filteredCart = user.cart.filter(item => item._id !== product._id);
+    const productId = request.params.productId;
+    const filteredCart = user.cart.filter(item => item._id !== productId);
     this.db.users.update({cart: filteredCart});
     return new Response(201, {}, {cart: filteredCart} );
   }

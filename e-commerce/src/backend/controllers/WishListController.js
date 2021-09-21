@@ -46,8 +46,8 @@ export const removeItemFromWishListHandler = function(schema, request) {
   const user = requiresAuth.call(this, request);
   
   if(user){
-    const {product} = JSON.parse(request.requestBody);
-    const filteredWishList = user.wishList.filter(item => item._id !== product._id);
+    const productId = request.params.productId;
+    const filteredWishList = user.wishList.filter(item => item._id !== productId);
     this.db.users.update({wishList: filteredWishList});
     
     return new Response(201, {}, {wishList: filteredWishList} );

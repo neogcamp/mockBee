@@ -71,13 +71,13 @@ export function makeServer({ environment = "development" } = {}) {
       // cart routes (private)
       this.get("/user/cart", getCartItemsHandler.bind(this));
       this.post("/user/cart", addItemToCartHandler.bind(this));
-      this.delete("/user/cart", removeItemFromCartHandler.bind(this));
+      this.delete("/user/cart/:productId", removeItemFromCartHandler.bind(this));
       this.post("/user/cart/:productId", updateCartItemHandler.bind(this));
 
       // wishlist routes (private)
       this.get("/user/wishlist", getWishListItemsHandler.bind(this));
       this.post("/user/wishlist", addItemToWishListHandler.bind(this));
-      this.delete("/user/wishlist", removeItemFromWishListHandler.bind(this));
+      this.delete("/user/wishlist/:productId", removeItemFromWishListHandler.bind(this));
     },
   });
   return server;

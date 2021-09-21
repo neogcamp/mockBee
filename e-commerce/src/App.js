@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+// THIS FILE IS JUST FOR TESTING PURPOSES. Will be deleted once while publishing it.
 
+import React, { useState, useEffect } from "react";
+import axios from 'axios'
 export default function App() {
   let [token, setToken] = useState();
   const [products, setProducts] = useState([]);
@@ -8,17 +10,16 @@ export default function App() {
   const encodedToken = localStorage.getItem("token");
 
   useEffect(() => {
-    fetch("/api/products")
-      .then((resp) => resp.json())
-      .then((data) => {
-        console.log(data);
-        setProducts(data.products);
-      });
-      fetch("/api/categories/c15bc7cf-98bd-43a2-83ba-7cccb36999fc")
-      .then((resp) => resp.json())
-      .then((data) => {
-        console.log("here", data);
-      });
+    (async () => {
+      try {
+        const response = await axios.get(
+          `/api/products`
+        );
+        setProducts(response.data.products);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }, []);
 
   useEffect(() => {
@@ -28,157 +29,138 @@ export default function App() {
     }
   }, [token, encodedToken]);
 
-  const fetchCartDetails = () => {
-    fetch("/api/user/cart", {
-      headers: {
-        authorization: encodedToken,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        setCart(data.cart);
-      });
+  const fetchCartDetails = async () => {
+    try {
+      const response = await axios.get(
+        `/api/user/cart`, {headers: {
+          authorization: encodedToken,
+        },}
+      );
+      setCart(response.data.cart);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const fetchWishListDetails = () => {
-    fetch("/api/user/wishlist", {
-      headers: {
-        authorization: encodedToken,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        setWishList(data.wishList);
-      });
-  };
+  const fetchWishListDetails = async() => {
+    try {
+      const response = await axios.get(
+        `/api/user/wishlist`, {headers: {
+          authorization: encodedToken,
+        },}
+      );
+      setWishList(response.data.wishList)
+    } catch (error) {
+      console.log(error);
+    } }
 
   // signup API call
-  const signupHandler = () => {
-    fetch("api/auth/signup", {
-      method: "POST",
-      body: JSON.stringify({
-        firstName: "Soham",
+  const signupHandler = async () => {
+    try {
+      const response = await axios.post(
+        `/api/auth/signup`, {firstName: "Soham",
         lastName: "Shah",
         email: "sohamshah456@gmail.com",
-        password: "123",
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        localStorage.setItem("token", data.encodedToken);
-        setToken(data.encodedToken);
-      });
+        password: "123"}
+      );
+      localStorage.setItem("token", response.data.encodedToken);
+        setToken(response.data.encodedToken);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  // signup API call
-  const loginHandler = () => {
-    fetch("api/auth/login", {
-      method: "POST",
-      body: JSON.stringify({ email: "dhruvishah@gmail.com", password: "dhruviShah123" }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        localStorage.setItem("token", data.encodedToken);
-        setToken(data.encodedToken);
-      });
+  // login API call
+  const loginHandler = async () => {
+    try {
+      const response = await axios.post(
+        `/api/auth/login`, {
+        email: "sohamshah456@gmail.com",
+        password: "123"}
+      );
+      localStorage.setItem("token", response.data.encodedToken);
+        setToken(response.data.encodedToken);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Cart Handlers
-  const addToCart = (product) => {
-    // Call post api
-    fetch("api/user/cart", {
-      method: "POST",
-      headers: {
-        authorization: encodedToken,
-      },
-      // Stringify data and send it
-      body: JSON.stringify({ product }),
-    })
-      .then((data) => data.json())
-      .then((data) => setCart(data.cart))
-      .catch((err) => {
-        console.log("Error", err);
-      });
+  const addToCart = async (product) => {
+    try {
+      const response = await axios.post(
+        `/api/user/cart`, { product }, {headers: {
+          authorization: encodedToken,
+        }}
+      );
+      setCart(response.data.cart)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const addToWishList = (product) => {
-    // Call post api
-    fetch("api/user/wishlist", {
-      method: "POST",
-      headers: {
-        authorization: encodedToken,
-      },
-      // Stringify data and send it
-      body: JSON.stringify({ product }),
-    })
-      .then((data) => data.json())
-      .then((data) => setWishList(data.wishList))
-      .catch((err) => {
-        console.log("Error", err);
-      });
+  const addToWishList = async (product) => {
+    try {
+      const response = await axios.post(
+        `/api/user/wishlist`, { product }, {headers: {
+          authorization: encodedToken,
+        }}
+      );
+      setWishList(response.data.wishList)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const removeFromCart = (product) => {
-    fetch("api/user/cart", {
-      method: "DELETE",
-      headers: {
-        authorization: encodedToken,
-      },
-      // Stringify data and send it
-      body: JSON.stringify({ product }),
-    })
-      .then((data) => data.json())
-      .then((data) => setCart(data.cart))
-      .catch((err) => {
-        console.log("Error", err);
-      });
+  const removeFromCart = async (product) => {
+    try {
+      const response = await axios.delete(
+        `/api/user/cart/${product._id}`,  {headers: {
+          authorization: encodedToken,
+        }}
+      );
+      setCart(response.data.cart)
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const removeFromWishList = (product) => {
-    fetch("api/user/wishlist", {
-      method: "DELETE",
-      headers: {
-        authorization: encodedToken,
-      },
-      // Stringify data and send it
-      body: JSON.stringify({ product }),
-    })
-      .then((data) => data.json())
-      .then((data) => setWishList(data.wishList))
-      .catch((err) => {
-        console.log("Error", err);
-      });
+  const removeFromWishList = async(product) => {
+    try {
+      const response = await axios.delete(
+        `/api/user/wishlist/${product._id}`,  {headers: {
+          authorization: encodedToken,
+        }}
+      );
+      setWishList(response.data.wishList)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const incrementQuantityHandler = (product) => {
-    fetch(`api/user/cart/${product._id}`, {
-      method: "POST",
-      headers: {
-        authorization: encodedToken,
-      },
-      // Stringify data and send it
-      body: JSON.stringify({ action:{type: "increment"} }),
-    })
-      .then((data) => data.json())
-      .then((data) => setCart(data.cart))
-      .catch((err) => {
-        console.log("Error", err);
-      });
+  const incrementQuantityHandler = async (product) => {
+    try {
+      const response = await axios.post(
+        `api/user/cart/${product._id}`, { action:{type: "increment"} }, {headers: {
+          authorization: encodedToken,
+        }}
+      );
+      setCart(response.data.cart)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const decrementQuantityHandler = (product) => {
-    fetch(`api/user/cart/${product._id}`, {
-      method: "POST",
-      headers: {
-        authorization: encodedToken,
-      },
-      // Stringify data and send it
-      body: JSON.stringify({ action: {type: "decrement"} }),
-    })
-      .then((data) => data.json())
-      .then((data) => setCart(data.cart))
-      .catch((err) => {
-        console.log("Error", err);
-      });
+  const decrementQuantityHandler = async (product) => {
+    try {
+      const response = await axios.post(
+        `api/user/cart/${product._id}`, { action:{type: "decrement"} }, {headers: {
+          authorization: encodedToken,
+        }}
+      );
+      setCart(response.data.cart)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
