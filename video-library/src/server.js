@@ -6,6 +6,8 @@ import {
 } from "./backend/controllers/AuthController";
 import { getAllVideosHandler, getVideoHandler } from "./backend/controllers/VideoController";
 import { videos } from "./backend/db/videos";
+import { categories } from "./backend/db/categories";
+import { getAllCategoriesHandler, getCategoryHandler } from "./backend/controllers/CategoryController";
 
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
@@ -28,6 +30,8 @@ export function makeServer({ environment = "development" } = {}) {
       videos.forEach((item) => {
         server.create("video", { ...item });
       });
+      categories.forEach((item) =>
+      server.create("category", { ...item}));
     },
 
     routes() {
@@ -48,24 +52,24 @@ export function makeServer({ environment = "development" } = {}) {
       this.get("/categories/:categoryId", getCategoryHandler.bind(this));
 
       // likes routes (private)
-      this.get("/user/likes", getLikedVideosHandler.bind(this));
-      this.post("/user/likes", addItemToLikedVideos.bind(this));
-      this.delete("/user/likes", removeItemFromLikedVideos.bind(this));
+      // this.get("/user/likes", getLikedVideosHandler.bind(this));
+      // this.post("/user/likes", addItemToLikedVideos.bind(this));
+      // this.delete("/user/likes", removeItemFromLikedVideos.bind(this));
 
-      // playlist routes (private)
-      this.get("/user/playlists", getAllPlaylistsHandler.bind(this));
-      this.post("/user/playlists", addItemToPlaylistsHandler.bind(this));
-      this.delete("/user/playlists", removeItemFromPlaylistHandler.bind(this));
+      // // playlist routes (private)
+      // this.get("/user/playlists", getAllPlaylistsHandler.bind(this));
+      // this.post("/user/playlists", addItemToPlaylistsHandler.bind(this));
+      // this.delete("/user/playlists", removeItemFromPlaylistHandler.bind(this));
       
-      this.get("/user/playlists/:playlistId", getVideosFromPlaylistHandler.bind(this));
-      this.post("/user/playlists/:playlistId", addVideoToPlaylistHandler.bind(this));
-      this.delete("/user/playlists/:playlistId", removeVideoFromPlaylistHandler.bind(this));
+      // this.get("/user/playlists/:playlistId", getVideosFromPlaylistHandler.bind(this));
+      // this.post("/user/playlists/:playlistId", addVideoToPlaylistHandler.bind(this));
+      // this.delete("/user/playlists/:playlistId", removeVideoFromPlaylistHandler.bind(this));
 
-      // history routes (private)
-      this.get("/user/history", getHistoryVideosHandler.bind(this));
-      this.post("/user/history", addVideoToHistoryHandler.bind(this));
-      this.delete("/user/history", removeVideoFromHistoryHandler.bind(this));
-      this.delete("/user/history/all", clearHistoryHandler.bind(this));
+      // // history routes (private)
+      // this.get("/user/history", getHistoryVideosHandler.bind(this));
+      // this.post("/user/history", addVideoToHistoryHandler.bind(this));
+      // this.delete("/user/history", removeVideoFromHistoryHandler.bind(this));
+      // this.delete("/user/history/all", clearHistoryHandler.bind(this));
 
       // TODO: Recommendations routes (private)
     }
