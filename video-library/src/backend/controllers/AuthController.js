@@ -21,6 +21,7 @@ export const signupHandler = function(schema, request) {
   const newUser = {
     likes: [],
     history: [],
+    playlists: [],
     email,
     firstName,
     lastName,

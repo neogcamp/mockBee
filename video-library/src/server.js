@@ -4,12 +4,36 @@ import {
   signupHandler,
   logoutHandler,
 } from "./backend/controllers/AuthController";
-import { getHistoryVideosHandler, addVideoToHistoryHandler , removeVideoFromHistoryHandler, clearHistoryHandler} from "./backend/controllers/HistoryController";
-import { getAllVideosHandler, getVideoHandler } from "./backend/controllers/VideoController";
+import {
+  getHistoryVideosHandler,
+  addVideoToHistoryHandler,
+  removeVideoFromHistoryHandler,
+  clearHistoryHandler,
+} from "./backend/controllers/HistoryController";
+import {
+  getAllVideosHandler,
+  getVideoHandler,
+} from "./backend/controllers/VideoController";
 import { videos } from "./backend/db/videos";
 import { categories } from "./backend/db/categories";
-import { getAllCategoriesHandler, getCategoryHandler } from "./backend/controllers/CategoryController";
-import { getLikedVideosHandler, addItemToLikedVideos, removeItemFromLikedVideos } from "./backend/controllers/LikeController";
+import {
+  getAllCategoriesHandler,
+  getCategoryHandler,
+} from "./backend/controllers/CategoryController";
+import {
+  getLikedVideosHandler,
+  addItemToLikedVideos,
+  removeItemFromLikedVideos,
+} from "./backend/controllers/LikeController";
+import {
+  getAllPlaylistsHandler,
+  addItemToPlaylistsHandler,
+  removeItemFromPlaylistHandler,
+  getVideosFromPlaylistHandler,
+  addVideoToPlaylistHandler,
+  removeVideoFromPlaylistHandler,
+} from "./backend/controllers/PlaylistController";
+
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
     serializers: {
@@ -23,7 +47,7 @@ export function makeServer({ environment = "development" } = {}) {
       user: Model,
       like: Model,
       history: Model,
-      playlist: Model
+      playlist: Model,
     },
 
     // Runs on the start of the server
@@ -31,8 +55,7 @@ export function makeServer({ environment = "development" } = {}) {
       videos.forEach((item) => {
         server.create("video", { ...item });
       });
-      categories.forEach((item) =>
-      server.create("category", { ...item}));
+      categories.forEach((item) => server.create("category", { ...item }));
     },
 
     routes() {
@@ -44,9 +67,9 @@ export function makeServer({ environment = "development" } = {}) {
 
       // video routes (public)
       this.get("/videos", getAllVideosHandler.bind(this));
-      this.get("video/:videoId", getVideoHandler)
+      this.get("video/:videoId", getVideoHandler);
 
-      // TODO: POST VIDEO TO DB 
+      // TODO: POST VIDEO TO DB
 
       // categories routes (public)
       this.get("/categories", getAllCategoriesHandler.bind(this));
@@ -55,25 +78,40 @@ export function makeServer({ environment = "development" } = {}) {
       // likes routes (private)
       this.get("/user/likes", getLikedVideosHandler.bind(this));
       this.post("/user/likes", addItemToLikedVideos.bind(this));
-      this.delete("/user/likes", removeItemFromLikedVideos.bind(this));
+      this.delete("/user/likes/:videoId", removeItemFromLikedVideos.bind(this));
 
-      // // playlist routes (private)
-      // this.get("/user/playlists", getAllPlaylistsHandler.bind(this));
-      // this.post("/user/playlists", addItemToPlaylistsHandler.bind(this));
-      // this.delete("/user/playlists", removeItemFromPlaylistHandler.bind(this));
-      
-      // this.get("/user/playlists/:playlistId", getVideosFromPlaylistHandler.bind(this));
-      // this.post("/user/playlists/:playlistId", addVideoToPlaylistHandler.bind(this));
-      // this.delete("/user/playlists/:playlistId", removeVideoFromPlaylistHandler.bind(this));
+      // playlist routes (private)
+      this.get("/user/playlists", getAllPlaylistsHandler.bind(this));
+      this.post("/user/playlists", addItemToPlaylistsHandler.bind(this));
+      this.delete(
+        "/user/playlists/:playlistId",
+        removeItemFromPlaylistHandler.bind(this)
+      );
+
+      this.get(
+        "/user/playlists/:playlistId",
+        getVideosFromPlaylistHandler.bind(this)
+      );
+      this.post(
+        "/user/playlists/:playlistId",
+        addVideoToPlaylistHandler.bind(this)
+      );
+      this.delete(
+        "/user/playlists/:playlistId/:videoId",
+        removeVideoFromPlaylistHandler.bind(this)
+      );
 
       // history routes (private)
       this.get("/user/history", getHistoryVideosHandler.bind(this));
       this.post("/user/history", addVideoToHistoryHandler.bind(this));
-      this.delete("/user/history", removeVideoFromHistoryHandler.bind(this));
+      this.delete(
+        "/user/history/:videoId",
+        removeVideoFromHistoryHandler.bind(this)
+      );
       this.delete("/user/history/all", clearHistoryHandler.bind(this));
 
       // TODO: Recommendations routes (private)
-    }
+    },
   });
   return server;
 }

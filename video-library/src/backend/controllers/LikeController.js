@@ -36,15 +36,15 @@ export const addItemToLikedVideos = function(schema, request) {
 
 /**
  * This handler handles removing videos from user's likes.
- * send DELETE Request at /api/user/likes
- * body contains {video}
+ * send DELETE Request at /api/user/likes/:videoId
  * */
 
 export const removeItemFromLikedVideos = function(schema, request) {
+  console.log("here");
   const user = requiresAuth.call(this, request);
   if(user){
-    const {video} = JSON.parse(request.requestBody);
-    const filteredLikes = user.likes.filter(item => item._id !== video._id);
+    const videoId = request.params.videoId;
+    const filteredLikes = user.likes.filter(item => item._id !== videoId);
     this.db.users.update({likes: filteredLikes});
     return new Response(201, {}, {likes: filteredLikes} );
   }

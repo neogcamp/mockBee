@@ -36,15 +36,14 @@ export const addVideoToHistoryHandler = function(schema, request) {
 
 /**
  * This handler handles removing videos from user's history.
- * send DELETE Request at /api/user/history
- * body contains {video}
+ * send DELETE Request at /api/user/history/:videoId
  * */
 
 export const removeVideoFromHistoryHandler = function(schema, request) {
   const user = requiresAuth.call(this, request);
   if(user){
-    const {video} = JSON.parse(request.requestBody);
-    const filteredHistory = user.history.filter(item => item._id !== video._id);
+    const videoId = request.params.videoId;
+    const filteredHistory = user.history.filter(item => item._id !== videoId);
     this.db.users.update({history: filteredHistory});
     return new Response(201, {}, {history: filteredHistory} );
   }
