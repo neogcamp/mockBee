@@ -33,7 +33,7 @@ import {
   addVideoToPlaylistHandler,
   removeVideoFromPlaylistHandler,
 } from "./backend/controllers/PlaylistController";
-
+import { users } from "./backend/db/users";
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
     serializers: {
@@ -56,6 +56,9 @@ export function makeServer({ environment = "development" } = {}) {
         server.create("video", { ...item });
       });
       categories.forEach((item) => server.create("category", { ...item }));
+      users.forEach((item) =>
+        server.create("user", { ...item, likes: [], playlists: [], history:[]})
+      );
     },
 
     routes() {

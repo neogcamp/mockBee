@@ -85,9 +85,8 @@ export const removeItemFromPlaylistHandler = function(schema, request) {
   }
 
   /**
- * This handler handles adding videos from user's playlist.
- * send POST Request at /api/user/playlists/:playlistId
- * body contains {video}
+ * This handler handles removing videos from user's playlist.
+ * send DELETE Request at /api/user/playlists/:playlistId/:videoId
  * */
 
  export const removeVideoFromPlaylistHandler = function(schema, request) {
