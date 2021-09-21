@@ -20,6 +20,7 @@ export const signupHandler = function(schema, request) {
   // TODO: Add check if email already exists
   const newUser = {
     likes: [],
+    history: [],
     email,
     firstName,
     lastName,

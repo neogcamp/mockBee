@@ -6,6 +6,7 @@ export default function App() {
   let [token, setToken] = useState();
   const [videos, setVideos] = useState([]);
   const [likedVideos, setLikedVideos] = useState([])
+  const [history, setHistory] = useState([]);
   const encodedToken = localStorage.getItem("token");
 
   useEffect(() => {
@@ -51,6 +52,7 @@ export default function App() {
   useEffect(() => {
     if (token) {
       fetchLikedVideoDetails();
+      fetchHistory();
     }
   }, [token, encodedToken]);
 
@@ -63,6 +65,19 @@ export default function App() {
       .then((resp) => resp.json())
       .then((data) => {
         setLikedVideos(data.likes);
+      });
+  };
+
+  const fetchHistory = () => {
+    fetch("/api/user/history", {
+      headers: {
+        authorization: encodedToken,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log(data);
+        setHistory(data.history);
       });
   };
 
@@ -101,6 +116,57 @@ export default function App() {
       });
   };
 
+  // History Handlers
+  const addToHistory = (video) => {
+    // Call post api
+    fetch("api/user/history", {
+      method: "POST",
+      headers: {
+        authorization: encodedToken,
+      },
+      // Stringify data and send it
+      body: JSON.stringify({ video }),
+    })
+      .then((data) => data.json())
+      .then((data) => setHistory(data.history))
+      .catch((err) => {
+        console.log("Error", err);
+      });
+  };
+
+  const removeFromHistory = (video) => {
+    // Call post api
+    fetch("api/user/history", {
+      method: "DELETE",
+      headers: {
+        authorization: encodedToken,
+      },
+      // Stringify data and send it
+      body: JSON.stringify({ video }),
+    })
+      .then((data) => data.json())
+      .then((data) => setHistory(data.history))
+      .catch((err) => {
+        console.log("Error", err);
+      });
+  };
+
+  const clearHistory = (video) => {
+    // Call post api
+    fetch("api/user/history/all", {
+      method: "DELETE",
+      headers: {
+        authorization: encodedToken,
+      },
+      // Stringify data and send it
+      body: JSON.stringify({ video }),
+    })
+      .then((data) => data.json())
+      .then((data) => setHistory(data.history))
+      .catch((err) => {
+        console.log("Error", err);
+      });
+  };
 
   return (
     <div>
@@ -123,6 +189,7 @@ export default function App() {
                 <td><td>
                   <button onClick={() => addToLikedVideos(video)}> 🚀 </button>
                   <button onClick={() => removeFromLikedVideos(video)}> 🕯 </button>
+                  <button onClick={() => addToHistory(video)}> 🤩 </button>
                 </td></td>
               </tr>
             );
@@ -140,6 +207,21 @@ export default function App() {
               <li>
                 {video.title}{" "}
 
+              </li>{" "}
+            </div>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h1>History Videos <button onClick={() => clearHistory()}>Clear</button></h1>
+        <ul>
+          {history.map((video) => (
+            <div>
+              {" "}
+              <li>
+                {video.title}{" "}
+                <button onClick={() => removeFromHistory(video)}>Remove</button>
               </li>{" "}
             </div>
           ))}

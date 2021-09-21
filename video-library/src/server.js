@@ -4,6 +4,7 @@ import {
   signupHandler,
   logoutHandler,
 } from "./backend/controllers/AuthController";
+import { getHistoryVideosHandler, addVideoToHistoryHandler , removeVideoFromHistoryHandler, clearHistoryHandler} from "./backend/controllers/HistoryController";
 import { getAllVideosHandler, getVideoHandler } from "./backend/controllers/VideoController";
 import { videos } from "./backend/db/videos";
 import { categories } from "./backend/db/categories";
@@ -65,11 +66,11 @@ export function makeServer({ environment = "development" } = {}) {
       // this.post("/user/playlists/:playlistId", addVideoToPlaylistHandler.bind(this));
       // this.delete("/user/playlists/:playlistId", removeVideoFromPlaylistHandler.bind(this));
 
-      // // history routes (private)
-      // this.get("/user/history", getHistoryVideosHandler.bind(this));
-      // this.post("/user/history", addVideoToHistoryHandler.bind(this));
-      // this.delete("/user/history", removeVideoFromHistoryHandler.bind(this));
-      // this.delete("/user/history/all", clearHistoryHandler.bind(this));
+      // history routes (private)
+      this.get("/user/history", getHistoryVideosHandler.bind(this));
+      this.post("/user/history", addVideoToHistoryHandler.bind(this));
+      this.delete("/user/history", removeVideoFromHistoryHandler.bind(this));
+      this.delete("/user/history/all", clearHistoryHandler.bind(this));
 
       // TODO: Recommendations routes (private)
     }
