@@ -104,7 +104,7 @@ export const products = [
 ];
 ```
 
-In this way, now the Products and it's attributes is configured. On making corresponding GET request, we can now get the customized data.
+In this way, now the Products and it's attributes is configured. On making corresponding GET request, you can now get the customized data.
 
 ### A bit into `server.js`
 

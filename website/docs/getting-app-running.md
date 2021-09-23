@@ -19,7 +19,7 @@ It is intuitive that the `server.js` must be exporting `makeServer()` function, 
 
 In this way, the server and it's APIs are made available to the frontend.
 
-Of course, we don't need to look more into what is inside the `server.js` at the moment; and let us get our app running!
+Of course, you don't need to look more into what is inside the `server.js` at the moment; and let us get our app running!
 
 ### Running the App
 
@@ -30,6 +30,12 @@ yarn start
 ```
 
 This should run the app on `localhost:3000`.
+
+### Important Note
+
+Since this is a Mock-API, the data will not persist. Which means, the database operations performed such as create, update, delete etc. will vanish once the session ends.
+
+**MockB** is a great tool for making Personal Frontend Projects with multiple features without having to write real backend. But as said earlier, for real usable applications; you should consider setting up your backend with express, Django etc. frameworks.
 
 ### Winding up
 
