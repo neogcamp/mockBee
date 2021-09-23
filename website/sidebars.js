@@ -5,7 +5,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Getting Started',
-      items: ['installation', 'understanding-code-structure', 'configuration', 'getting-app-running'],
+      items: ['installation', 'project-structure', 'configuration', 'getting-app-running'],
     },
     {
       type: 'category',

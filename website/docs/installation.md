@@ -1,31 +1,45 @@
 # Installation
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Getting started with MockB is easy! 🏄‍♂️
 
-## Getting Started
+## Scaffolding your Project
 
-Get started by **creating a new site**.
+### Step 1: Cloning the Repo
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+Run the following command in your terminal.
 
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**:
-
-```shell
-npx @docusaurus/init@latest init my-website classic
+```bash
+git clone https://github.com/neogcamp/neoG-Camp-mock-backend.git
 ```
 
-## Start your site
+This will clone the repository as `neoG-Camp-mock-backend` folder on your local.
 
-Run the development server:
+### Step 2: Choose your project
 
-```shell
-cd my-website
+Copy the folder of the project whose APIs you want to use to your desired location.
 
-npx docusaurus start
+> For example, for making `e-commerce` app; you can copy the **e-commerce folder** (`neoG-Camp-mock-backend/e-commerce`) and get started.
+
+If you don't intend to use other APIs of the repository; you can safely delete `neoG-Camp-mock-backend` folder.
+
+### Step 3: Installing
+
+In the Project Folder, run the following commands:
+
+```bash
+npm install
+// or
+yarn
 ```
 
-Your site starts at `http://localhost:3000`.
+You will see the npm dependencies get installed. Now let us get the app running!
 
-Open `docs/intro.md` and edit some lines: the site **reloads automatically** and display your changes.
+### Step 4: Running the App
+
+```bash
+npm start
+// or
+yarn start
+```
+
+This should run the **react app** on `localhost:3000`
