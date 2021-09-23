@@ -1,8 +1,8 @@
-# Folder Structure
+# Project Structure
 
 Let us explore the general Project Structure of the Apps provided by MockB templates.
 
-All Apps that you intend to build using **MockB's backend** will have the following **Folder Structure** after the installation process.
+All Apps that you intend to build using **MockB's backend** will have the following **Project Structure** after the installation process.
 
 ```
 my-project
@@ -63,3 +63,7 @@ Feel free to extend the dependencies by installing more by running:
 npm i package-name
 yarn add package-name
 ```
+
+### Winding Up
+
+The Project Structure is made keeping in mind that you can create your frontend flexibly. Other folders for frontend such as `components`, `pages`, `redux`, `context` etc. can be added by following the general CRA project structure practices.
