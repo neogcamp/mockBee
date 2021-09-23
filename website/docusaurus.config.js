@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Evanesco',
+  title: 'MockB',
   tagline: 'The Mock Backend for NeoG Camp',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
@@ -7,7 +7,7 @@ module.exports = {
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'neog.camp', // Usually your GitHub org/user name.
-  projectName: 'evanesco', // Usually your repo name.
+  projectName: 'mockB', // Usually your repo name.
   presets: [
     [
       "@docusaurus/preset-classic",
@@ -37,11 +37,11 @@ module.exports = {
           {
             to: "docs/introduction",
             label: "Docs",
-            position: "right",
+            position: "left",
           },
           {to: '/docs/api/introduction', 
           label: 'API', 
-          position: 'right'},
+          position: 'left'},
           {
             href: 'https://github.com/neogcamp/neoG-Camp-mock-backend',
             label: 'GitHub',

@@ -15,7 +15,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Advanced Guides',
-      items: ['advance-concepts', 'custom-apis', 'resources'],
+      items: ['main-concepts', 'custom-apis', 'resources'],
     }
   ],
   api: [
@@ -27,13 +27,8 @@ module.exports = {
     },
     {
       type: 'category',
-      label: 'E-Commerce',
-      items: ['api/e-commerce/product', 'api/e-commerce/category', 'api/e-commerce/cart', 'api/e-commerce/wishlist'],
-    },
-    {
-      type: 'category',
-      label: 'Video Library',
-      items: ['api/video-library/video', 'api/video-library/category', 'api/video-library/like', 'api/video-library/playlist', 'api/video-library/history'],
+      label: 'Apps',
+      items: ['api/apps/e-commerce', 'api/apps/video-library'],
     },
   ],
 };
