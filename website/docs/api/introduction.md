@@ -38,6 +38,8 @@ Since these are Mock-APIs, they are amazing for **personal projects** or **produ
   - **Functionality** - Contains brief info about what this API does.
 
 - The **General APIs** (such as `Auth` etc.) can be found in **General** Section; while **App-specific APIs** (such as `E-Commerce`, `Video-Library` etc.) are structured inside **Apps**.
+- The APIs are broadly classified as **Public** and **Private**. The Public ones are accessible publicly, however Private ones need some work.
+- **MockB** uses JWT Authentication Strategy. So, for accessing **Private** routes, you need to add `JWT Token` as `authorization` header in all the requests that try to access these. Read more about this [here](general/auth)
 
 ### Available APIs
 
