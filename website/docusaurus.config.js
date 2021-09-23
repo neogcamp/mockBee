@@ -28,7 +28,7 @@ module.exports = {
   themeConfig:
     {
       navbar: {
-        title: 'Evanesco',
+        title: 'MockB',
         logo: {
           alt: 'My Site Logo',
           src: 'img/logo.png',
@@ -57,7 +57,7 @@ module.exports = {
             items: [
               {
                 label: 'Tutorial',
-                to: '/docs/intro',
+                to: '/docs/introduction',
               },
             ],
           },
