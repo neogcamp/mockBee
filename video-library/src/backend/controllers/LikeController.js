@@ -31,7 +31,7 @@ export const addItemToLikedVideos = function(schema, request) {
     user.likes.push(video);
     return new Response(201, {}, {likes: user.likes} );
   }
-  return new Response(401, { errors: [ 'The token is invalid. Unauthorized access error.'] });
+  return new Response(401, {}, { errors: [ 'The token is invalid. Unauthorized access error.'] });
 }
 
 /**
@@ -48,5 +48,5 @@ export const removeItemFromLikedVideos = function(schema, request) {
     this.db.users.update({likes: filteredLikes});
     return new Response(201, {}, {likes: filteredLikes} );
   }
-  return new Response(404, { errors: [ 'The user you request does not exist. Not Found error.'] });
+  return new Response(404,{}, { errors: [ 'The user you request does not exist. Not Found error.'] });
 }

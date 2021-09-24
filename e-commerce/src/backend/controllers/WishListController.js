@@ -33,7 +33,7 @@ export const addItemToWishListHandler = function(schema, request) {
     user.wishList.push(product);
     return new Response(201, {}, {wishList: user.wishList} );
   }
-  return new Response(401, { errors: [ 'The token is invalid. Unauthorized access error.'] });
+  return new Response(401, {},{ errors: [ 'The token is invalid. Unauthorized access error.'] });
 }
 
 /**
@@ -52,5 +52,5 @@ export const removeItemFromWishListHandler = function(schema, request) {
     
     return new Response(201, {}, {wishList: filteredWishList} );
   }
-  return new Response(401, { errors: [ 'The token is invalid. Unauthorized access error.'] });
+  return new Response(401, {},{ errors: [ 'The token is invalid. Unauthorized access error.'] });
 }

@@ -52,36 +52,13 @@ export const loginHandler = function(schema, request){
     if (foundUser.password === password) {
       return new Response(201, {}, { foundUser, encodedToken });
     }
-    return new Response(404, {
+    return new Response(404, {}, {
       errors: ["The email you entered is not Registered. Not Found error"],
     });
   }
-  return new Response(401, {
+  return new Response(401, {}, {
     errors: [
       "The credentials you entered are incorrect. Unauthorized access error.",
     ],
   });
-};
-
-/**
- * This handler handles user logout.
- * send POST Request at /api/auth/logout
- * */
-
- export const logoutHandler = function(schema, request){
-  try{
-    localStorage.removeItem("token");
-    return new Response(200, {
-      errors: [
-        "Successfully logged out",
-      ],
-    });
-  }catch{
-    return new Response(404, {
-      errors: [
-        "Something went wrong. Please try again.",
-      ],
-    });
-  }
-  
 };

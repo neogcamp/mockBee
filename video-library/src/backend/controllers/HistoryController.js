@@ -31,7 +31,7 @@ export const addVideoToHistoryHandler = function(schema, request) {
     user.history.push(video);
     return new Response(201, {}, {history: user.history} );
   }
-  return new Response(401, { errors: [ 'The token is invalid. Unauthorized access error.'] });
+  return new Response(401, {}, { errors: [ 'The token is invalid. Unauthorized access error.'] });
 }
 
 /**
@@ -47,7 +47,7 @@ export const removeVideoFromHistoryHandler = function(schema, request) {
     this.db.users.update({history: filteredHistory});
     return new Response(201, {}, {history: filteredHistory} );
   }
-  return new Response(404, { errors: [ 'The user you request does not exist. Not Found error.'] });
+  return new Response(404,{}, { errors: [ 'The user you request does not exist. Not Found error.'] });
 }
 
 /**
@@ -61,5 +61,5 @@ export const removeVideoFromHistoryHandler = function(schema, request) {
       this.db.users.update({history: []});
       return new Response(201, {}, {history: []} );
     }
-    return new Response(404, { errors: [ 'The user you request does not exist. Not Found error.'] });
+    return new Response(404, {},{ errors: [ 'The user you request does not exist. Not Found error.'] });
   }

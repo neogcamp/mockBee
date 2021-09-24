@@ -32,7 +32,7 @@ export const addItemToPlaylistsHandler = function(schema, request) {
     user.playlists.push({...playlist, videos:[], _id: uuid()});
     return new Response(201, {}, {playlists: user.playlists} );
   }
-  return new  Response(401, { errors: [ 'The token is invalid. Unauthorized access error.'] });
+  return new  Response(401, {}, { errors: [ 'The token is invalid. Unauthorized access error.'] });
 }
 
 /**
@@ -48,7 +48,7 @@ export const removeItemFromPlaylistHandler = function(schema, request) {
     this.db.users.update({playlists: filteredPlaylists});
     return new Response(201, {}, {playlists: filteredPlaylists} );
   }
-  return new Response(404, { errors: [ 'The user you request does not exist. Not Found error.'] });
+  return new Response(404, {}, { errors: [ 'The user you request does not exist. Not Found error.'] });
 }
 
 /**
@@ -63,7 +63,7 @@ export const removeItemFromPlaylistHandler = function(schema, request) {
       const playlist = user.playlists.find(item => item._id !== playlistId);
       return new Response(201, {}, {playlist} );
     }
-    return new Response(404, { errors: [ 'The user you request does not exist. Not Found error.'] });
+    return new Response(404, {}, { errors: [ 'The user you request does not exist. Not Found error.'] });
   }
 
 /**
@@ -81,7 +81,7 @@ export const removeItemFromPlaylistHandler = function(schema, request) {
       playlist.videos.push(video);
       return new Response(201, {}, {playlist} );
     }
-    return new Response(404, { errors: [ 'The user you request does not exist. Not Found error.'] });
+    return new Response(404, {},{ errors: [ 'The user you request does not exist. Not Found error.'] });
   }
 
   /**
@@ -99,7 +99,7 @@ export const removeItemFromPlaylistHandler = function(schema, request) {
       playlist.videos = filteredVideos;
       return new Response(201, {}, {playlist} );
     }
-    return new Response(404, { errors: [ 'The user you request does not exist. Not Found error.'] });
+    return new Response(404, {}, { errors: [ 'The user you request does not exist. Not Found error.'] });
   }
 
  

@@ -2,7 +2,6 @@ import { Server, Model, RestSerializer } from "miragejs";
 import {
   loginHandler,
   signupHandler,
-  logoutHandler,
 } from "./backend/controllers/AuthController";
 import {
   getHistoryVideosHandler,
@@ -66,7 +65,6 @@ export function makeServer({ environment = "development" } = {}) {
       // auth routes (public)
       this.post("/auth/signup", signupHandler.bind(this));
       this.post("/auth/login", loginHandler.bind(this));
-      this.post("/auth/logout", logoutHandler.bind(this));
 
       // video routes (public)
       this.get("/videos", getAllVideosHandler.bind(this));
