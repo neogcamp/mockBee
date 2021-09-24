@@ -13,9 +13,26 @@ import { requiresAuth } from "../utils/authUtils";
  * */
 export const getLikedVideosHandler = function(schema, request) {
     const user = requiresAuth.call(this, request);
-    if(user){
-      return new Response(200, {}, {likes: user.likes});
+    try{
+      if (!user) {
+        return new Response(
+          401,
+          {},
+          { errors: ["The token is invalid. Unauthorized access error."] }
+        );
+      }
+        return new Response(200, {}, {likes: user.likes});
+    }catch (error) {
+      return new Response(
+        500,
+        {},
+        {
+          error,
+        }
+      );
     }
+  
+    
   }
 
 /**
