@@ -15,7 +15,6 @@ import { users } from "./backend/db/users";
 import {
   loginHandler,
   signupHandler,
-  logoutHandler
 } from "./backend/controllers/AuthController";
 import {
   getAllProductsHandler,
@@ -58,7 +57,6 @@ export function makeServer({ environment = "development" } = {}) {
       // auth routes (public)
       this.post("/auth/signup", signupHandler.bind(this));
       this.post("/auth/login", loginHandler.bind(this));
-      this.post("/auth/logout", logoutHandler.bind(this));
 
       // products routes (public)
       this.get("/products", getAllProductsHandler.bind(this));
