@@ -1,6 +1,8 @@
 import { v4 as uuid } from "uuid";
 import { Response } from "miragejs";
+import { initialUserData } from "../utils/authUtils";
 const jwt = require("jsonwebtoken");
+
 
 /**
  * All the routes related to Auth are present here.
@@ -14,9 +16,10 @@ const jwt = require("jsonwebtoken");
  * */
 
 export const signupHandler = function (schema, request) {
-  const { email, password, firstName, lastName } = JSON.parse(
+  const { email, password, ...rest } = JSON.parse(
     request.requestBody
   );
+  console.log(rest);
   // check if email already exists
   const foundUser = schema.users.findBy({ email: email });
   if (foundUser) {
@@ -29,19 +32,16 @@ export const signupHandler = function (schema, request) {
     );
   }
   const newUser = {
-    likes: [],
-    history: [],
-    playlists: [],
     email,
-    firstName,
-    lastName,
     password,
+    ...rest,
+    ...initialUserData,
     _id: uuid(),
   };
   try {
     const createdUser = schema.users.create(newUser);
     const encodedToken = jwt.sign({ email }, process.env.REACT_APP_JWT_SECRET);
-    return new Response(201, {}, { createdUser, encodedToken });
+    return new Response(201, {}, { user: createdUser, encodedToken });
   } catch (error) {
     return new Response(500, {}, { error });
   }
@@ -78,7 +78,7 @@ export const loginHandler = function (schema, request) {
         }
       );
     }
-    return new Response(200, {}, { foundUser, encodedToken });
+    return new Response(200, {}, { user: foundUser, encodedToken });
   } catch (error) {
     return new Response(
       500,
