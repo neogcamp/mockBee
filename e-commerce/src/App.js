@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
 export default function App() {
-  let [token, setToken] = useState();
+  let [token, setToken] = useState("");
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [wishList, setWishList] = useState([]);

@@ -11,7 +11,7 @@ import { Response } from "miragejs";
  * */
 
 export const getAllProductsHandler = function (){
-    return new Response(201, {}, { products: this.db.products });
+    return new Response(200, {}, { products: this.db.products });
 }
 
 /**
@@ -22,5 +22,5 @@ export const getAllProductsHandler = function (){
 export const getProductHandler =  function (schema, request) {
     const productId = request.params.productId;
     const product = this.db.products.findBy({_id: productId});
-    return new Response(201, {}, { product });
+    return new Response(200, {}, { product });
 }

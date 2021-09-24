@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios'
 
 export default function App() {
-  let [token, setToken] = useState();
+  let [token, setToken] = useState("");
   const [videos, setVideos] = useState([]);
   const [likedVideos, setLikedVideos] = useState([])
   const [history, setHistory] = useState([]);

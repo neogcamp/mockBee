@@ -36,12 +36,16 @@ export const signupHandler = function(schema, request) {
     password,
     _id: uuid(),
   };
-  const createdUser = schema.users.create(newUser);
-  const encodedToken = jwt.sign(
-    { email },
-    process.env.REACT_APP_JWT_SECRET
-  );
-  return new Response(201, {}, { createdUser, encodedToken });
+  try{
+    const createdUser = schema.users.create(newUser);
+    const encodedToken = jwt.sign(
+      { email },
+      process.env.REACT_APP_JWT_SECRET
+    );
+    return new Response(201, {}, { createdUser, encodedToken });
+  }catch(error){
+    return new Response(500, {}, { error });
+  }
 };
 
 /**
@@ -69,5 +73,5 @@ export const loginHandler = function(schema, request){
       errors: ["The email you entered is not Registered. Not Found error"],
     });
   }
-  return new Response(201, {}, { foundUser, encodedToken });
+  return new Response(200, {}, { foundUser, encodedToken });
 };

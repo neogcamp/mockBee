@@ -15,7 +15,7 @@ import { requiresAuth } from "../utils/authUtils";
 export const getWishListItemsHandler = function(schema, request) {
   const user = requiresAuth.call(this, request);
     if(user){
-      return {wishList: user.wishList}
+      return Response(200, {}, {wishList: user.wishList});
     }
   }
 
@@ -50,7 +50,7 @@ export const removeItemFromWishListHandler = function(schema, request) {
     const filteredWishList = user.wishList.filter(item => item._id !== productId);
     this.db.users.update({wishList: filteredWishList});
     
-    return new Response(201, {}, {wishList: filteredWishList} );
+    return new Response(200, {}, {wishList: filteredWishList} );
   }
   return new Response(401, {},{ errors: [ 'The token is invalid. Unauthorized access error.'] });
 }

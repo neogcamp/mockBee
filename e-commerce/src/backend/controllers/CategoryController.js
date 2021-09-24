@@ -11,7 +11,7 @@ import { Response } from "miragejs";
  * */
 
 export const getAllCategoriesHandler = function (){
-    return new Response(201, {}, { categories: this.db.categories });
+    return new Response(200, {}, { categories: this.db.categories });
 }
 
 /**
@@ -22,5 +22,5 @@ export const getAllCategoriesHandler = function (){
 export const getCategoryHandler =  function (schema, request) {
     const categoryId = request.params.categoryId;
     const category = this.db.categories.findBy({_id: categoryId});
-    return new Response(201, {}, { category });
+    return new Response(200, {}, { category });
 }

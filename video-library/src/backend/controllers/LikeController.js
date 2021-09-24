@@ -14,7 +14,7 @@ import { requiresAuth } from "../utils/authUtils";
 export const getLikedVideosHandler = function(schema, request) {
     const user = requiresAuth.call(this, request);
     if(user){
-      return {likes: user.likes}
+      return new Response(200, {}, {likes: user.likes});
     }
   }
 
@@ -46,7 +46,7 @@ export const removeItemFromLikedVideos = function(schema, request) {
     const videoId = request.params.videoId;
     const filteredLikes = user.likes.filter(item => item._id !== videoId);
     this.db.users.update({likes: filteredLikes});
-    return new Response(201, {}, {likes: filteredLikes} );
+    return new Response(200, {}, {likes: filteredLikes} );
   }
   return new Response(404,{}, { errors: [ 'The user you request does not exist. Not Found error.'] });
 }

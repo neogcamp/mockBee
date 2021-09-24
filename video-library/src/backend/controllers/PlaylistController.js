@@ -15,7 +15,7 @@ import { v4 as uuid } from "uuid";
 export const getAllPlaylistsHandler = function(schema, request) {
     const user = requiresAuth.call(this, request);
     if(user){
-      return {playlists: user.playlists}
+      return new Response(200, {}, {playlists: user.playlists}) 
     }
   }
 
@@ -46,7 +46,7 @@ export const removeItemFromPlaylistHandler = function(schema, request) {
     const playlistId = request.params.playlistId;
     const filteredPlaylists = user.playlists.filter(item => item._id !== playlistId);
     this.db.users.update({playlists: filteredPlaylists});
-    return new Response(201, {}, {playlists: filteredPlaylists} );
+    return new Response(200, {}, {playlists: filteredPlaylists} );
   }
   return new Response(404, {}, { errors: [ 'The user you request does not exist. Not Found error.'] });
 }
@@ -61,7 +61,7 @@ export const removeItemFromPlaylistHandler = function(schema, request) {
     if(user){
       const playlistId = request.params.playlistId;
       const playlist = user.playlists.find(item => item._id !== playlistId);
-      return new Response(201, {}, {playlist} );
+      return new Response(200, {}, {playlist} );
     }
     return new Response(404, {}, { errors: [ 'The user you request does not exist. Not Found error.'] });
   }
@@ -97,7 +97,7 @@ export const removeItemFromPlaylistHandler = function(schema, request) {
       let playlist = user.playlists.find(item => item._id === playlistId);
       const filteredVideos = playlist.videos.filter(item => item._id !== videoId);
       playlist.videos = filteredVideos;
-      return new Response(201, {}, {playlist} );
+      return new Response(200, {}, {playlist} );
     }
     return new Response(404, {}, { errors: [ 'The user you request does not exist. Not Found error.'] });
   }

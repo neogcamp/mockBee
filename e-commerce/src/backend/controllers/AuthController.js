@@ -17,7 +17,15 @@ export const signupHandler = function(schema, request) {
   const { email, password, firstName, lastName } = JSON.parse(
     request.requestBody
   );
-  // TODO: Add check if email already exists
+  // check if email already exists
+  const foundUser = schema.users.findBy({ email: email });
+  if(foundUser){
+    return new Response(422, {}, {
+      errors: [
+        "Unprocessable Entity. Email Already Exists.",
+      ],
+    } );
+  }
   const newUser = {
     cart: [],
     wishList: [],
@@ -50,7 +58,7 @@ export const loginHandler = function(schema, request){
   const foundUser = schema.users.findBy({ email: email });
   if (foundUser) {
     if (foundUser.password === password) {
-      return new Response(201, {}, { foundUser, encodedToken });
+      return new Response(200, {}, { foundUser, encodedToken });
     }
     return new Response(404, {}, {
       errors: ["The email you entered is not Registered. Not Found error"],

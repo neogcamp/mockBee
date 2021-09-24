@@ -14,7 +14,7 @@ import { requiresAuth } from "../utils/authUtils";
 export const getHistoryVideosHandler = function(schema, request) {
     const user = requiresAuth.call(this, request);
     if(user){
-      return {history: user.history}
+      return new Response(200, {}, {history: user.history});
     }
   }
 
@@ -45,9 +45,9 @@ export const removeVideoFromHistoryHandler = function(schema, request) {
     const videoId = request.params.videoId;
     const filteredHistory = user.history.filter(item => item._id !== videoId);
     this.db.users.update({history: filteredHistory});
-    return new Response(201, {}, {history: filteredHistory} );
+    return new Response(200, {}, {history: filteredHistory} );
   }
-  return new Response(404,{}, { errors: [ 'The user you request does not exist. Not Found error.'] });
+  return new Response(404, {}, { errors: [ 'The user you request does not exist. Not Found error.'] });
 }
 
 /**
@@ -59,7 +59,7 @@ export const removeVideoFromHistoryHandler = function(schema, request) {
     const user = requiresAuth.call(this, request);
     if(user){
       this.db.users.update({history: []});
-      return new Response(201, {}, {history: []} );
+      return new Response(200, {}, {history: []} );
     }
     return new Response(404, {},{ errors: [ 'The user you request does not exist. Not Found error.'] });
   }
