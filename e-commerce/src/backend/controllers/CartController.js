@@ -1,4 +1,4 @@
-import { Response} from "miragejs"
+import { Response } from "miragejs";
 import { requiresAuth } from "../utils/authUtils";
 
 /**
@@ -11,12 +11,19 @@ import { requiresAuth } from "../utils/authUtils";
  * This handler handles getting items to user's cart.
  * send GET Request at /api/user/cart
  * */
-export const getCartItemsHandler = function(schema, request) {
-    const user = requiresAuth.call(this, request);
-    if(user){
-      return {cart: user.cart}
-    }
+export const getCartItemsHandler = function (schema, request) {
+  const user = requiresAuth.call(this, request);
+  if (!user) {
+    new Response(
+      404,
+      {},
+      {
+        errors: ["The email you entered is not Registered. Not Found error"],
+      }
+    );
   }
+  return new Response(200, {}, { cart: user.cart });
+};
 
 /**
  * This handler handles adding items to user's cart.
@@ -24,15 +31,31 @@ export const getCartItemsHandler = function(schema, request) {
  * body contains {product}
  * */
 
-export const addItemToCartHandler = function(schema, request) {
+export const addItemToCartHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
-  if(user){
-    const {product} = JSON.parse(request.requestBody);
-    user.cart.push({...product, qty: 1});
-    return new Response(201, {}, {cart: user.cart} );
+  try {
+    if (!user) {
+      new Response(
+        404,
+        {},
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
+      );
+    }
+    const { product } = JSON.parse(request.requestBody);
+    user.cart.push({ ...product, qty: 1 });
+    return new Response(201, {}, { cart: user.cart });
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
   }
-  return new Response(401, { errors: [ 'The token is invalid. Unauthorized access error.'] });
-}
+};
 
 /**
  * This handler handles removing items to user's cart.
@@ -40,16 +63,32 @@ export const addItemToCartHandler = function(schema, request) {
  * body contains {product}
  * */
 
-export const removeItemFromCartHandler = function(schema, request) {
+export const removeItemFromCartHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
-  if(user){
-    const {product} = JSON.parse(request.requestBody);
-    const filteredCart = user.cart.filter(item => item._id !== product._id);
-    this.db.users.update({cart: filteredCart});
-    return new Response(201, {}, {cart: filteredCart} );
+  try {
+    if (!user) {
+      new Response(
+        404,
+        {},
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
+      );
+    }
+    const productId = request.params.productId;
+    const filteredCart = user.cart.filter((item) => item._id !== productId);
+    this.db.users.update({ cart: filteredCart });
+    return new Response(200, {}, { cart: filteredCart });
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
   }
-  return new Response(404, { errors: [ 'The user you request does not exist. Not Found error.'] });
-}
+};
 
 /**
  * This handler handles adding items to user's cart.
@@ -57,25 +96,41 @@ export const removeItemFromCartHandler = function(schema, request) {
  * body contains {action} (can be increment or decrement)
  * */
 
-export const updateCartItemHandler = function(schema, request) {
+export const updateCartItemHandler = function (schema, request) {
   const productId = request.params.productId;
   const user = requiresAuth.call(this, request);
-  if(user){
-    const {action} = JSON.parse(request.requestBody);
-    if(action.type === "increment"){
-        user.cart.forEach(product => {
-            if(product._id === productId){
-                product.qty+=1
-            }
-        })
-    }else if(action.type === "decrement"){
-      user.cart.forEach(product => {
-          if(product._id === productId){
-              product.qty-=1
-          }
-      })
+  try {
+    if (!user) {
+      new Response(
+        404,
+        {},
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
+      );
     }
-    return new Response(201, {}, {cart: user.cart} );
+    const { action } = JSON.parse(request.requestBody);
+    if (action.type === "increment") {
+      user.cart.forEach((product) => {
+        if (product._id === productId) {
+          product.qty += 1;
+        }
+      });
+    } else if (action.type === "decrement") {
+      user.cart.forEach((product) => {
+        if (product._id === productId) {
+          product.qty -= 1;
+        }
+      });
+    }
+    return new Response(200, {}, { cart: user.cart });
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
   }
-  return new Response(401, { errors: [ 'The token is invalid. Unauthorized access error.'] });
-}
+};

@@ -1,5 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { Response } from "miragejs";
+import { initialUserData } from "../utils/authUtils";
 const jwt = require("jsonwebtoken");
 
 /**
@@ -13,26 +14,44 @@ const jwt = require("jsonwebtoken");
  * body contains {firstName, lastName, email, password}
  * */
 
-export const signupHandler = function(schema, request) {
-  const { email, password, firstName, lastName } = JSON.parse(
+export const signupHandler = function (schema, request) {
+  const { email, password, ...rest } = JSON.parse(
     request.requestBody
   );
-  // TODO: Add check if email already exists
-  const newUser = {
-    cart: [],
-    wishList: [],
-    email,
-    firstName,
-    lastName,
-    password,
-    _id: uuid(),
-  };
-  const createdUser = schema.users.create(newUser);
-  const encodedToken = jwt.sign(
-    { email, password },
-    process.env.REACT_APP_JWT_SECRET
-  );
-  return new Response(201, {}, { createdUser, encodedToken });
+  try {
+    // check if email already exists
+    const foundUser = schema.users.findBy({ email: email });
+    if (foundUser) {
+      return new Response(
+        422,
+        {},
+        {
+          errors: ["Unprocessable Entity. Email Already Exists."],
+        }
+      );
+    }
+    const newUser = {
+      email,
+      password,
+      ...rest,
+      ...initialUserData,
+      _id: uuid(),
+    };
+    const createdUser = schema.users.create(newUser);
+    const encodedToken = jwt.sign(
+      { email, password },
+      process.env.REACT_APP_JWT_SECRET
+    );
+    return new Response(201, {}, { createdUser, encodedToken });
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
+  }
 };
 
 /**
@@ -41,47 +60,29 @@ export const signupHandler = function(schema, request) {
  * body contains {email, password}
  * */
 
-export const loginHandler = function(schema, request){
+export const loginHandler = function (schema, request) {
   const { email, password } = JSON.parse(request.requestBody);
-  const encodedToken = jwt.sign(
-    { email, password },
-    process.env.REACT_APP_JWT_SECRET
-  );
-  const foundUser = schema.users.findBy({ email: email });
-  if (foundUser) {
-    if (foundUser.password === password) {
-      return new Response(201, {}, { foundUser, encodedToken });
+  try {
+    const encodedToken = jwt.sign(
+      { email, password },
+      process.env.REACT_APP_JWT_SECRET
+    );
+    const foundUser = schema.users.findBy({ email: email });
+    if(!foundUser) {
+      return new Response(404, {}, { errors: ["The email you entered is not Registered. Not Found error"] });
     }
-    return new Response(404, {
-      errors: ["The email you entered is not Registered. Not Found error"],
-    });
+      if (foundUser.password === password) {
+        return new Response(200, {}, { foundUser, encodedToken });
+      }
+      new Response(401, {}, { errors: [ 'The credentials you entered are invalid. Unauthorized access error.'] });
+    
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
   }
-  return new Response(401, {
-    errors: [
-      "The credentials you entered are incorrect. Unauthorized access error.",
-    ],
-  });
-};
-
-/**
- * This handler handles user logout.
- * send POST Request at /api/auth/logout
- * */
-
- export const logoutHandler = function(schema, request){
-  try{
-    localStorage.removeItem("token");
-    return new Response(200, {
-      errors: [
-        "Successfully logged out",
-      ],
-    });
-  }catch{
-    return new Response(404, {
-      errors: [
-        "Something went wrong. Please try again.",
-      ],
-    });
-  }
-  
 };

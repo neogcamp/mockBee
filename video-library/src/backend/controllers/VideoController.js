@@ -11,7 +11,19 @@ import { Response } from "miragejs";
  * */
 
 export const getAllVideosHandler = function (){
-    return new Response(201, {}, { videos: this.db.videos });
+    try{
+        return new Response(200, {}, { videos: this.db.videos });
+    }catch (error) {
+        return new Response(
+          500,
+          {},
+          {
+            error,
+          }
+        );
+      }
+    
+    
 }
 
 /**
@@ -29,7 +41,19 @@ export const getAllVideosHandler = function (){
 
 export const getVideoHandler =  function (schema, request) {
     const videoId = request.params.productId;
-    const video = this.db.videos.findBy({_id: videoId});
-    return new Response(201, {}, { video });
+    try{
+        const video = this.db.videos.findBy({_id: videoId});
+    return new Response(200, {}, { video });
+    }catch (error) {
+        return new Response(
+          500,
+          {},
+          {
+            error,
+          }
+        );
+      }
+    
+    
 }
 
