@@ -16,9 +16,11 @@ export const getWishListItemsHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
     return new Response(
-      401,
+      404,
       {},
-      { errors: ["The token is invalid. Unauthorized access error."] }
+      {
+        errors: ["The email you entered is not Registered. Not Found error"],
+      }
     );
   }
   return Response(200, {}, { wishList: user.wishList });
@@ -34,10 +36,12 @@ export const addItemToWishListHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
-      return new Response(
-        401,
+      new Response(
+        404,
         {},
-        { errors: ["The token is invalid. Unauthorized access error."] }
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
       );
     }
 
@@ -65,10 +69,12 @@ export const removeItemFromWishListHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
-      return new Response(
-        401,
+      new Response(
+        404,
         {},
-        { errors: ["The token is invalid. Unauthorized access error."] }
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
       );
     }
     const productId = request.params.productId;

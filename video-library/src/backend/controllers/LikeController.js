@@ -16,9 +16,11 @@ export const getLikedVideosHandler = function(schema, request) {
     try{
       if (!user) {
         return new Response(
-          401,
+          404,
           {},
-          { errors: ["The token is invalid. Unauthorized access error."] }
+          {
+            errors: ["The email you entered is not Registered. Not Found error"],
+          }
         );
       }
         return new Response(200, {}, {likes: user.likes});
@@ -48,7 +50,13 @@ export const addItemToLikedVideos = function(schema, request) {
     user.likes.push(video);
     return new Response(201, {}, {likes: user.likes} );
   }
-  return new Response(401, {}, { errors: [ 'The token is invalid. Unauthorized access error.'] });
+  return new Response(
+    404,
+    {},
+    {
+      errors: ["The email you entered is not Registered. Not Found error"],
+    }
+  );
 }
 
 /**

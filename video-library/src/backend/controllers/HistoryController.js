@@ -15,10 +15,12 @@ export const getHistoryVideosHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
-      return new Response(
-        401,
+      new Response(
+        404,
         {},
-        { errors: ["The token is invalid. Unauthorized access error."] }
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
       );
     }
     return new Response(200, {}, { history: user.history });
@@ -44,9 +46,11 @@ export const addVideoToHistoryHandler = function (schema, request) {
   try {
     if (!user) {
       return new Response(
-        401,
+        404,
         {},
-        { errors: ["The token is invalid. Unauthorized access error."] }
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
       );
     }
     const { video } = JSON.parse(request.requestBody);
@@ -73,9 +77,11 @@ export const removeVideoFromHistoryHandler = function (schema, request) {
   try {
     if (!user) {
       return new Response(
-        401,
+        404,
         {},
-        { errors: ["The token is invalid. Unauthorized access error."] }
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
       );
     }
     const videoId = request.params.videoId;
@@ -103,9 +109,11 @@ export const clearHistoryHandler = function (schema, request) {
   try {
     if (!user) {
       return new Response(
-        401,
+        404,
         {},
-        { errors: ["The token is invalid. Unauthorized access error."] }
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
       );
     }
     this.db.users.update({ history: [] });

@@ -14,10 +14,12 @@ import { requiresAuth } from "../utils/authUtils";
 export const getCartItemsHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    return new Response(
-      401,
+    new Response(
+      404,
       {},
-      { errors: ["The token is invalid. Unauthorized access error."] }
+      {
+        errors: ["The email you entered is not Registered. Not Found error"],
+      }
     );
   }
   return new Response(200, {}, { cart: user.cart });
@@ -34,9 +36,11 @@ export const addItemToCartHandler = function (schema, request) {
   try {
     if (!user) {
       new Response(
-        401,
+        404,
         {},
-        { errors: ["The token is invalid. Unauthorized access error."] }
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
       );
     }
     const { product } = JSON.parse(request.requestBody);
@@ -63,10 +67,12 @@ export const removeItemFromCartHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
-      return new Response(
-        401,
+      new Response(
+        404,
         {},
-        { errors: ["The token is invalid. Unauthorized access error."] }
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
       );
     }
     const productId = request.params.productId;
@@ -95,10 +101,12 @@ export const updateCartItemHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
-      return new Response(
-        401,
+      new Response(
+        404,
         {},
-        { errors: ["The token is invalid. Unauthorized access error."] }
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
       );
     }
     const { action } = JSON.parse(request.requestBody);

@@ -17,9 +17,11 @@ export const getAllPlaylistsHandler = function (schema, request) {
   try {
     if (!user) {
       return new Response(
-        401,
+        404,
         {},
-        { errors: ["The token is invalid. Unauthorized access error."] }
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
       );
     }
     return new Response(200, {}, { playlists: user.playlists });
@@ -48,9 +50,11 @@ export const addItemToPlaylistsHandler = function (schema, request) {
     return new Response(201, {}, { playlists: user.playlists });
   }
   return new Response(
-    401,
+    404,
     {},
-    { errors: ["The token is invalid. Unauthorized access error."] }
+    {
+      errors: ["The email you entered is not Registered. Not Found error"],
+    }
   );
 };
 
