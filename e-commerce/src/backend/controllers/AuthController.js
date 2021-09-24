@@ -1,5 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { Response } from "miragejs";
+import { initialUserData } from "../utils/authUtils";
 const jwt = require("jsonwebtoken");
 
 /**
@@ -14,7 +15,7 @@ const jwt = require("jsonwebtoken");
  * */
 
 export const signupHandler = function (schema, request) {
-  const { email, password, firstName, lastName } = JSON.parse(
+  const { email, password, ...rest } = JSON.parse(
     request.requestBody
   );
   try {
@@ -30,12 +31,10 @@ export const signupHandler = function (schema, request) {
       );
     }
     const newUser = {
-      cart: [],
-      wishList: [],
       email,
-      firstName,
-      lastName,
       password,
+      ...rest,
+      ...initialUserData,
       _id: uuid(),
     };
     const createdUser = schema.users.create(newUser);
