@@ -1,22 +1,23 @@
 {
   "name": "create-mock-backend",
   "version": "1.0.0",
-  "description": "This Repository contains the Mock Backend for various Apps. Built with MirageJS.",
-  "main": "index.js",
+  "description": "This is npx starter package for installing your favourite backend template for mockBee.",
+  "main": "bin.js",
+  "bin": "bin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-package": "rollup -c"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neogcamp/neoG-Camp-mock-backend.git"
+    "url": "git+https://github.com/neogcamp/mockBee.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/neogcamp/neoG-Camp-mock-backend/issues"
+    "url": "https://github.com/neogcamp/mockBee/issues"
   },
-  "homepage": "https://github.com/neogcamp/neoG-Camp-mock-backend#readme",
+  "homepage": "https://github.com/neogcamp/mockBee#readme",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
