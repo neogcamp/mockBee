@@ -1,6 +1,6 @@
 # Installation
 
-Getting started with MockB is easy! 🏄‍♂️
+Getting started with mockBee is easy! 🏄‍♂️
 
 ## Scaffolding your Project
 
@@ -9,18 +9,18 @@ Getting started with MockB is easy! 🏄‍♂️
 Run the following command in your terminal.
 
 ```bash
-git clone https://github.com/neogcamp/neoG-Camp-mock-backend.git
+git clone https://github.com/neogcamp/mockBee.git
 ```
 
-This will clone the repository as `neoG-Camp-mock-backend` folder on your local.
+This will clone the repository as `mockBee` folder on your local.
 
 ### Step 2: Choose your project
 
 Copy the folder of the project whose APIs you want to use to your desired location.
 
-> For example, for making `e-commerce` app; you can copy the **e-commerce folder** (`neoG-Camp-mock-backend/e-commerce`) and get started.
+> For example, for making `e-commerce` app; you can copy the **e-commerce folder** (`mockBee/e-commerce`) and get started.
 
-If you don't intend to use other APIs of the repository; you can safely delete `neoG-Camp-mock-backend` folder.
+If you don't intend to use other APIs of the repository; you can safely delete `mockBee` folder.
 
 ### Step 3: Installing
 

@@ -2,7 +2,7 @@
 
 Authentication APIs serve functionalities such as Login and Signup. These Routes are common for all the apps which has user and related functionalities. For user to access the private routes and get personalised features, authentication is inevitable.
 
-**MockB** adapts the JWT Authentication Strategy. Let us look into it in brief.
+**mockBee** adapts the JWT Authentication Strategy. Let us look into it in brief.
 
 ---
 
@@ -25,7 +25,7 @@ In simple words, JWT Authentication Strategy can be understood as:
 
 ## Auth Routes
 
-The Authentication with **MockB** takes `email` and `password` as credentials to authenticate the User to the application.
+The Authentication with **mockBee** takes `email` and `password` as credentials to authenticate the User to the application.
 
 ### 1. POST `/api/auth/signup`
 
