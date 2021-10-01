@@ -35,11 +35,11 @@ This should run the app on `localhost:3000`.
 
 Since this is a Mock-API, the data will not persist. Which means, the database operations performed such as create, update, delete etc. will vanish once the session ends.
 
-**MockB** is a great tool for making Personal Frontend Projects with multiple features without having to write real backend. But as said earlier, for real usable applications; you should consider setting up your backend with express, Django etc. frameworks.
+**mockBee** is a great tool for making Personal Frontend Projects with multiple features without having to write real backend. But as said earlier, for real usable applications; you should consider setting up your backend with express, Django etc. frameworks.
 
 ### Winding up
 
-Kudos! You have successfully set up your MockB React App 🚀
+Kudos! You have successfully set up your mockBee React App 🚀
 
 Now, on top of this; you can start building your frontend as you like.
 
@@ -47,7 +47,7 @@ Now, on top of this; you can start building your frontend as you like.
 
 - Using `fetch()`, now you can access the APIs for your respective app!
   Find API Documentation of your app [here](api/introduction)
-- Want to read more on the whys and hows of **MockB**, miragejs, customization, available APIs and more?
+- Want to read more on the whys and hows of **mockBee**, miragejs, customization, available APIs and more?
   We have curated some Guides [here](why-miragejs-mock-backend)
 - Interested in exploring main concepts, how to add custom APIs and resources for learning miragejs?
   Make sure you visit [Advanced Guides](main-concepts)

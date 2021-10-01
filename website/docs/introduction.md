@@ -1,12 +1,12 @@
 # Introduction
 
-🚀 **MockB** will give you Fake Backend APIs for you to build awesome Frontend Projects!
+🚀 **mockBee** will give you Fake Backend APIs for you to build awesome Frontend Projects!
 
-⚡ Building custom backend is complex and time-consuming. **Instead**, use variety of fake APIs provided by MockB and get started instantly.
+⚡ Building custom backend is complex and time-consuming. **Instead**, use variety of fake APIs provided by mockBee and get started instantly.
 
 🌌 Built with **MirageJS**, which is an API Mocking Library
 
-🤩 **MockB** is a collection of fine-crafted APIs for cool web applications such as e-commerce, video-library, social media etc. It is easily configurable, highly customizable and all app APIs are packed with cool features 🔥
+🤩 **mockBee** is a collection of fine-crafted APIs for cool web applications such as e-commerce, video-library, social media etc. It is easily configurable, highly customizable and all app APIs are packed with cool features 🔥
 
 ## Features
 

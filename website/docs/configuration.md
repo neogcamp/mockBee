@@ -64,7 +64,7 @@ Also note the `_id: uuid()`. This line of code generates a Unique ID for each it
 
 What if you want to build your own T-Shirt Shop?
 
-The Database would change, right? But since it is an E-Commerce Shop, it will have basic features like products, cart, wishlist etc. which are already provided by the MockB API.
+The Database would change, right? But since it is an E-Commerce Shop, it will have basic features like products, cart, wishlist etc. which are already provided by the mockBee API.
 
 Let us change the file to achieve this -
 
@@ -132,8 +132,8 @@ The `products.js`, `users.js` and `categories.js` export _product_, _users_ and 
 
 Here with the help of `server.create('databaseName', object)`, the db items are added to our backend.
 
-And if this is sounding a bit overwhelming, don't worry if you don't understand the whole code. The whole point of `MockB` is to abstract the hard-parts out and let you do frontend!
+And if this is sounding a bit overwhelming, don't worry if you don't understand the whole code. The whole point of `mockBee` is to abstract the hard-parts out and let you do frontend!
 
 ### Winding Up
 
-Configuring Data with MockB is simple. You technically just need to change the contents of the files inside the `db` folder. Everything else is handled by **MockB**
+Configuring Data with mockBee is simple. You technically just need to change the contents of the files inside the `db` folder. Everything else is handled by **mockBee**

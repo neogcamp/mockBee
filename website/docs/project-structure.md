@@ -1,8 +1,8 @@
 # Project Structure
 
-Let us explore the general Project Structure of the Apps provided by MockB templates.
+Let us explore the general Project Structure of the Apps provided by mockBee templates.
 
-All Apps that you intend to build using **MockB's backend** will have the following **Project Structure** after the installation process.
+All Apps that you intend to build using **mockBee's backend** will have the following **Project Structure** after the installation process.
 
 ```
 my-project
