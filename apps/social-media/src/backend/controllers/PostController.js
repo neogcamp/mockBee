@@ -51,23 +51,86 @@ export const createPostHandler = function (schema, request) {
         404,
         {},
         {
-          errors: ["The email you entered is not Registered. Not Found error"],
+          errors: ["The username you entered is not Registered. Not Found error"],
         }
       );
     }
-    const { content } = JSON.parse(request.requestBody);
+    const { postData } = JSON.parse(request.requestBody);
     const post = {
       _id: uuid(),
-      content,
+      ...postData,
       likes: {
         likeCount: 0,
         likedBy: [],
       },
+      username: user.username,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
     this.db.posts.insert(post);
     return new Response(201, {}, { posts: this.db.posts });
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
+  }
+};
+
+/**
+ * This handler handles updating a post in the db.
+ * send POST Request at /api/posts/edit/:postId
+* */
+ export const editPostHandler = function (schema, request) {
+  const user = requiresAuth.call(this, request);
+  try {
+    if (!user) {
+      new Response(
+        404,
+        {},
+        {
+          errors: ["The username you entered is not Registered. Not Found error"],
+        }
+      );
+    }
+    const postId = request.params.postId;
+    const { content } = JSON.parse(request.requestBody);
+    const post = this.db.posts.findBy({_id: postId})
+    post.content = content
+    this.db.posts.update({_id: postId}, post)
+    return new Response(201, {}, { posts: this.db.posts});
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
+  }
+};
+
+export const likePostHandler = function (schema, request) {
+  const user = requiresAuth.call(this, request);
+  try {
+    if (!user) {
+      new Response(
+        404,
+        {},
+        {
+          errors: ["The username you entered is not Registered. Not Found error"],
+        }
+      );
+    }
+    const postId = request.params.postId;
+    const post = this.db.posts.findBy({_id:postId})
+    post.likes.likeCount+=1
+    post.likes.likedBy.push(user.username)
+    this.db.posts.update({_id: postId}, {...post, updatedAt: new Date()})
+    return new Response(201, {}, { posts: this.db.posts});
   } catch (error) {
     return new Response(
       500,
@@ -91,7 +154,7 @@ export const deletePostHandler = function (schema, request) {
         404,
         {},
         {
-          errors: ["The email you entered is not Registered. Not Found error"],
+          errors: ["The username you entered is not Registered. Not Found error"],
         }
       );
     }
