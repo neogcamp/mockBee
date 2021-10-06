@@ -66,7 +66,7 @@ function App() {
   const handleCreatePost = async(content) => {
     try {
       const response = await axios.post(
-        `/api/posts/`, {content: "hello World"}, {headers: {
+        `/api/posts/`, {postData:{content: "hello World"}}, {headers: {
           authorization: encodedToken,
         },},
       );
@@ -89,12 +89,10 @@ function App() {
     } 
   }
 
-  const handleUpdatePost = async(postId) => {
+  const handleEditPost = async(postId, postData) => {
     try {
       const response = await axios.post(
-        `/api/posts/${postId}`, {postData: {
-          content: "hello World v2"
-        }},{headers: {
+        `/api/posts/edit/${postId}`, {postData},{headers: {
           authorization: encodedToken,
         },},
       );
@@ -109,7 +107,7 @@ function App() {
       <button onClick={signupHandler}>Signup</button>   
       <button onClick={loginHandler}>Login</button>
       <button onClick={() => handleCreatePost("hello world")}>Create new Post</button>
-      {posts.map(item  => <div><h2>{item.username}</h2><button onClick={() => fetchPostDetails(item._id)}>See Post</button><button onClick={() => handleUpdatePost(item._id, {content: "hello World v2"})}>Update Post</button><button onClick={() => handleDeletePost(item._id)}>Delete Post</button><p>{item.content}</p></div>)}
+      {posts.map(item  => <div><h2>{item.username}</h2><button onClick={() => fetchPostDetails(item._id)}>See Post</button><button onClick={() => handleDeletePost(item._id)}>Delete Post</button><p>{item.content}</p><button onClick={() => handleEditPost(item._id, {content: "Coding is Lub"})}>Edit</button></div>)}
       <div>
         {post.username}
         {post.content}

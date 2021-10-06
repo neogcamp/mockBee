@@ -14,8 +14,8 @@ export const posts = [
 		likedBy: [],
     },
     username: "adarshbalika",
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: new Date().toDateString(),
+    updatedAt: new Date().toDateString()
   },
   {
     _id: uuid(),

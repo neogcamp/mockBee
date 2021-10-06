@@ -11,22 +11,22 @@ export const users = [{
     "lastName": "Balika",
     "username": "adarshbalika",
     "password": "adarshBalika123",
-    "createdAt": new Date(),
-    "updatedAt": new Date()
+    "createdAt": new Date().toDateString(),
+    "updatedAt": new Date().toDateString()
 }, {
     "_id": uuid(),
     "firstName": "Dhruvi",
     "lastName": "Shah",
     "username": "dhruvishah",
     "password": "dhruviShah123",
-    "createdAt": new Date(),
-    "updatedAt": new Date()
+    "createdAt": new Date().toDateString(),
+    "updatedAt": new Date().toDateString()
 }, {
     "_id": uuid(),
     "firstName": "Shubham",
     "lastName": "Soni",
     "username": "shubhamsoni",
     "password": "shubhamSoni123",
-    "createdAt": new Date(),
-    "updatedAt": new Date()
+    "createdAt": new Date().toDateString(),
+    "updatedAt": new Date().toDateString()
 }]

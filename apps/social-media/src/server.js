@@ -5,7 +5,7 @@ import {
   loginHandler,
   signupHandler,
 } from "./backend/controllers/AuthController";
-import { createPostHandler, getAllpostsHandler, getPostHandler, deletePostHandler} from "./backend/controllers/PostController";
+import { createPostHandler, getAllpostsHandler, getPostHandler, deletePostHandler, editPostHandler} from "./backend/controllers/PostController";
 
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
@@ -41,6 +41,8 @@ export function makeServer({ environment = "development" } = {}) {
        this.post("/posts", createPostHandler.bind(this));
        this.get("/posts/:postId", getPostHandler.bind(this));
        this.delete("/posts/:postId", deletePostHandler.bind(this));
+       this.post("/posts/edit/:postId", editPostHandler.bind(this));
+       
        
     },
   });

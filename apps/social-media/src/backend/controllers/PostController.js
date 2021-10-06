@@ -47,7 +47,7 @@ export const createPostHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
-      new Response(
+      return new Response(
         404,
         {},
         {
@@ -64,8 +64,8 @@ export const createPostHandler = function (schema, request) {
         likedBy: [],
       },
       username: user.username,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: new Date().toDateString(),
+      updatedAt: new Date().toDateString(),
     };
     this.db.posts.insert(post);
     return new Response(201, {}, { posts: this.db.posts });
@@ -88,7 +88,7 @@ export const createPostHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
-      new Response(
+      return new Response(
         404,
         {},
         {
@@ -97,9 +97,10 @@ export const createPostHandler = function (schema, request) {
       );
     }
     const postId = request.params.postId;
-    const { content } = JSON.parse(request.requestBody);
-    const post = this.db.posts.findBy({_id: postId})
-    post.content = content
+    const { postData } = JSON.parse(request.requestBody);
+    let post = this.db.posts.findBy({_id: postId})
+    post = {...post, ...postData}
+    console.log(post);
     this.db.posts.update({_id: postId}, post)
     return new Response(201, {}, { posts: this.db.posts});
   } catch (error) {
@@ -117,7 +118,7 @@ export const likePostHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
-      new Response(
+      return new Response(
         404,
         {},
         {
@@ -150,7 +151,7 @@ export const deletePostHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
-      new Response(
+      return new Response(
         404,
         {},
         {
