@@ -8,6 +8,7 @@ function App() {
   let [token, setToken] = useState("");
   const [posts, setPosts] = useState([]);
   const [post, setPost] = useState({})
+  const encodedToken = localStorage.getItem("token");
   // signup API call
   const signupHandler = async () => {
     try {
@@ -29,7 +30,7 @@ function App() {
     try {
       const response = await axios.post(
         `/api/auth/login`, {
-        email: "sohamshah456@gmail.com",
+        username: "sohamshah456",
         password: "123"}
       );
       localStorage.setItem("token", response.data.encodedToken);
@@ -62,11 +63,38 @@ function App() {
       console.log(error);
     } }
 
+  const handleCreatePost = async(content) => {
+    try {
+      const response = await axios.post(
+        `/api/posts/`, {content: "hello World"}, {headers: {
+          authorization: encodedToken,
+        },},
+      );
+      setPosts(response.data.posts);
+    } catch (error) {
+      console.log(error);
+    } 
+  }
+
+  const handleDeletePost = async(postId) => {
+    try {
+      const response = await axios.delete(
+        `/api/posts/${postId}`, {headers: {
+          authorization: encodedToken,
+        },},
+      );
+      setPosts(response.data.posts);
+    } catch (error) {
+      console.log(error);
+    } 
+  }
+
   return (
     <div>
       <button onClick={signupHandler}>Signup</button>   
       <button onClick={loginHandler}>Login</button>
-      {posts.map(item  => <div><h2>{item.username}</h2><button onClick={() => fetchPostDetails(item._id)}>See Post</button><p>{item.content}</p></div>)}
+      <button onClick={() => handleCreatePost("hello world")}>Create new Post</button>
+      {posts.map(item  => <div><h2>{item.username}</h2><button onClick={() => fetchPostDetails(item._id)}>See Post</button><button onClick={() => handleDeletePost(item._id)}>Delete Post</button><p>{item.content}</p></div>)}
       <div>
         {post.username}
         {post.content}
