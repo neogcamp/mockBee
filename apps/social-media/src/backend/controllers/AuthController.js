@@ -36,8 +36,10 @@ export const signupHandler = function (schema, request) {
       ...rest,
       ...initialUserData,
       _id: uuid(),
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
-    
+    console.log(newUser)
     const createdUser = schema.users.create(newUser);
     const encodedToken = jwt.sign(
       { username, password },

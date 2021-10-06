@@ -1,9 +1,11 @@
 import { Server, Model, RestSerializer } from "miragejs";
+import { posts } from "./backend/db/posts";
 import { users } from "./backend/db/users";
 import {
   loginHandler,
   signupHandler,
 } from "./backend/controllers/AuthController";
+import { getAllpostsHandler, getPostHandler } from "./backend/controllers/PostController";
 
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
@@ -13,11 +15,8 @@ export function makeServer({ environment = "development" } = {}) {
     environment,
     // TODO: Use Relationships to have named relational Data
     models: {
-      product: Model,
-      wishList: Model,
-      cart: Model,
+      post: Model,
       user: Model,
-      category: Model,
     },
 
     // Runs on the start of the server
@@ -26,6 +25,9 @@ export function makeServer({ environment = "development" } = {}) {
       users.forEach((item) =>
         server.create("user", { ...item, cart: [], wishList: [] })
       );
+      posts.forEach((item) =>
+        server.create("post", { ...item})
+      );
     },
 
     routes() {
@@ -33,6 +35,11 @@ export function makeServer({ environment = "development" } = {}) {
       // auth routes (public)
       this.post("/auth/signup", signupHandler.bind(this));
       this.post("/auth/login", loginHandler.bind(this));
+
+       // post routes (public)
+       this.get("/posts", getAllpostsHandler.bind(this));
+       this.get("/posts/:postId", getPostHandler.bind(this));
+       
     },
   });
   return server;

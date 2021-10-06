@@ -10,17 +10,23 @@ export const users = [{
     "firstName": "Adarsh",
     "lastName": "Balika",
     "username": "adarshbalika",
-    "password": "adarshBalika123"
+    "password": "adarshBalika123",
+    "createdAt": new Date(),
+    "updatedAt": new Date()
 }, {
     "_id": uuid(),
     "firstName": "Dhruvi",
     "lastName": "Shah",
     "username": "dhruvishah",
-    "password": "dhruviShah123"
+    "password": "dhruviShah123",
+    "createdAt": new Date(),
+    "updatedAt": new Date()
 }, {
     "_id": uuid(),
     "firstName": "Shubham",
     "lastName": "Soni",
     "username": "shubhamsoni",
-    "password": "shubhamSoni123"
+    "password": "shubhamSoni123",
+    "createdAt": new Date(),
+    "updatedAt": new Date()
 }]
