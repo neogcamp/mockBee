@@ -9,18 +9,18 @@ export const users = [{
     "_id": uuid(),
     "firstName": "Adarsh",
     "lastName": "Balika",
-    "email": "adarshbalika@gmail.com",
+    "username": "adarshbalika",
     "password": "adarshBalika123"
 }, {
     "_id": uuid(),
     "firstName": "Dhruvi",
     "lastName": "Shah",
-    "email": "dhruvishah@gmail.com",
+    "username": "dhruvishah",
     "password": "dhruviShah123"
 }, {
     "_id": uuid(),
     "firstName": "Shubham",
     "lastName": "Soni",
-    "email": "shubhamsoni@gmail.com",
+    "username": "shubhamsoni",
     "password": "shubhamSoni123"
 }]

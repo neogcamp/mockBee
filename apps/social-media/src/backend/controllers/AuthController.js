@@ -11,27 +11,27 @@ const jwt = require("jsonwebtoken");
 /**
  * This handler handles user signups.
  * send POST Request at /api/auth/signup
- * body contains {firstName, lastName, email, password}
+ * body contains {firstName, lastName, username, password}
  * */
 
 export const signupHandler = function (schema, request) {
-  const { email, password, ...rest } = JSON.parse(
+  const { username, password, ...rest } = JSON.parse(
     request.requestBody
   );
   try {
-    // check if email already exists
-    const foundUser = schema.users.findBy({ email: email });
+    // check if username already exists
+    const foundUser = schema.users.findBy({ username: username });
     if (foundUser) {
       return new Response(
         422,
         {},
         {
-          errors: ["Unprocessable Entity. Email Already Exists."],
+          errors: ["Unprocessable Entity. Username Already Exists."],
         }
       );
     }
     const newUser = {
-      email,
+      username,
       password,
       ...rest,
       ...initialUserData,
@@ -40,7 +40,7 @@ export const signupHandler = function (schema, request) {
     
     const createdUser = schema.users.create(newUser);
     const encodedToken = jwt.sign(
-      { email, password },
+      { username, password },
       process.env.REACT_APP_JWT_SECRET
     );
     return new Response(201, {}, { createdUser, encodedToken });
@@ -58,19 +58,19 @@ export const signupHandler = function (schema, request) {
 /**
  * This handler handles user login.
  * send POST Request at /api/auth/login
- * body contains {email, password}
+ * body contains {username, password}
  * */
 
 export const loginHandler = function (schema, request) {
-  const { email, password } = JSON.parse(request.requestBody);
+  const { username, password } = JSON.parse(request.requestBody);
   try {
     const encodedToken = jwt.sign(
-      { email, password },
+      { username, password },
       process.env.REACT_APP_JWT_SECRET
     );
-    const foundUser = schema.users.findBy({ email: email });
+    const foundUser = schema.users.findBy({ username: username });
     if(!foundUser) {
-      return new Response(404, {}, { errors: ["The email you entered is not Registered. Not Found error"] });
+      return new Response(404, {}, { errors: ["The username you entered is not Registered. Not Found error"] });
     }
       if (foundUser.password === password) {
         return new Response(200, {}, { foundUser, encodedToken });
