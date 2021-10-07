@@ -114,6 +114,11 @@ export const createPostHandler = function (schema, request) {
   }
 };
 
+/**
+ * This handler handles liking a post in the db.
+ * send POST Request at /api/posts/like/:postId
+* */
+
 export const likePostHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
@@ -145,6 +150,11 @@ export const likePostHandler = function (schema, request) {
     );
   }
 };
+
+/**
+ * This handler handles disliking a post in the db.
+ * send POST Request at /api/posts/dislike/:postId
+* */
 
 export const dislikePostHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);

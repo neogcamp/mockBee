@@ -8,6 +8,8 @@ function App() {
   let [token, setToken] = useState("");
   const [posts, setPosts] = useState([]);
   const [post, setPost] = useState({});
+  const [users, setUsers] = useState([]);
+  const[user, setUser] = useState({})
   const encodedToken = localStorage.getItem("token");
   // signup API call
   const signupHandler = async () => {
@@ -39,14 +41,29 @@ function App() {
     }
   };
 
+  const handleFetchPosts = async () => {
+    try {
+      const response = await axios.get(`/api/posts`);
+      setPosts(response.data.posts);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const handleFetchUsers = async () => {
+    try {
+      const response = await axios.get(`/api/users`);
+      setUsers(response.data.users);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     (async () => {
-      try {
-        const response = await axios.get(`/api/posts`);
-        setPosts(response.data.posts);
-      } catch (error) {
-        console.log(error);
-      }
+        await handleFetchPosts();
+        await handleFetchUsers();
     })();
   }, []);
 
@@ -54,6 +71,15 @@ function App() {
     try {
       const response = await axios.get(`/api/posts/${postId}`);
       setPost(response.data.post);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchUserDetails = async (userId) => {
+    try {
+      const response = await axios.get(`/api/users/${userId}`);
+      setUser(response.data.user);
     } catch (error) {
       console.log(error);
     }
@@ -161,6 +187,14 @@ function App() {
       <div>
         {post.username}
         {post.content}
+      </div>
+      
+      <ul>
+        {users.map(item => <li>{item.username} <button onClick={() => fetchUserDetails(item._id)}>See User</button></li>)}
+      </ul>
+      <div>
+        {user.username}
+        {user.firstName}
       </div>
     </div>
   );
