@@ -128,9 +128,46 @@ export const likePostHandler = function (schema, request) {
     }
     const postId = request.params.postId;
     const post = this.db.posts.findBy({_id:postId})
+    if(post.likes.likedBy.includes(user.username)){
+      return new Response(400, {}, { errors: ["Cannot like a post that is already liked. "]});  
+    }
     post.likes.likeCount+=1
     post.likes.likedBy.push(user.username)
     this.db.posts.update({_id: postId}, {...post, updatedAt: new Date()})
+    return new Response(201, {}, { posts: this.db.posts});
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
+  }
+};
+
+export const dislikePostHandler = function (schema, request) {
+  const user = requiresAuth.call(this, request);
+  try {
+    if (!user) {
+      return new Response(
+        404,
+        {},
+        {
+          errors: ["The username you entered is not Registered. Not Found error"],
+        }
+      );
+    }
+    const postId = request.params.postId;
+    let post = this.db.posts.findBy({_id:postId})
+    if(post.likes.likeCount === 0){
+      return new Response(400, {}, { errors:['Cannot decrement like less than 0.']});
+    }
+    post.likes.likeCount-=1
+    const updatedLikedBy = post.likes.likedBy.filter(user => user === user.username)
+    post = {...post, likes:{...post.likes, likedBy: updatedLikedBy}}
+    this.db.posts.update({_id: postId}, {...post, updatedAt: new Date()})
+    console.log(this.db.posts);
     return new Response(201, {}, { posts: this.db.posts});
   } catch (error) {
     return new Response(

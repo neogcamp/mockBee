@@ -1,25 +1,25 @@
 // THIS FILE IS JUST FOR TESTING PURPOSES. Will be deleted once while publishing it.
 
-import React,{useState, useEffect} from 'react'
-import axios from 'axios'
-import './App.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./App.css";
 
 function App() {
   let [token, setToken] = useState("");
   const [posts, setPosts] = useState([]);
-  const [post, setPost] = useState({})
+  const [post, setPost] = useState({});
   const encodedToken = localStorage.getItem("token");
   // signup API call
   const signupHandler = async () => {
     try {
-      const response = await axios.post(
-        `/api/auth/signup`, {firstName: "Soham",
+      const response = await axios.post(`/api/auth/signup`, {
+        firstName: "Soham",
         lastName: "Shah",
         username: "sohamshah456",
-        password: "123"}
-      );
+        password: "123",
+      });
       localStorage.setItem("token", response.data.encodedToken);
-        setToken(response.data.encodedToken);
+      setToken(response.data.encodedToken);
     } catch (error) {
       console.log(error);
     }
@@ -28,13 +28,12 @@ function App() {
   // login API call
   const loginHandler = async () => {
     try {
-      const response = await axios.post(
-        `/api/auth/login`, {
+      const response = await axios.post(`/api/auth/login`, {
         username: "sohamshah456",
-        password: "123"}
-      );
+        password: "123",
+      });
       localStorage.setItem("token", response.data.encodedToken);
-        setToken(response.data.encodedToken);
+      setToken(response.data.encodedToken);
     } catch (error) {
       console.log(error);
     }
@@ -43,9 +42,7 @@ function App() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get(
-          `/api/posts`
-        );
+        const response = await axios.get(`/api/posts`);
         setPosts(response.data.posts);
       } catch (error) {
         console.log(error);
@@ -53,61 +50,114 @@ function App() {
     })();
   }, []);
 
-  const fetchPostDetails = async(postId) => {
+  const fetchPostDetails = async (postId) => {
     try {
-      const response = await axios.get(
-        `/api/posts/${postId}`
-      );
-      setPost(response.data.post)
+      const response = await axios.get(`/api/posts/${postId}`);
+      setPost(response.data.post);
     } catch (error) {
       console.log(error);
-    } }
+    }
+  };
 
-  const handleCreatePost = async(content) => {
+  const handleCreatePost = async (content) => {
     try {
       const response = await axios.post(
-        `/api/posts/`, {postData:{content: "hello World"}}, {headers: {
-          authorization: encodedToken,
-        },},
+        `/api/posts/`,
+        { postData: { content: "hello World" } },
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
       );
       setPosts(response.data.posts);
     } catch (error) {
       console.log(error);
-    } 
-  }
+    }
+  };
 
-  const handleDeletePost = async(postId) => {
+  const handleDeletePost = async (postId) => {
     try {
-      const response = await axios.delete(
-        `/api/posts/${postId}`, {headers: {
+      const response = await axios.delete(`/api/posts/${postId}`, {
+        headers: {
           authorization: encodedToken,
-        },},
-      );
+        },
+      });
       setPosts(response.data.posts);
     } catch (error) {
       console.log(error);
-    } 
-  }
+    }
+  };
 
-  const handleEditPost = async(postId, postData) => {
+  const handleEditPost = async (postId, postData) => {
     try {
       const response = await axios.post(
-        `/api/posts/edit/${postId}`, {postData},{headers: {
-          authorization: encodedToken,
-        },},
+        `/api/posts/edit/${postId}`,
+        { postData },
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
       );
       setPosts(response.data.posts);
     } catch (error) {
       console.log(error);
-    } 
-  }
+    }
+  };
+  const handleLikePost = async (postId) => {
+    try {
+      const response = await axios.post(`/api/posts/like/${postId}`,{}, {
+        headers: {
+          authorization: encodedToken,
+        },
+      });
+      setPosts(response.data.posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDislikePost = async (postId) => {
+    try {
+      const response = await axios.post(`/api/posts/dislike/${postId}`,{}, {
+        headers: {
+          authorization: encodedToken,
+        },
+      });
+      setPosts(response.data.posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
-      <button onClick={signupHandler}>Signup</button>   
+      <button onClick={signupHandler}>Signup</button>
       <button onClick={loginHandler}>Login</button>
-      <button onClick={() => handleCreatePost("hello world")}>Create new Post</button>
-      {posts.map(item  => <div><h2>{item.username}</h2><button onClick={() => fetchPostDetails(item._id)}>See Post</button><button onClick={() => handleDeletePost(item._id)}>Delete Post</button><p>{item.content}</p><button onClick={() => handleEditPost(item._id, {content: "Coding is Lub"})}>Edit</button></div>)}
+      <button onClick={() => handleCreatePost("hello world")}>
+        Create new Post
+      </button>
+      {posts.map((item) => (
+        <div>
+          <h2>{item.username}</h2>
+          <button onClick={() => fetchPostDetails(item._id)}>See Post</button>
+          <button onClick={() => handleDeletePost(item._id)}>
+            Delete Post
+          </button>
+          <p>{item.content}</p>
+          <button
+            onClick={() =>
+              handleEditPost(item._id, { content: "Coding is Lub" })
+            }
+          >
+            Edit
+          </button>
+          <button onClick={() => handleLikePost(item._id)}>Like</button>
+          <button onClick={() => handleDislikePost(item._id)}>Disike</button>
+          <span>{item.likes.likeCount}</span>
+        </div>
+      ))}
       <div>
         {post.username}
         {post.content}
