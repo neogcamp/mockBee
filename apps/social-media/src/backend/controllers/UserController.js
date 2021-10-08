@@ -37,3 +37,56 @@ export const getAllUsersHandler = function () {
   }
 };
 
+/**
+ * This handler handles adding a post to user's bookmarks in the db.
+ * send POST Request at /api/users/bookmark/:userId/:postId/
+ * */
+
+ export const bookmarkPostHandler = function (schema, request) {
+    const {userId, postId} = request.params;
+  try {
+    const user = this.db.users.findBy({ _id: userId });
+    if(user.bookmarks.includes(postId)){
+        return new Response(400, {}, { errors: ["Post already bookamarked"] });   
+    }
+    user.bookmarks.push(postId)
+    this.db.users.update({_id: userId}, {...user, updatedAt: new Date()})
+    return new Response(200, {}, { bookmarks: user.bookmarks });
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
+  }
+};
+
+export const removePostFromBookmarkHandler = function (schema, request) {
+    const {userId, postId} = request.params;
+  try {
+    let user = this.db.users.findBy({ _id: userId });
+    if(!user.bookmarks.includes(postId)){
+        return new Response(400, {}, { errors: ["Post not bookmarked yet"] });      
+    }
+    const filteredBookmarks = user.bookmarks.filter(post => post._id === postId)
+
+    this.db.users.update({_id: userId}, {...user, updatedAt: new Date()})
+    return new Response(200, {}, { bookmarks: user.bookmarks });
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
+  }
+};
+
+
+
+
+
+

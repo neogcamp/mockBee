@@ -4,7 +4,6 @@ import { v4 as uuid } from "uuid";
 
 /**
  * All the routes related to post are present here.
- * These are Publicly accessible routes.
  * */
 
 /**
@@ -100,7 +99,6 @@ export const createPostHandler = function (schema, request) {
     const { postData } = JSON.parse(request.requestBody);
     let post = this.db.posts.findBy({_id: postId})
     post = {...post, ...postData}
-    console.log(post);
     this.db.posts.update({_id: postId}, post)
     return new Response(201, {}, { posts: this.db.posts});
   } catch (error) {
@@ -133,11 +131,11 @@ export const likePostHandler = function (schema, request) {
     }
     const postId = request.params.postId;
     const post = this.db.posts.findBy({_id:postId})
-    if(post.likes.likedBy.includes(user.username)){
+    if(post.likes.likedBy.includes(user._id)){
       return new Response(400, {}, { errors: ["Cannot like a post that is already liked. "]});  
     }
     post.likes.likeCount+=1
-    post.likes.likedBy.push(user.username)
+    post.likes.likedBy.push(user._id)
     this.db.posts.update({_id: postId}, {...post, updatedAt: new Date()})
     return new Response(201, {}, { posts: this.db.posts});
   } catch (error) {
@@ -174,10 +172,9 @@ export const dislikePostHandler = function (schema, request) {
       return new Response(400, {}, { errors:['Cannot decrement like less than 0.']});
     }
     post.likes.likeCount-=1
-    const updatedLikedBy = post.likes.likedBy.filter(user => user === user.username)
+    const updatedLikedBy = post.likes.likedBy.filter(user => user === user._id)
     post = {...post, likes:{...post.likes, likedBy: updatedLikedBy}}
     this.db.posts.update({_id: postId}, {...post, updatedAt: new Date()})
-    console.log(this.db.posts);
     return new Response(201, {}, { posts: this.db.posts});
   } catch (error) {
     return new Response(
