@@ -6,7 +6,8 @@ import {
   signupHandler,
 } from "./backend/controllers/AuthController";
 import { createPostHandler, getAllpostsHandler, getPostHandler, deletePostHandler, editPostHandler, likePostHandler, dislikePostHandler} from "./backend/controllers/PostController";
-import { getAllUsersHandler, getUserHandler } from "./backend/controllers/UserController";
+import { bookmarkPostHandler, getAllUsersHandler, getUserHandler, removePostFromBookmarkHandler } from "./backend/controllers/UserController";
+import { initialUserData } from "./backend/utils/authUtils";
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
     serializers: {
@@ -23,7 +24,7 @@ export function makeServer({ environment = "development" } = {}) {
     seeds(server) {
 
       users.forEach((item) =>
-        server.create("user", { ...item, cart: [], wishList: [] })
+        server.create("user", { ...item, ...initialUserData })
       );
       posts.forEach((item) =>
         server.create("post", { ...item})
@@ -50,6 +51,8 @@ export function makeServer({ environment = "development" } = {}) {
        // user routes (public)
        this.get("/users", getAllUsersHandler.bind(this));
        this.get("/users/:userId", getUserHandler.bind(this));
+       this.post("/users/bookmark/:postId/", bookmarkPostHandler.bind(this));
+       this.post("/users/remove-bookmark/:postId/", removePostFromBookmarkHandler.bind(this));
     },
   });
   return server;

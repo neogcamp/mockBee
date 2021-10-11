@@ -9,7 +9,8 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [post, setPost] = useState({});
   const [users, setUsers] = useState([]);
-  const[user, setUser] = useState({})
+  const[user, setUser] = useState({});
+  const [currUser, setCurrUser] = useState({});
   const encodedToken = localStorage.getItem("token");
   // signup API call
   const signupHandler = async () => {
@@ -22,6 +23,7 @@ function App() {
       });
       localStorage.setItem("token", response.data.encodedToken);
       setToken(response.data.encodedToken);
+      setCurrUser(response.data.createdUser)
     } catch (error) {
       console.log(error);
     }
@@ -36,6 +38,7 @@ function App() {
       });
       localStorage.setItem("token", response.data.encodedToken);
       setToken(response.data.encodedToken);
+      setCurrUser(response.data.foundUser)
     } catch (error) {
       console.log(error);
     }
@@ -157,6 +160,32 @@ function App() {
     }
   };
 
+  const handleBookmarkPost = async (postId) => {
+    try {
+      const response = await axios.post(`/api/users/bookmark/${postId}`,{}, {
+        headers: {
+          authorization: encodedToken,
+        },
+      });
+      setCurrUser({...currUser, bookmarks: response.data.bookmarks});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleRemoveBookmarkPost = async (postId) => {
+    try {
+      const response = await axios.post(`/api/users/remove-bookmark/${postId}`,{}, {
+        headers: {
+          authorization: encodedToken,
+        },
+      });
+      setCurrUser({...currUser, bookmarks: response.data.bookmarks});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <button onClick={signupHandler}>Signup</button>
@@ -164,6 +193,10 @@ function App() {
       <button onClick={() => handleCreatePost("hello world")}>
         Create new Post
       </button>
+      <div>
+        username: {currUser.username}
+        Bookmarks: <ul>{currUser.bookmarks && currUser.bookmarks.map(item => <li>{item} <button onClick={() => handleRemoveBookmarkPost(item)}>Remove Bookmark</button></li>)}</ul>
+      </div>
       {posts.map((item) => (
         <div>
           <h2>{item.username}</h2>
@@ -181,6 +214,7 @@ function App() {
           </button>
           <button onClick={() => handleLikePost(item._id)}>Like</button>
           <button onClick={() => handleDislikePost(item._id)}>Disike</button>
+          <button onClick={() => handleBookmarkPost(item._id)}>Bookmark</button>
           <span>{item.likes.likeCount}</span>
         </div>
       ))}
