@@ -6,7 +6,7 @@ import {
   signupHandler,
 } from "./backend/controllers/AuthController";
 import { createPostHandler, getAllpostsHandler, getPostHandler, deletePostHandler, editPostHandler, likePostHandler, dislikePostHandler} from "./backend/controllers/PostController";
-import { bookmarkPostHandler, followUserHandler, getAllUsersHandler, getUserHandler, removePostFromBookmarkHandler, unfollowUserHandler } from "./backend/controllers/UserController";
+import { bookmarkPostHandler, followUserHandler, getAllUsersHandler, getUserHandler, removePostFromBookmarkHandler, unfollowUserHandler, editUserHandler} from "./backend/controllers/UserController";
 import { initialUserData } from "./backend/utils/authUtils";
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
@@ -51,6 +51,7 @@ export function makeServer({ environment = "development" } = {}) {
        // user routes (public)
        this.get("/users", getAllUsersHandler.bind(this));
        this.get("/users/:userId", getUserHandler.bind(this));
+       this.post("users/edit", editUserHandler.bind(this))
        this.post("/users/bookmark/:postId/", bookmarkPostHandler.bind(this));
        this.post("/users/remove-bookmark/:postId/", removePostFromBookmarkHandler.bind(this));
        this.post("/users/follow/:followUserId/", followUserHandler.bind(this));

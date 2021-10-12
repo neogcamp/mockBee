@@ -36,6 +36,41 @@ export const getAllUsersHandler = function () {
 };
 
 /**
+ * This handler handles updating user details.
+ * send POST Request at /api/users/edit
+ * body contains { userData }
+ * */
+
+ export const editUserHandler = function (schema, request) {
+  let user = requiresAuth.call(this, request);
+try {
+  if (!user) {
+    return new Response(
+      404,
+      {},
+      {
+        errors: ["The username you entered is not Registered. Not Found error"],
+      }
+    );
+  }
+  const { userData } = JSON.parse(request.requestBody);
+  user = {...user, ...userData}
+  this.db.users.update({_id: user._id}, user)
+  console.log(this.db.users);
+  return new Response(201, {}, { user });
+} catch (error) {
+  return new Response(
+    500,
+    {},
+    {
+      error,
+    }
+  );
+}
+};
+
+
+/**
  * This handler handles adding a post to user's bookmarks in the db.
  * send POST Request at /api/users/bookmark/:postId/
  * */

@@ -240,6 +240,23 @@ function App() {
     }
   };
 
+  const handleEditUser = async (userData) => {
+    try {
+      const response = await axios.post(
+        `/api/users/edit`,
+        {userData},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setCurrUser(response.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
       <button onClick={signupHandler}>Signup</button>
@@ -248,7 +265,12 @@ function App() {
         Create new Post
       </button>
       <div>
-        username: {currUser.username}
+        <ul>
+        <li>username: {currUser.username}</li>
+        <li>FirstName: {currUser.firstName}</li>
+        <li>LastName: {currUser.lastName}</li>
+        </ul>
+        <button onClick={() => handleEditUser({ firstName: "sodium", lastName:"lol" })}>Edit details</button>
         Bookmarks:{" "}
         <ul>
           {currUser.bookmarks &&
