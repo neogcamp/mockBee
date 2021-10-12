@@ -131,11 +131,11 @@ export const likePostHandler = function (schema, request) {
     }
     const postId = request.params.postId;
     const post = this.db.posts.findBy({_id:postId})
-    if(post.likes.likedBy.includes(user._id)){
+    if(post.likes.likedBy.find(currUser => currUser._id === user._id)){
       return new Response(400, {}, { errors: ["Cannot like a post that is already liked. "]});  
     }
     post.likes.likeCount+=1
-    post.likes.likedBy.push(user._id)
+    post.likes.likedBy.push(user)
     this.db.posts.update({_id: postId}, {...post, updatedAt: new Date()})
     return new Response(201, {}, { posts: this.db.posts});
   } catch (error) {
@@ -172,7 +172,7 @@ export const dislikePostHandler = function (schema, request) {
       return new Response(400, {}, { errors:['Cannot decrement like less than 0.']});
     }
     post.likes.likeCount-=1
-    const updatedLikedBy = post.likes.likedBy.filter(user => user === user._id)
+    const updatedLikedBy = post.likes.likedBy.filter(currUser => currUser._id !== user._id)
     post = {...post, likes:{...post.likes, likedBy: updatedLikedBy}}
     this.db.posts.update({_id: postId}, {...post, updatedAt: new Date()})
     return new Response(201, {}, { posts: this.db.posts});
@@ -216,3 +216,5 @@ export const deletePostHandler = function (schema, request) {
     );
   }
 };
+
+
