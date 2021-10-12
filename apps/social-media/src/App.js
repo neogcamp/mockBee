@@ -9,7 +9,7 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [post, setPost] = useState({});
   const [users, setUsers] = useState([]);
-  const[user, setUser] = useState({});
+  const [user, setUser] = useState({});
   const [currUser, setCurrUser] = useState({});
   const encodedToken = localStorage.getItem("token");
   // signup API call
@@ -23,7 +23,7 @@ function App() {
       });
       localStorage.setItem("token", response.data.encodedToken);
       setToken(response.data.encodedToken);
-      setCurrUser(response.data.createdUser)
+      setCurrUser(response.data.createdUser);
     } catch (error) {
       console.log(error);
     }
@@ -38,7 +38,7 @@ function App() {
       });
       localStorage.setItem("token", response.data.encodedToken);
       setToken(response.data.encodedToken);
-      setCurrUser(response.data.foundUser)
+      setCurrUser(response.data.foundUser);
     } catch (error) {
       console.log(error);
     }
@@ -48,25 +48,23 @@ function App() {
     try {
       const response = await axios.get(`/api/posts`);
       setPosts(response.data.posts);
-      
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   const handleFetchUsers = async () => {
     try {
       const response = await axios.get(`/api/users`);
       setUsers(response.data.users);
-      
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     (async () => {
-        await handleFetchPosts();
-        await handleFetchUsers();
+      await handleFetchPosts();
+      await handleFetchUsers();
     })();
   }, []);
 
@@ -136,11 +134,15 @@ function App() {
   };
   const handleLikePost = async (postId) => {
     try {
-      const response = await axios.post(`/api/posts/like/${postId}`,{}, {
-        headers: {
-          authorization: encodedToken,
-        },
-      });
+      const response = await axios.post(
+        `/api/posts/like/${postId}`,
+        {},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
       setPosts(response.data.posts);
     } catch (error) {
       console.log(error);
@@ -149,11 +151,15 @@ function App() {
 
   const handleDislikePost = async (postId) => {
     try {
-      const response = await axios.post(`/api/posts/dislike/${postId}`,{}, {
-        headers: {
-          authorization: encodedToken,
-        },
-      });
+      const response = await axios.post(
+        `/api/posts/dislike/${postId}`,
+        {},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
       setPosts(response.data.posts);
     } catch (error) {
       console.log(error);
@@ -162,12 +168,16 @@ function App() {
 
   const handleBookmarkPost = async (postId) => {
     try {
-      const response = await axios.post(`/api/users/bookmark/${postId}`,{}, {
-        headers: {
-          authorization: encodedToken,
-        },
-      });
-      setCurrUser({...currUser, bookmarks: response.data.bookmarks});
+      const response = await axios.post(
+        `/api/users/bookmark/${postId}`,
+        {},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setCurrUser({ ...currUser, bookmarks: response.data.bookmarks });
     } catch (error) {
       console.log(error);
     }
@@ -175,12 +185,56 @@ function App() {
 
   const handleRemoveBookmarkPost = async (postId) => {
     try {
-      const response = await axios.post(`/api/users/remove-bookmark/${postId}`,{}, {
-        headers: {
-          authorization: encodedToken,
-        },
+      const response = await axios.post(
+        `/api/users/remove-bookmark/${postId}`,
+        {},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setCurrUser({ ...currUser, bookmarks: response.data.bookmarks });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleFollowUser = async (followUserId) => {
+    try {
+      const response = await axios.post(
+        `/api/users/follow/${followUserId}`,
+        {},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setCurrUser({
+        ...currUser,
+        followers: response.data.followers,
+        following: response.data.following,
       });
-      setCurrUser({...currUser, bookmarks: response.data.bookmarks});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleUnFollowUser = async (followUserId) => {
+    try {
+      const response = await axios.post(
+        `/api/users/unfollow/${followUserId}`,
+        {},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setCurrUser({
+        ...currUser,
+        followers: response.data.followers,
+        following: response.data.following,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -195,7 +249,18 @@ function App() {
       </button>
       <div>
         username: {currUser.username}
-        Bookmarks: <ul>{currUser.bookmarks && currUser.bookmarks.map(item => <li>{item} <button onClick={() => handleRemoveBookmarkPost(item)}>Remove Bookmark</button></li>)}</ul>
+        Bookmarks:{" "}
+        <ul>
+          {currUser.bookmarks &&
+            currUser.bookmarks.map((item) => (
+              <li>
+                {item}{" "}
+                <button onClick={() => handleRemoveBookmarkPost(item)}>
+                  Remove Bookmark
+                </button>
+              </li>
+            ))}
+        </ul>
       </div>
       {posts.map((item) => (
         <div>
@@ -222,9 +287,16 @@ function App() {
         {post.username}
         {post.content}
       </div>
-      
+
       <ul>
-        {users.map(item => <li>{item.username} <button onClick={() => fetchUserDetails(item._id)}>See User</button></li>)}
+        {users.map((item) => (
+          <li>
+            {item.username}{" "}
+            <button onClick={() => fetchUserDetails(item._id)}>See User</button>
+            <button onClick={() => handleFollowUser(item._id)}>Follow</button>
+            <button onClick={() => handleUnFollowUser(item._id)}>Unfollow</button>
+          </li>
+        ))}
       </ul>
       <div>
         {user.username}

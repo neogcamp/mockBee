@@ -1,6 +1,5 @@
 import { Response } from "miragejs";
 import { requiresAuth } from "../utils/authUtils";
-import { v4 as uuid } from "uuid";
 
 /**
  * All the routes related to user are present here.
@@ -112,9 +111,9 @@ export const removePostFromBookmarkHandler = function (schema, request) {
  * send POST Request at /api/users/follow/:followUserId/
  * */
 
-export const followUserHandler = (schema, request) => {
-  const {followUserId} = request.params;
+export const followUserHandler = function(schema, request) {
   const user = requiresAuth.call(this, request);
+  const {followUserId} = request.params;
   const followUser = this.db.users.findBy({ _id: followUserId });
   try {
     if (!user) {
@@ -126,15 +125,17 @@ export const followUserHandler = (schema, request) => {
         }
       );
     }
-    if(!user.following.includes(followUser)){
-        return new Response(400, {}, { errors: ["User Already followed"] });      
+    const isFollowing = user.following.find(currUser => currUser._id === followUser._id);
+    
+    if(isFollowing){
+      return new Response(400, {}, { errors: ["User Already following"] });  
     }
     
-    user.following.push(followUser);
-    this.db.users.update({_id: user._id}, {...user, updatedAt: new Date()})
-    followUser.followers.push(user);
-    this.db.users.update({_id: followUser._id}, {...followUser, updatedAt: new Date()})
-    return new Response(200, {}, { user, followUser });
+    const updatedUser = {...user, following: [...user.following, {...followUser}]} 
+    const updatedFollowUser = {...followUser, followers: [...followUser.followers, {...user}]}
+    this.db.users.update({_id: user._id}, {...updatedUser, updatedAt: new Date()}) 
+    this.db.users.update({_id: followUser._id}, {...updatedFollowUser, updatedAt: new Date()})
+    return new Response(200, {}, { user:updatedUser, followUser: updatedFollowUser });
   } catch (error) {
     return new Response(
       500,
@@ -146,6 +147,47 @@ export const followUserHandler = (schema, request) => {
   }
 }
 
+/**
+ * This handler handles unfollow action.
+ * send POST Request at /api/users/unfollow/:followUserId/
+ * */
+
+ export const unfollowUserHandler = function(schema, request) {
+  const user = requiresAuth.call(this, request);
+  const {followUserId} = request.params;
+  const followUser = this.db.users.findBy({ _id: followUserId });
+  console.log(user, followUser);
+  try {
+    if (!user) {
+      return new Response(
+        404,
+        {},
+        {
+          errors: ["The username you entered is not Registered. Not Found error"],
+        }
+      );
+    }
+    const isFollowing = user.following.find(currUser => currUser._id === followUser._id);
+    
+    if(!isFollowing){
+      return new Response(400, {}, { errors: ["User already not following"] });  
+    }
+    
+    const updatedUser = {...user, following: user.following.filter(currUser => currUser._id !== followUser._id)} 
+    const updatedFollowUser = {...followUser, followers: followUser.followers.filter(currUser => currUser._id !== user._id)}
+    this.db.users.update({_id: user._id}, {...updatedUser, updatedAt: new Date()}) 
+    this.db.users.update({_id: followUser._id}, {...updatedFollowUser, updatedAt: new Date()})
+    return new Response(200, {}, { user:updatedUser, followUser:updatedFollowUser });
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
+  }
+}
 
 
 
