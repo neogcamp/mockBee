@@ -254,8 +254,8 @@ function App() {
           {currUser.bookmarks &&
             currUser.bookmarks.map((item) => (
               <li>
-                {item}{" "}
-                <button onClick={() => handleRemoveBookmarkPost(item)}>
+                {item.content}{" "}
+                <button onClick={() => handleRemoveBookmarkPost(item._id)}>
                   Remove Bookmark
                 </button>
               </li>

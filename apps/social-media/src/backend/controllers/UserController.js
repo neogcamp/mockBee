@@ -42,6 +42,7 @@ export const getAllUsersHandler = function () {
 
  export const bookmarkPostHandler = function (schema, request) {
     const {postId} = request.params;
+    const post = this.db.posts.findBy({_id: postId});
     const user = requiresAuth.call(this, request);
   try {
     if (!user) {
@@ -53,10 +54,11 @@ export const getAllUsersHandler = function () {
         }
       );
     }
-    if(user.bookmarks.includes(postId)){
+    const isBookmarked = user.bookmarks.find(currPost => currPost._id === postId);
+    if(isBookmarked){
         return new Response(400, {}, { errors: ["Post already bookmarked"] });   
     }
-    user.bookmarks.push(postId)
+    user.bookmarks.push(post)
     this.db.users.update({_id: user._id}, {...user, updatedAt: new Date()})
     return new Response(200, {}, { bookmarks: user.bookmarks });
   } catch (error) {
@@ -77,6 +79,7 @@ export const getAllUsersHandler = function () {
 
 export const removePostFromBookmarkHandler = function (schema, request) {
   const {postId} = request.params;
+  const post = this.db.posts.findBy({_id: postId});
   let user = requiresAuth.call(this, request);
   try {
     if (!user) {
@@ -88,10 +91,11 @@ export const removePostFromBookmarkHandler = function (schema, request) {
         }
       );
     }
-    if(!user.bookmarks.includes(postId)){
+    const isBookmarked = user.bookmarks.find(currPost => currPost._id === postId);
+    if(!isBookmarked){
         return new Response(400, {}, { errors: ["Post not bookmarked yet"] });      
     }
-    const filteredBookmarks = user.bookmarks.filter(post => post !== postId)
+    const filteredBookmarks = user.bookmarks.filter(currPost => currPost._id !== postId)
     user = {...user, bookmarks: filteredBookmarks}
     this.db.users.update({_id: user._id}, {...user, updatedAt: new Date()})
     return new Response(200, {}, { bookmarks: user.bookmarks });
