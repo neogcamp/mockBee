@@ -56,7 +56,6 @@ try {
   const { userData } = JSON.parse(request.requestBody);
   user = {...user, ...userData}
   this.db.users.update({_id: user._id}, user)
-  console.log(this.db.users);
   return new Response(201, {}, { user });
 } catch (error) {
   return new Response(
@@ -114,7 +113,6 @@ try {
 
 export const removePostFromBookmarkHandler = function (schema, request) {
   const {postId} = request.params;
-  const post = this.db.posts.findBy({_id: postId});
   let user = requiresAuth.call(this, request);
   try {
     if (!user) {

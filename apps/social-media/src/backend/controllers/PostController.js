@@ -36,6 +36,23 @@ export const getPostHandler = function (schema, request) {
   }
 };
 
+export const getAllUserPostsHandler = function (schema, request) {
+  const username = request.params.username;
+  try {
+    const posts = this.db.posts.findBy({ username: username });
+    console.log(posts);
+    return new Response(200, {}, { posts });
+  }catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
+  }
+}
+
 /**
  * This handler handles creating a post in the db.
  * send POST Request at /api/user/posts/

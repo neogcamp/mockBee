@@ -8,6 +8,7 @@ function App() {
   let [token, setToken] = useState("");
   const [posts, setPosts] = useState([]);
   const [post, setPost] = useState({});
+  const [userPosts, setUserPosts] = useState({});
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState({});
   const [currUser, setCurrUser] = useState({});
@@ -257,6 +258,23 @@ function App() {
     }
   }
 
+  const handleUserPosts = async (username) => {
+    try {
+      const response = await axios.get(
+        `/api/posts/${username}`,
+        {},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setUserPosts(response.data.posts);
+    } catch (error) {
+      console.log(error);
+    } 
+  }
+
   return (
     <div>
       <button onClick={signupHandler}>Signup</button>
@@ -283,6 +301,13 @@ function App() {
               </li>
             ))}
         </ul>
+        <div>
+          My posts
+          <button onClick={() => handleUserPosts(currUser.username)}>See my posts</button>
+          <ul>
+
+          </ul>
+        </div>
       </div>
       {posts.map((item) => (
         <div>
