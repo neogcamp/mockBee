@@ -17,6 +17,11 @@ const FEATURED_TEMPLATES = [
 		path: 'mockBee/apps/video-library',
 		description: 'Video Library Backend.',
 	},
+	{
+		name: 'social-media',
+		path: 'mockBee/apps/social-media',
+		description: 'Social Media Backend.',
+	},
 ]
 
 function validateName(name){
