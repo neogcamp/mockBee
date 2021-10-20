@@ -5,6 +5,8 @@ import {
 import { getAllUsersHandler, getUserHandler, editUserHandler } from "./backend/controllers/UserController";
 import { Server, Model, RestSerializer } from "miragejs";
 import { users } from "./backend/db/users";
+import { questions } from "./backend/db/questions";
+import { getAllQuestionsHandler } from "./backend/controllers/QuestionController";
 export function makeServer({ environment = "development" } = {}) {
     let server = new Server({
       serializers: {
@@ -13,13 +15,18 @@ export function makeServer({ environment = "development" } = {}) {
       environment,
       models: {
         user: Model,
+        question: Model
       },
   
       // Runs on the start of the server
       seeds(server) {
         users.forEach((item) =>
-        server.create("user", { ...item, cart: [], wishList: [] })
+        server.create("user", { ...item})
       );
+
+        questions.forEach(item => {
+          server.create("question", {...item});
+        });
       },
   
       routes() {
@@ -37,7 +44,7 @@ export function makeServer({ environment = "development" } = {}) {
 
        // questions routes (public)
        this.get("/questions", getAllQuestionsHandler.bind(this));
-       this.get("/questions/:questionIdad", getQuestionHandler.bind(this));
+       this.get("/questions/:questionId", getQuestionHandler.bind(this));
        this.get("/questions/:userId", getUserQuestionsHandler.bind(this));
 
        // questions routes (private)
@@ -72,7 +79,7 @@ export function makeServer({ environment = "development" } = {}) {
        this.post("/comments/delete/:questionId", deleteQuestionCommentHandler.bind(this));
        this.post("/comments/add/:questionId/:answerId", addAnswerCommentHandler.bind(this));
        this.post("/comments/delete/:questionId", deleteAnswerCommentHandler.bind(this));
-
+      
     },
     });
     return server;
