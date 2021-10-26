@@ -82,7 +82,7 @@ The following Routes are relating to Categories. These are Publicly accessible r
 
 ## Auth Routes
 
-You can refer documentation related to Authentication [here](general/auth)
+You can refer documentation related to Authentication [here](/docs/api/general/auth)
 
 ---
 
