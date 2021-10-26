@@ -98,6 +98,32 @@ export default function App() {
       console.log(error);
     }
   };
+  const handleRestoreArchive = async (noteId) => {
+    try {
+      const response = await axios.post(
+        `/api/archives/restore/${noteId}`, {}, {headers: {
+          authorization: encodedToken,
+        },}
+      );
+      
+      setUser({...user, notes:response.data.notes, archives:response.data.archives});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleDeleteArchive = async (noteId) => {
+    try {
+      const response = await axios.delete(
+        `/api/archives/delete/${noteId}`, {headers: {
+          authorization: encodedToken,
+        },}
+      );
+      
+      setUser({...user, notes:response.data.notes, archives:response.data.archives});
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return <div>
     <button onClick={() => signupHandler()}> Signup</button>
       <button onClick={() => loginHandler()}> Login</button>
@@ -115,7 +141,11 @@ export default function App() {
     </div>
     <h1>Archives</h1>
     <div>
-      {user.archives && user.archives.map(archive => <div>{archive.title}</div>)}
+      {user.archives && user.archives.map(archive =>
+         <div>{archive.title}
+         <button onClick={() => handleRestoreArchive(archive._id)}>Restore</button>
+        <button onClick={() => handleDeleteArchive(archive._id)}>Delete</button>
+         </div>)}
     </div>
   </div>
 }

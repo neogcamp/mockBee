@@ -154,7 +154,6 @@ export const getAllNotesHandler = function (schema, request) {
       const filteredNotes = user.notes.filter(note => note._id !== noteId);
       user.notes = filteredNotes;
       user.archives.push({...archivedNote})
-      console.log(user.archives, user.notes);
       this.db.users.update({_id: user._id}, user);
       return new Response(201, {}, { archives: user.archives, notes: user.notes });
     } catch (error) {
