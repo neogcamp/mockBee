@@ -2,7 +2,7 @@ module.exports = {
   title: 'mockBee 🐝',
   tagline: 'The Mock Backend for NeoG Camp',
   url: 'https://mockbee.netlify.app', // Url to your site with no trailing slash
-  baseUrl: 'website/', // Base directory of your site relative to your repo
+  baseUrl: '/', // Base directory of your site relative to your repo
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
