@@ -15,6 +15,7 @@
 </a>
 <a href="https://github.com/neogcamp/mockBee/pulls" target="blank">
 <img src="https://img.shields.io/github/issues-pr/neogcamp/mockBee?style=flat-square" alt="mockBee pull-requests"/>
+<img src="https://img.shields.io/tokei/lines/github/neogcamp/mockBee?label=total%20lines%20of%20code&style=flat-square" alt="mockBee total lines of code"/>
 </a>
 
 </p>
