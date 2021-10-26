@@ -50,6 +50,7 @@ export const getAllNotesHandler = function (schema, request) {
       }else{
         user.notes.push({ ...note, _id: uuid()});
       }
+      this.db.users.update({_id: user._id}, user);
       return new Response(201, {}, { notes: user.notes });
     } catch (error) {
       return new Response(
@@ -81,7 +82,8 @@ export const getAllNotesHandler = function (schema, request) {
       }
       const noteId = request.params.noteId;
       const filteredNotes = user.notes.filter((item) => item._id !== noteId);
-      user.notes = filteredNotes;
+      user.notes = [...filteredNotes];
+      this.db.users.update({_id: user._id}, user);
       return new Response(200, {}, { notes: user.notes });
     } catch (error) {
       return new Response(
@@ -113,10 +115,11 @@ export const getAllNotesHandler = function (schema, request) {
         );
       }
       const { note } = JSON.parse(request.requestBody);
-      const { noteId } = JSON.parse(request.requestParams);
+      const { noteId } = request.params;
       const noteIndex = user.notes.findIndex(note => note._id === noteId);
-      user.notes[noteIndex] = note;
-      return new Response(201, {}, { note });
+      user.notes[noteIndex] = {...user.notes[noteIndex], ...note};
+      this.db.users.update({_id: user._id}, user);
+      return new Response(201, {}, { notes: user.notes });
     } catch (error) {
       return new Response(
         500,
@@ -146,9 +149,13 @@ export const getAllNotesHandler = function (schema, request) {
           }
         );
       }
-      const { noteId } = JSON.parse(request.requestParams);
+      const { noteId } = request.params;
       const archivedNote = user.notes.filter(note => note._id === noteId)[0];
+      const filteredNotes = user.notes.filter(note => note._id !== noteId);
+      user.notes = filteredNotes;
       user.archives.push({...archivedNote})
+      console.log(user.archives, user.notes);
+      this.db.users.update({_id: user._id}, user);
       return new Response(201, {}, { archives: user.archives, notes: user.notes });
     } catch (error) {
       return new Response(

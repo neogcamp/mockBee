@@ -4,7 +4,7 @@ import {
     loginHandler,
     signupHandler,
 } from "./backend/controllers/AuthController";
-import { createNoteHandler, deleteNoteHandler, getAllNotesHandler } from "./backend/controllers/NotesController";
+import { archiveNoteHandler, createNoteHandler, deleteNoteHandler, getAllNotesHandler, updateNoteHandler } from "./backend/controllers/NotesController";
 
   export function makeServer({ environment = "development" } = {}) {
     let server = new Server({
@@ -34,13 +34,14 @@ import { createNoteHandler, deleteNoteHandler, getAllNotesHandler } from "./back
         // notes routes (private)
         this.get("/notes", getAllNotesHandler.bind(this))
         this.post("/notes", createNoteHandler.bind(this))
+        this.post("/notes/:noteId", updateNoteHandler.bind(this))
         this.delete("/notes/:noteId", deleteNoteHandler.bind(this))
 
         // archive routes (private)
         this.get("/archives", getAllArchivedNotesHandler.bind(this))
         this.post("/archives/restore/:noteId", restoreFromArchivesHandler.bind(this))
         this.delete("/archives/delete/:noteId", deleteFromArchivesHandler.bind(this))
-        this.post("/notes/archive/:noteId", getAllNotesHandler.bind(this))
+        this.post("/notes/archive/:noteId", archiveNoteHandler.bind(this))
       },
     });
     return server;
