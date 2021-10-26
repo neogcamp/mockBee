@@ -1,3 +1,0 @@
-const siteConfig = {
-    projectName: 'mockBee'
-}
