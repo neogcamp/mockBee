@@ -116,6 +116,101 @@ export default function App() {
       console.log(error);
     }
   }
+  const handleAddAnswerComment = async (commentData, questionId, answerId) => {
+    try {
+      const response = await axios.post(
+        `/api/comments/add/${questionId}/${answerId}`,
+        {commentData},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const handleAddQuestionComment = async (commentData, questionId) => {
+    try {
+      const response = await axios.post(
+        `/api/comments/add/${questionId}/`,
+        {commentData},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const handleEditAnswerComment = async (commentData, questionId, answerId, commentId) => {
+    try {
+      const response = await axios.post(
+        `/api/comments/edit/${questionId}/${answerId}/${commentId}`,
+        {commentData},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const handleDeleteAnswerComment = async (questionId, answerId, commentId) => {
+    try {
+      const response = await axios.delete(
+        `/api/comments/delete/${questionId}/${answerId}/${commentId}`,
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleEditQuestionComment = async (commentData, questionId, commentId) => {
+    try {
+      const response = await axios.post(
+        `/api/comments/edit/${questionId}/${commentId}`,
+        {commentData},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const handleDeleteQuestionComment = async (questionId, commentId) => {
+    try {
+      const response = await axios.delete(
+        `/api/comments/delete/${questionId}/${commentId}`,
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const handleEditQuestion = async (questionData, questionId) => {
     try {
       const response = await axios.post(
@@ -230,7 +325,7 @@ export default function App() {
 
   return (
     <div>
-      <h2>Available Products</h2>
+      <h2>Forum app</h2>
       <button onClick={() => signupHandler()}> Signup</button>
       <button onClick={() => loginHandler()}> Login</button>
       <button onClick={() => handleEditUser({ firstName: "sodium", lastName:"lol" })}>Edit details</button>
@@ -251,10 +346,20 @@ export default function App() {
             <button onClick={() => handleVoteQuestion({reaction: "upvote"},question._id)}>Upvote</button> 
             <button onClick={() => handleVoteQuestion({reaction: "downvote"},question._id)}>Downvote</button> 
             <button onClick={() => handleVoteQuestion({reaction: "unvote"},question._id)}>Unvote</button> 
-           
+            
             <div>
             Upvotes: {question.votes.upvotedBy.length}
             Downvotes: {question.votes.downvotedBy.length}
+            </div>
+            <div>
+              Comments
+            <button onClick={() => handleAddQuestionComment({commentText: "I am a comment"},question._id)}>Add comment</button> 
+            {question.comments.map(comment => <div>
+                <h3>{comment.username}</h3>
+                <p>{comment.commentText}</p>
+                <button onClick={() => handleEditQuestionComment({commentText: "I am an edited question comment"},question._id, comment._id)}>Edit comment</button> 
+            <button onClick={() => handleDeleteQuestionComment(question._id, comment._id)}>Delete comment</button> 
+                </div>)}
             </div>
             
             {question.answers && question.answers.map(answer => 
@@ -269,7 +374,15 @@ export default function App() {
             
               Upvotes: {answer.votes.upvotedBy.length}
               Downvotes: {answer.votes.downvotedBy.length}
-
+            <button onClick={() => handleAddAnswerComment({commentText: "I am an answer comment"},question._id, answer._id)}>Add comment</button> 
+              Comments:
+              {answer.comments.map(comment => <div>
+                <h3>{comment.username}</h3>
+                <p>{comment.commentText}</p>
+            <button onClick={() => handleEditAnswerComment({commentText: "I am an edited answer comment"},question._id, answer._id, comment._id)}>Edit comment</button> 
+            <button onClick={() => handleDeleteAnswerComment(question._id, answer._id, comment._id)}>Delete comment</button> 
+            
+                </div>)}
               </div>
             )}
           </li>)}

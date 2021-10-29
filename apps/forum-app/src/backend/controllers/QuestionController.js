@@ -125,7 +125,7 @@ import { v4 as uuid } from "uuid";
       if(question.username !== user.username){
         return new Response(400, {},  { errors: ["Cannot delete a Question doesn't belong to the User."]}); 
       }
-      question = {...question, ...questionData}
+      question = {...question, ...questionData, updatedAt: new Date().toDateString()}
       this.db.questions.update({_id: questionId}, question)
       return new Response(201, {}, { questions: this.db.questions});
     } catch (error) {

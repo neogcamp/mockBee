@@ -100,7 +100,7 @@ import { v4 as uuid } from "uuid";
             return new Response(400, {},  { errors: ["Cannot edit an Answer doesn't belong to the User."]});    
           }
           
-          question.answers[answerIndex] = {...question.answers[answerIndex], ...answerData} 
+          question.answers[answerIndex] = {...question.answers[answerIndex], ...answerData, updatedAt: new Date().toDateString()} 
           this.db.questions.update({_id: questionId}, question)
           return new Response(201, {}, { questions: this.db.questions});
         } catch (error) {

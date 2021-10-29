@@ -9,6 +9,7 @@ import { questions } from "./backend/db/questions";
 import { getAllQuestionsHandler, getQuestionHandler, getAllUserQuestionsHandler, addQuestionHandler, deleteQuestionHandler, editQuestionHandler } from "./backend/controllers/QuestionController";
 import { getAllAnswersHandler, addAnswerHandler, editAnswerHandler, deleteAnswerHandler} from "./backend/controllers/AnswerController";
 import { getQuestionVotesHandler, getAnswerVotesHandler, voteQuestionHandler, voteAnswerHandler } from "./backend/controllers/VoteController";
+import { getQuestionCommentsHandler, getAnswerCommentsHandler, addQuestionCommentHandler,editQuestionCommentHandler, deleteQuestionCommentHandler, addAnswerCommentHandler, editAnswerCommentHandler, deleteAnswerCommentHandler} from "./backend/controllers/CommentController";
 export function makeServer({ environment = "development" } = {}) {
     let server = new Server({
       serializers: {
@@ -70,16 +71,17 @@ export function makeServer({ environment = "development" } = {}) {
        this.post("/votes/vote/:questionId", voteQuestionHandler.bind(this));
        this.post("/votes/vote/:questionId/:answerId", voteAnswerHandler.bind(this));
        
-      //  // comments routes (public)
-      //  this.get("/comments/:questionId", getQuestionCommentsHandler.bind(this));
-      //  this.get("/comments/:questionId/:answerId", getAnswerCommentsHandler.bind(this));
+       // comments routes (public)
+       this.get("/comments/:questionId", getQuestionCommentsHandler.bind(this));
+       this.get("/comments/:questionId/:answerId", getAnswerCommentsHandler.bind(this));
        
-      //  // comments routes (private)
-      //  this.post("/comments/add/:questionId", addQuestionCommentHandler.bind(this));
-      //  this.post("/comments/delete/:questionId", deleteQuestionCommentHandler.bind(this));
-      //  this.post("/comments/add/:questionId/:answerId", addAnswerCommentHandler.bind(this));
-      //  this.post("/comments/delete/:questionId", deleteAnswerCommentHandler.bind(this));
-      
+       // comments routes (private)
+       this.post("/comments/add/:questionId", addQuestionCommentHandler.bind(this));
+       this.post("/comments/edit/:questionId/:commentId", editQuestionCommentHandler.bind(this));
+       this.delete("/comments/delete/:questionId/:commentId", deleteQuestionCommentHandler.bind(this));
+       this.post("/comments/add/:questionId/:answerId/", addAnswerCommentHandler.bind(this));
+       this.post("/comments/edit/:questionId/:answerId/:commentId", editAnswerCommentHandler.bind(this));
+       this.delete("/comments/delete/:questionId/:answerId/:commentId", deleteAnswerCommentHandler.bind(this));
     },
     });
     return server;
