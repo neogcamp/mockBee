@@ -1,7 +1,6 @@
 import { Response } from "miragejs";
 import { requiresAuth } from "../utils/authUtils";
 import { v4 as uuid } from "uuid";
-import { questions } from "../db/questions";
 
 /**
  * All the routes related to questions are present here.
@@ -106,6 +105,11 @@ import { questions } from "../db/questions";
     }
   }
 
+  /**
+ * This handler edits a question in the db.
+ * send POST Request at /api/questions/edit/:questionId
+ * */
+
   export const editQuestionHandler = function (schema, request) {
     const user = requiresAuth.call(this, request);
       try {
@@ -139,8 +143,8 @@ import { questions } from "../db/questions";
   };
 
    /**
- * This handler adds a new question in the db.
- * send DELETE Request at /api/delete/:questionId
+ * This handler deletes a question in the db.
+ * send DELETE Request at /api/questions/delete/:questionId
  * */
 
   export const deleteQuestionHandler = function (schema, request) {

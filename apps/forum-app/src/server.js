@@ -7,6 +7,8 @@ import { Server, Model, RestSerializer } from "miragejs";
 import { users } from "./backend/db/users";
 import { questions } from "./backend/db/questions";
 import { getAllQuestionsHandler, getQuestionHandler, getAllUserQuestionsHandler, addQuestionHandler, deleteQuestionHandler, editQuestionHandler } from "./backend/controllers/QuestionController";
+import { getAllAnswersHandler, addAnswerHandler, editAnswerHandler, deleteAnswerHandler} from "./backend/controllers/AnswerController";
+
 export function makeServer({ environment = "development" } = {}) {
     let server = new Server({
       serializers: {
@@ -52,12 +54,13 @@ export function makeServer({ environment = "development" } = {}) {
        this.post("/questions/edit/:questionId", editQuestionHandler.bind(this));
        this.delete("questions/delete/:questionId", deleteQuestionHandler.bind(this));
        
-      //  // answers routes (public)
-      //  this.get("/answers/:questionId", getAllAnswersHandler.bind(this));
+       // answers routes (public)
+       this.get("/answers/:questionId", getAllAnswersHandler.bind(this));
 
-      //  // answers routes (private)
-      //  this.post("/answers/add/:questionId", addAnswerHandler.bind(this));
-      //  this.post("/answers/delete/:questionId/:answerId", deleteAnswerHandler.bind(this));
+       // answers routes (private)
+       this.post("/answers/add/:questionId", addAnswerHandler.bind(this));
+       this.post("/answers/edit/:questionId/:answerId", editAnswerHandler.bind(this));
+       this.delete("/answers/delete/:questionId/:answerId", deleteAnswerHandler.bind(this));
 
        // votes routes (public)
       //  this.get("/votes/:questionId", getQuestionVotesHandler.bind(this));

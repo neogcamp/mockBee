@@ -68,6 +68,22 @@ export default function App() {
       console.log(error);
     }
   }
+  const handleAddAnswer = async (answerData, questionId) => {
+    try {
+      const response = await axios.post(
+        `/api/answers/add/${questionId}`,
+        {answerData},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const handleEditQuestion = async (questionData, questionId) => {
     try {
       const response = await axios.post(
@@ -84,10 +100,41 @@ export default function App() {
       console.log(error);
     }
   }
+  const handleEditAnswer = async (answerData, answerId, questionId) => {
+    try {
+      const response = await axios.post(
+        `/api/answers/edit/${questionId}/${answerId}`,
+        {answerData},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const handleDeleteQuestion = async (questionId) => {
     try {
       const response = await axios.delete(
         `/api/questions/delete/${questionId}`,
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const handleDeleteAnswer = async (answerId, questionId) => {
+    try {
+      const response = await axios.delete(
+        `/api/answers/delete/${questionId}/${answerId}`,
         {
           headers: {
             authorization: encodedToken,
@@ -167,8 +214,18 @@ export default function App() {
             <h3>{question.questionTitle}</h3>
             <p>{question.questionText}</p>
             <button onClick={() => handleEditQuestion({questionTitle: "Cool Cool Cool", questionText: "Lol new content"}, question._id)}>Edit Question</button>
-
             <button onClick={() => handleDeleteQuestion(question._id)}>Delete Question</button>
+            <button onClick={() => handleAddAnswer({answerText: "My Answer"},question._id)}>Add Answer</button>
+            
+            {question.answers && question.answers.map(answer => 
+              <div>
+                <h4>{answer.username}</h4>
+                <p>{answer.answerText}</p>
+                <button onClick={() => handleEditAnswer({answerText: "WOWWWWWWW I am short"}, answer._id,question._id)}>Edit</button>
+              <button onClick={() => handleDeleteAnswer(answer._id,question._id)}>Delete</button>
+
+              </div>
+            )}
           </li>)}
         </ul>
       </div>
