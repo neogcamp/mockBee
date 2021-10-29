@@ -1,21 +1,31 @@
 module.exports = {
   docs: [
-       'introduction'
-    ,
+    'introduction',
     {
       type: 'category',
       label: 'Getting Started',
-      items: ['installation', 'project-structure', 'configuration', 'getting-app-running'],
+      items: [
+        'installation',
+        'project-structure',
+        'configuration',
+        'getting-app-running'
+      ]
     },
     {
       type: 'category',
       label: 'Guides',
-      items: ['why-miragejs-mock-backend', 'how-it-works', 'customization' , 'available-apis', 'playground'],
+      items: [
+        'why-miragejs-mock-backend',
+        'how-it-works',
+        'customization',
+        'available-apis',
+        'playground'
+      ]
     },
     {
       type: 'category',
       label: 'Advanced Guides',
-      items: ['main-concepts', 'custom-apis', 'resources'],
+      items: ['main-concepts', 'custom-apis', 'resources']
     }
   ],
   api: [
@@ -23,12 +33,12 @@ module.exports = {
     {
       type: 'category',
       label: 'General',
-      items: ['api/general/auth'],
+      items: ['api/general/auth']
     },
     {
       type: 'category',
       label: 'Apps',
-      items: ['api/apps/e-commerce', 'api/apps/video-library'],
-    },
-  ],
-};
+      items: ['api/apps/e-commerce', 'api/apps/video-library']
+    }
+  ]
+}

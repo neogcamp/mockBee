@@ -42,7 +42,7 @@ export const getAllUserPostsHandler = function (schema, request) {
     const posts = this.db.posts.findBy({ username: username });
     console.log(posts);
     return new Response(200, {}, { posts });
-  }catch (error) {
+  } catch (error) {
     return new Response(
       500,
       {},
@@ -51,7 +51,7 @@ export const getAllUserPostsHandler = function (schema, request) {
       }
     );
   }
-}
+};
 
 /**
  * This handler handles creating a post in the db.
@@ -67,7 +67,9 @@ export const createPostHandler = function (schema, request) {
         404,
         {},
         {
-          errors: ["The username you entered is not Registered. Not Found error"],
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
         }
       );
     }
@@ -100,8 +102,8 @@ export const createPostHandler = function (schema, request) {
  * This handler handles updating a post in the db.
  * send POST Request at /api/posts/edit/:postId
  * body contains { postData }
-* */
- export const editPostHandler = function (schema, request) {
+ * */
+export const editPostHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
@@ -109,16 +111,18 @@ export const createPostHandler = function (schema, request) {
         404,
         {},
         {
-          errors: ["The username you entered is not Registered. Not Found error"],
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
         }
       );
     }
     const postId = request.params.postId;
     const { postData } = JSON.parse(request.requestBody);
-    let post = this.db.posts.findBy({_id: postId})
-    post = {...post, ...postData}
-    this.db.posts.update({_id: postId}, post)
-    return new Response(201, {}, { posts: this.db.posts});
+    let post = this.db.posts.findBy({ _id: postId });
+    post = { ...post, ...postData };
+    this.db.posts.update({ _id: postId }, post);
+    return new Response(201, {}, { posts: this.db.posts });
   } catch (error) {
     return new Response(
       500,
@@ -133,7 +137,7 @@ export const createPostHandler = function (schema, request) {
 /**
  * This handler handles liking a post in the db.
  * send POST Request at /api/posts/like/:postId
-* */
+ * */
 
 export const likePostHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
@@ -143,19 +147,25 @@ export const likePostHandler = function (schema, request) {
         404,
         {},
         {
-          errors: ["The username you entered is not Registered. Not Found error"],
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
         }
       );
     }
     const postId = request.params.postId;
-    const post = this.db.posts.findBy({_id:postId})
-    if(post.likes.likedBy.find(currUser => currUser._id === user._id)){
-      return new Response(400, {}, { errors: ["Cannot like a post that is already liked. "]});  
+    const post = this.db.posts.findBy({ _id: postId });
+    if (post.likes.likedBy.find((currUser) => currUser._id === user._id)) {
+      return new Response(
+        400,
+        {},
+        { errors: ["Cannot like a post that is already liked. "] }
+      );
     }
-    post.likes.likeCount+=1
-    post.likes.likedBy.push(user)
-    this.db.posts.update({_id: postId}, {...post, updatedAt: new Date()})
-    return new Response(201, {}, { posts: this.db.posts});
+    post.likes.likeCount += 1;
+    post.likes.likedBy.push(user);
+    this.db.posts.update({ _id: postId }, { ...post, updatedAt: new Date() });
+    return new Response(201, {}, { posts: this.db.posts });
   } catch (error) {
     return new Response(
       500,
@@ -170,7 +180,7 @@ export const likePostHandler = function (schema, request) {
 /**
  * This handler handles disliking a post in the db.
  * send POST Request at /api/posts/dislike/:postId
-* */
+ * */
 
 export const dislikePostHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
@@ -180,20 +190,28 @@ export const dislikePostHandler = function (schema, request) {
         404,
         {},
         {
-          errors: ["The username you entered is not Registered. Not Found error"],
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
         }
       );
     }
     const postId = request.params.postId;
-    let post = this.db.posts.findBy({_id:postId})
-    if(post.likes.likeCount === 0){
-      return new Response(400, {}, { errors:['Cannot decrement like less than 0.']});
+    let post = this.db.posts.findBy({ _id: postId });
+    if (post.likes.likeCount === 0) {
+      return new Response(
+        400,
+        {},
+        { errors: ["Cannot decrement like less than 0."] }
+      );
     }
-    post.likes.likeCount-=1
-    const updatedLikedBy = post.likes.likedBy.filter(currUser => currUser._id !== user._id)
-    post = {...post, likes:{...post.likes, likedBy: updatedLikedBy}}
-    this.db.posts.update({_id: postId}, {...post, updatedAt: new Date()})
-    return new Response(201, {}, { posts: this.db.posts});
+    post.likes.likeCount -= 1;
+    const updatedLikedBy = post.likes.likedBy.filter(
+      (currUser) => currUser._id !== user._id
+    );
+    post = { ...post, likes: { ...post.likes, likedBy: updatedLikedBy } };
+    this.db.posts.update({ _id: postId }, { ...post, updatedAt: new Date() });
+    return new Response(201, {}, { posts: this.db.posts });
   } catch (error) {
     return new Response(
       500,
@@ -217,13 +235,15 @@ export const deletePostHandler = function (schema, request) {
         404,
         {},
         {
-          errors: ["The username you entered is not Registered. Not Found error"],
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
         }
       );
     }
     const postId = request.params.postId;
-    this.db.posts.remove({_id: postId})
-    return new Response(201, {}, { posts: this.db.posts});
+    this.db.posts.remove({ _id: postId });
+    return new Response(201, {}, { posts: this.db.posts });
   } catch (error) {
     return new Response(
       500,
@@ -234,5 +254,3 @@ export const deletePostHandler = function (schema, request) {
     );
   }
 };
-
-

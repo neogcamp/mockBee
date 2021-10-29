@@ -11,7 +11,7 @@ import { requiresAuth } from "../utils/authUtils";
  * */
 
 export const getAllUsersHandler = function () {
-    return new Response(200, {}, { users: this.db.users });
+  return new Response(200, {}, { users: this.db.users });
 };
 
 /**
@@ -19,8 +19,8 @@ export const getAllUsersHandler = function () {
  * send GET Request at /api/users/:userId
  * */
 
- export const getUserHandler = function (schema, request) {
-    const userId = request.params.userId;
+export const getUserHandler = function (schema, request) {
+  const userId = request.params.userId;
   try {
     const user = this.db.users.findBy({ _id: userId });
     return new Response(200, {}, { user });
@@ -41,59 +41,64 @@ export const getAllUsersHandler = function () {
  * body contains { userData }
  * */
 
- export const editUserHandler = function (schema, request) {
+export const editUserHandler = function (schema, request) {
   let user = requiresAuth.call(this, request);
-try {
-  if (!user) {
-    return new Response(
-      404,
-      {},
-      {
-        errors: ["The username you entered is not Registered. Not Found error"],
-      }
-    );
-  }
-  const { userData } = JSON.parse(request.requestBody);
-  user = {...user, ...userData}
-  this.db.users.update({_id: user._id}, user)
-  return new Response(201, {}, { user });
-} catch (error) {
-  return new Response(
-    500,
-    {},
-    {
-      error,
-    }
-  );
-}
-};
-
-
-/**
- * This handler handles adding a post to user's bookmarks in the db.
- * send POST Request at /api/users/bookmark/:postId/
- * */
-
- export const bookmarkPostHandler = function (schema, request) {
-    const {postId} = request.params;
-    const post = this.db.posts.findBy({_id: postId});
-    const user = requiresAuth.call(this, request);
   try {
     if (!user) {
       return new Response(
         404,
         {},
         {
-          errors: ["The username you entered is not Registered. Not Found error"],
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
         }
       );
     }
-    const isBookmarked = user.bookmarks.find(currPost => currPost._id === postId);
-    if(isBookmarked){
-        return new Response(400, {}, { errors: ["Post already bookmarked"] });   
+    const { userData } = JSON.parse(request.requestBody);
+    user = { ...user, ...userData };
+    this.db.users.update({ _id: user._id }, user);
+    return new Response(201, {}, { user });
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
+  }
+};
+
+/**
+ * This handler handles adding a post to user's bookmarks in the db.
+ * send POST Request at /api/users/bookmark/:postId/
+ * */
+
+export const bookmarkPostHandler = function (schema, request) {
+  const { postId } = request.params;
+  const post = this.db.posts.findBy({ _id: postId });
+  const user = requiresAuth.call(this, request);
+  try {
+    if (!user) {
+      return new Response(
+        404,
+        {},
+        {
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
+        }
+      );
     }
-    user.bookmarks.push(post)
-    this.db.users.update({_id: user._id}, {...user, updatedAt: new Date()})
+    const isBookmarked = user.bookmarks.find(
+      (currPost) => currPost._id === postId
+    );
+    if (isBookmarked) {
+      return new Response(400, {}, { errors: ["Post already bookmarked"] });
+    }
+    user.bookmarks.push(post);
+    this.db.users.update({ _id: user._id }, { ...user, updatedAt: new Date() });
     return new Response(200, {}, { bookmarks: user.bookmarks });
   } catch (error) {
     return new Response(
@@ -112,7 +117,7 @@ try {
  * */
 
 export const removePostFromBookmarkHandler = function (schema, request) {
-  const {postId} = request.params;
+  const { postId } = request.params;
   let user = requiresAuth.call(this, request);
   try {
     if (!user) {
@@ -120,17 +125,23 @@ export const removePostFromBookmarkHandler = function (schema, request) {
         404,
         {},
         {
-          errors: ["The username you entered is not Registered. Not Found error"],
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
         }
       );
     }
-    const isBookmarked = user.bookmarks.find(currPost => currPost._id === postId);
-    if(!isBookmarked){
-        return new Response(400, {}, { errors: ["Post not bookmarked yet"] });      
+    const isBookmarked = user.bookmarks.find(
+      (currPost) => currPost._id === postId
+    );
+    if (!isBookmarked) {
+      return new Response(400, {}, { errors: ["Post not bookmarked yet"] });
     }
-    const filteredBookmarks = user.bookmarks.filter(currPost => currPost._id !== postId)
-    user = {...user, bookmarks: filteredBookmarks}
-    this.db.users.update({_id: user._id}, {...user, updatedAt: new Date()})
+    const filteredBookmarks = user.bookmarks.filter(
+      (currPost) => currPost._id !== postId
+    );
+    user = { ...user, bookmarks: filteredBookmarks };
+    this.db.users.update({ _id: user._id }, { ...user, updatedAt: new Date() });
     return new Response(200, {}, { bookmarks: user.bookmarks });
   } catch (error) {
     return new Response(
@@ -148,9 +159,9 @@ export const removePostFromBookmarkHandler = function (schema, request) {
  * send POST Request at /api/users/follow/:followUserId/
  * */
 
-export const followUserHandler = function(schema, request) {
+export const followUserHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
-  const {followUserId} = request.params;
+  const { followUserId } = request.params;
   const followUser = this.db.users.findBy({ _id: followUserId });
   try {
     if (!user) {
@@ -158,21 +169,41 @@ export const followUserHandler = function(schema, request) {
         404,
         {},
         {
-          errors: ["The username you entered is not Registered. Not Found error"],
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
         }
       );
     }
-    const isFollowing = user.following.find(currUser => currUser._id === followUser._id);
-    
-    if(isFollowing){
-      return new Response(400, {}, { errors: ["User Already following"] });  
+    const isFollowing = user.following.find(
+      (currUser) => currUser._id === followUser._id
+    );
+
+    if (isFollowing) {
+      return new Response(400, {}, { errors: ["User Already following"] });
     }
-    
-    const updatedUser = {...user, following: [...user.following, {...followUser}]} 
-    const updatedFollowUser = {...followUser, followers: [...followUser.followers, {...user}]}
-    this.db.users.update({_id: user._id}, {...updatedUser, updatedAt: new Date()}) 
-    this.db.users.update({_id: followUser._id}, {...updatedFollowUser, updatedAt: new Date()})
-    return new Response(200, {}, { user:updatedUser, followUser: updatedFollowUser });
+
+    const updatedUser = {
+      ...user,
+      following: [...user.following, { ...followUser }],
+    };
+    const updatedFollowUser = {
+      ...followUser,
+      followers: [...followUser.followers, { ...user }],
+    };
+    this.db.users.update(
+      { _id: user._id },
+      { ...updatedUser, updatedAt: new Date() }
+    );
+    this.db.users.update(
+      { _id: followUser._id },
+      { ...updatedFollowUser, updatedAt: new Date() }
+    );
+    return new Response(
+      200,
+      {},
+      { user: updatedUser, followUser: updatedFollowUser }
+    );
   } catch (error) {
     return new Response(
       500,
@@ -182,16 +213,16 @@ export const followUserHandler = function(schema, request) {
       }
     );
   }
-}
+};
 
 /**
  * This handler handles unfollow action.
  * send POST Request at /api/users/unfollow/:followUserId/
  * */
 
- export const unfollowUserHandler = function(schema, request) {
+export const unfollowUserHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
-  const {followUserId} = request.params;
+  const { followUserId } = request.params;
   const followUser = this.db.users.findBy({ _id: followUserId });
   console.log(user, followUser);
   try {
@@ -200,21 +231,45 @@ export const followUserHandler = function(schema, request) {
         404,
         {},
         {
-          errors: ["The username you entered is not Registered. Not Found error"],
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
         }
       );
     }
-    const isFollowing = user.following.find(currUser => currUser._id === followUser._id);
-    
-    if(!isFollowing){
-      return new Response(400, {}, { errors: ["User already not following"] });  
+    const isFollowing = user.following.find(
+      (currUser) => currUser._id === followUser._id
+    );
+
+    if (!isFollowing) {
+      return new Response(400, {}, { errors: ["User already not following"] });
     }
-    
-    const updatedUser = {...user, following: user.following.filter(currUser => currUser._id !== followUser._id)} 
-    const updatedFollowUser = {...followUser, followers: followUser.followers.filter(currUser => currUser._id !== user._id)}
-    this.db.users.update({_id: user._id}, {...updatedUser, updatedAt: new Date()}) 
-    this.db.users.update({_id: followUser._id}, {...updatedFollowUser, updatedAt: new Date()})
-    return new Response(200, {}, { user:updatedUser, followUser:updatedFollowUser });
+
+    const updatedUser = {
+      ...user,
+      following: user.following.filter(
+        (currUser) => currUser._id !== followUser._id
+      ),
+    };
+    const updatedFollowUser = {
+      ...followUser,
+      followers: followUser.followers.filter(
+        (currUser) => currUser._id !== user._id
+      ),
+    };
+    this.db.users.update(
+      { _id: user._id },
+      { ...updatedUser, updatedAt: new Date() }
+    );
+    this.db.users.update(
+      { _id: followUser._id },
+      { ...updatedFollowUser, updatedAt: new Date() }
+    );
+    return new Response(
+      200,
+      {},
+      { user: updatedUser, followUser: updatedFollowUser }
+    );
   } catch (error) {
     return new Response(
       500,
@@ -224,9 +279,4 @@ export const followUserHandler = function(schema, request) {
       }
     );
   }
-}
-
-
-
-
-
+};

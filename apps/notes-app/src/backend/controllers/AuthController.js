@@ -15,9 +15,7 @@ const jwt = require("jsonwebtoken");
  * */
 
 export const signupHandler = function (schema, request) {
-  const { email, password, ...rest } = JSON.parse(
-    request.requestBody
-  );
+  const { email, password, ...rest } = JSON.parse(request.requestBody);
   try {
     // check if email already exists
     const foundUser = schema.users.findBy({ email: email });
@@ -68,14 +66,25 @@ export const loginHandler = function (schema, request) {
       process.env.REACT_APP_JWT_SECRET
     );
     const foundUser = schema.users.findBy({ email: email });
-    if(!foundUser) {
-      return new Response(404, {}, { errors: ["The email you entered is not Registered. Not Found error"] });
+    if (!foundUser) {
+      return new Response(
+        404,
+        {},
+        { errors: ["The email you entered is not Registered. Not Found error"] }
+      );
     }
-      if (foundUser.password === password) {
-        return new Response(200, {}, { foundUser, encodedToken });
+    if (foundUser.password === password) {
+      return new Response(200, {}, { foundUser, encodedToken });
+    }
+    new Response(
+      401,
+      {},
+      {
+        errors: [
+          "The credentials you entered are invalid. Unauthorized access error.",
+        ],
       }
-      new Response(401, {}, { errors: [ 'The credentials you entered are invalid. Unauthorized access error.'] });
-    
+    );
   } catch (error) {
     return new Response(
       500,

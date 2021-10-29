@@ -10,89 +10,86 @@ module.exports = {
   projectName: 'mockBee', // Usually your repo name.
   presets: [
     [
-      "@docusaurus/preset-classic",
+      '@docusaurus/preset-classic',
       {
         docs: {
-          sidebarPath: require.resolve("./sidebars.js"),
+          sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            "https://github.com/facebook/docusaurus/edit/master/website/",
+            'https://github.com/facebook/docusaurus/edit/master/website/'
         },
         theme: {
-          customCss: require.resolve("./src/css/custom.css"),
-        },
-      },
-    ],
+          customCss: require.resolve('./src/css/custom.css')
+        }
+      }
+    ]
   ],
 
-  themeConfig:
-    {
-      navbar: {
-        title: 'mockBee',
-        logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.png',
+  themeConfig: {
+    navbar: {
+      title: 'mockBee',
+      logo: {
+        alt: 'My Site Logo',
+        src: 'img/logo.png'
+      },
+      items: [
+        {
+          to: 'docs/introduction',
+          label: 'Docs',
+          position: 'left'
         },
-        items: [
-          {
-            to: "docs/introduction",
-            label: "Docs",
-            position: "left",
-          },
-          {to: '/docs/api/introduction', 
-          label: 'API', 
-          position: 'left'},
-          {
-            href: 'https://github.com/neogcamp/neoG-Camp-mock-backend',
-            label: 'GitHub',
-            position: 'right',
-          },
-        ],
-      },
-      footer: {
-        style: 'dark',
-        links: [
-          {
-            title: 'Docs',
-            items: [
-              {
-                label: 'Tutorial',
-                to: '/docs/introduction',
-              },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
-              },
-            ],
-          },
-        ],
-        copyright: `Copyright © ${new Date().getFullYear()} neoG camp. Built with Docusaurus.`,
-      },
+        { to: '/docs/api/introduction', label: 'API', position: 'left' },
+        {
+          href: 'https://github.com/neogcamp/neoG-Camp-mock-backend',
+          label: 'GitHub',
+          position: 'right'
+        }
+      ]
     },
-    "onDuplicateRoutes": "warn",
-  "customFields": {},
-  "plugins": [],
-  "themes": []
+    footer: {
+      style: 'dark',
+      links: [
+        {
+          title: 'Docs',
+          items: [
+            {
+              label: 'Tutorial',
+              to: '/docs/introduction'
+            }
+          ]
+        },
+        {
+          title: 'Community',
+          items: [
+            {
+              label: 'Stack Overflow',
+              href: 'https://stackoverflow.com/questions/tagged/docusaurus'
+            },
+            {
+              label: 'Discord',
+              href: 'https://discordapp.com/invite/docusaurus'
+            },
+            {
+              label: 'Twitter',
+              href: 'https://twitter.com/docusaurus'
+            }
+          ]
+        },
+        {
+          title: 'More',
+          items: [
+            {
+              label: 'GitHub',
+              href: 'https://github.com/facebook/docusaurus'
+            }
+          ]
+        }
+      ],
+      copyright: `Copyright © ${new Date().getFullYear()} neoG camp. Built with Docusaurus.`
+    }
+  },
+  onDuplicateRoutes: 'warn',
+  customFields: {},
+  plugins: [],
+  themes: []
 }
