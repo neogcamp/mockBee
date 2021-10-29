@@ -6,21 +6,27 @@ import { v4 as uuid } from 'uuid';
  * */
 
 export const users = [{
-    "_id": "1",
+    "_id": uuid(),
     "firstName": "Adarsh",
     "lastName": "Balika",
-    "email": "adarshbalika@gmail.com",
-    "password": "adarshBalika123"
+    "username": "adarshbalika",
+    "password": "adarshBalika123",
+    "createdAt": new Date().toDateString(),
+    "updatedAt": new Date().toDateString()
 }, {
-    "_id": "2",
+    "_id": uuid(),
     "firstName": "Dhruvi",
     "lastName": "Shah",
-    "email": "dhruvishah@gmail.com",
-    "password": "dhruviShah123"
+    "username": "dhruvishah",
+    "password": "dhruviShah123",
+    "createdAt": new Date().toDateString(),
+    "updatedAt": new Date().toDateString()
 }, {
-    "_id": "3",
+    "_id": uuid(),
     "firstName": "Shubham",
     "lastName": "Soni",
-    "email": "shubhamsoni@gmail.com",
-    "password": "shubhamSoni123"
+    "username": "shubhamsoni",
+    "password": "shubhamSoni123",
+    "createdAt": new Date().toDateString(),
+    "updatedAt": new Date().toDateString()
 }]

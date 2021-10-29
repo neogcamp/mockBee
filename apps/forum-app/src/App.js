@@ -5,15 +5,37 @@ import axios from 'axios'
 export default function App() {
   let [token, setToken] = useState("");
   let [users, setUsers] = useState([]);
+  let [questions, setQuestions] = useState([]);
   const encodedToken = localStorage.getItem("token");
 
   useEffect(() => {
     (async () => {
       await handleFetchUsers();
-      await fetchUserDetails("92fefa34-e003-4d64-a99f-22e25479cbde");
+      await handleFetchQuestions();
     })();
   }, []);
 
+
+  const handleFetchQuestion = async (questionId) => {
+    try {
+      const response = await axios.get(
+        `/api/questions/${questionId}`,
+      );
+      console.log(response.data.question);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const handleFetchAllUserQuestions = async (username) => {
+    try {
+      const response = await axios.get(
+        `/api/user/questions/${username}`,
+      );
+      console.log(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const handleEditUser = async (userData) => {
     try {
       const response = await axios.post(
@@ -30,6 +52,54 @@ export default function App() {
     }
   }
 
+  const handleAddQuestion = async (questionData) => {
+    try {
+      const response = await axios.post(
+        `/api/questions/add`,
+        {questionData},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const handleEditQuestion = async (questionData, questionId) => {
+    try {
+      const response = await axios.post(
+        `/api/questions/edit/${questionId}`,
+        {questionData},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const handleDeleteQuestion = async (questionId) => {
+    try {
+      const response = await axios.delete(
+        `/api/questions/delete/${questionId}`,
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const handleFetchUsers = async () => {
     try {
       const response = await axios.get(`/api/users`);
@@ -38,22 +108,13 @@ export default function App() {
       console.log(error);
     }
   };
-
-  const fetchUserDetails = async (userId) => {
-    try {
-      const response = await axios.get(`/api/users/${userId}`);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  
   // signup API call
   const signupHandler = async () => {
     try {
       const response = await axios.post(
         `/api/auth/signup`, {firstName: "Soham",
         lastName: "Shah",
-        email: "sohamshah456@gmail.com",
+        username: "sohamsshah",
         password: "123"}
       );
       localStorage.setItem("token", response.data.encodedToken);
@@ -68,7 +129,7 @@ export default function App() {
     try {
       const response = await axios.post(
         `/api/auth/login`, {
-        email: "sohamshah456@gmail.com",
+        username: "sohamsshah",
         password: "123"}
       );
       localStorage.setItem("token", response.data.encodedToken);
@@ -78,12 +139,39 @@ export default function App() {
     }
   };
 
+  const handleFetchQuestions = async () => {
+    try {
+      const response = await axios.get(`/api/questions`);
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   return (
     <div>
       <h2>Available Products</h2>
       <button onClick={() => signupHandler()}> Signup</button>
       <button onClick={() => loginHandler()}> Login</button>
       <button onClick={() => handleEditUser({ firstName: "sodium", lastName:"lol" })}>Edit details</button>
+      <button onClick={() => questions && handleFetchQuestion(questions[0]._id)}>Handle Fetch Question</button>
+      <button onClick={() => questions && handleFetchAllUserQuestions(questions[0].username)}>Get all User Questions</button>
+      <button onClick={() => handleAddQuestion({questionTitle:"Hello World", questionText:"Haha nice one!"})}>Ask Question</button>
+      
+      <div>
+        <h2> Questions</h2>
+        <ul>
+          {questions && questions.map(question => <li>
+            <h4>{question.username}</h4>
+            <h3>{question.questionTitle}</h3>
+            <p>{question.questionText}</p>
+            <button onClick={() => handleEditQuestion({questionTitle: "Cool Cool Cool", questionText: "Lol new content"}, question._id)}>Edit Question</button>
+
+            <button onClick={() => handleDeleteQuestion(question._id)}>Delete Question</button>
+          </li>)}
+        </ul>
+      </div>
     </div>
   );
 }
