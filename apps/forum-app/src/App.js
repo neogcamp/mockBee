@@ -68,6 +68,38 @@ export default function App() {
       console.log(error);
     }
   }
+  const handleVoteQuestion = async (vote, questionId) => {
+    try {
+      const response = await axios.post(
+        `/api/votes/vote/${questionId}`,
+        vote,
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const handleVoteAnswer = async (vote, questionId, answerId) => {
+    try {
+      const response = await axios.post(
+        `/api/votes/vote/${questionId}/${answerId}`,
+        vote,
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setQuestions(response.data.questions);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const handleAddAnswer = async (answerData, questionId) => {
     try {
       const response = await axios.post(
@@ -216,6 +248,14 @@ export default function App() {
             <button onClick={() => handleEditQuestion({questionTitle: "Cool Cool Cool", questionText: "Lol new content"}, question._id)}>Edit Question</button>
             <button onClick={() => handleDeleteQuestion(question._id)}>Delete Question</button>
             <button onClick={() => handleAddAnswer({answerText: "My Answer"},question._id)}>Add Answer</button>
+            <button onClick={() => handleVoteQuestion({reaction: "upvote"},question._id)}>Upvote</button> 
+            <button onClick={() => handleVoteQuestion({reaction: "downvote"},question._id)}>Downvote</button> 
+            <button onClick={() => handleVoteQuestion({reaction: "unvote"},question._id)}>Unvote</button> 
+           
+            <div>
+            Upvotes: {question.votes.upvotedBy.length}
+            Downvotes: {question.votes.downvotedBy.length}
+            </div>
             
             {question.answers && question.answers.map(answer => 
               <div>
@@ -223,6 +263,12 @@ export default function App() {
                 <p>{answer.answerText}</p>
                 <button onClick={() => handleEditAnswer({answerText: "WOWWWWWWW I am short"}, answer._id,question._id)}>Edit</button>
               <button onClick={() => handleDeleteAnswer(answer._id,question._id)}>Delete</button>
+            <button onClick={() => handleVoteAnswer({reaction: "upvote"},question._id, answer._id)}>Upvote Answer</button> 
+            <button onClick={() => handleVoteAnswer({reaction: "downvote"},question._id, answer._id)}>Downvote Answer</button> 
+            <button onClick={() => handleVoteAnswer({reaction: "unvote"},question._id, answer._id)}>Unvote Answer</button> 
+            
+              Upvotes: {answer.votes.upvotedBy.length}
+              Downvotes: {answer.votes.downvotedBy.length}
 
               </div>
             )}

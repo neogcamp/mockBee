@@ -51,12 +51,9 @@ import { v4 as uuid } from "uuid";
         const answer = {
           _id: uuid(),
           votes: {
-            voteCount: {
-                upvotes: 0,
-                downvotes: 0
-            },
-            votesBy: [],
-          },
+            upvotedBy:[],
+            downvotedBy:[],
+        },
           comments:[],
           ...answerData,
           username: user.username,

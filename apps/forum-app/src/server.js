@@ -8,7 +8,7 @@ import { users } from "./backend/db/users";
 import { questions } from "./backend/db/questions";
 import { getAllQuestionsHandler, getQuestionHandler, getAllUserQuestionsHandler, addQuestionHandler, deleteQuestionHandler, editQuestionHandler } from "./backend/controllers/QuestionController";
 import { getAllAnswersHandler, addAnswerHandler, editAnswerHandler, deleteAnswerHandler} from "./backend/controllers/AnswerController";
-
+import { getQuestionVotesHandler, getAnswerVotesHandler, voteQuestionHandler, voteAnswerHandler } from "./backend/controllers/VoteController";
 export function makeServer({ environment = "development" } = {}) {
     let server = new Server({
       serializers: {
@@ -62,17 +62,13 @@ export function makeServer({ environment = "development" } = {}) {
        this.post("/answers/edit/:questionId/:answerId", editAnswerHandler.bind(this));
        this.delete("/answers/delete/:questionId/:answerId", deleteAnswerHandler.bind(this));
 
-       // votes routes (public)
-      //  this.get("/votes/:questionId", getQuestionVotesHandler.bind(this));
-      //  this.get("/votes/:questionId/:answerId", getAnswerVotesHandler.bind(this));
+      // votes routes (public)
+       this.get("/votes/:questionId", getQuestionVotesHandler.bind(this));
+       this.get("/votes/:questionId/:answerId", getAnswerVotesHandler.bind(this));
 
-      //  // votes routes (private)
-      //  this.post("/votes/upvote/:questionId", upvoteQuestionHandler.bind(this));
-      //  this.post("/votes/downvote/:questionId", downvoteQuestionHandler.bind(this));
-      //  this.post("/votes/unvote/:questionId", unvoteQuestionHandler.bind(this));
-      //  this.post("/votes/upvote/:questionId/:answerId", upvoteAnswerHandler.bind(this));
-      //  this.post("/votes/downvote/:questionId/:answerId", downvoteAnswerHandler.bind(this));
-      //  this.post("/votes/unvote/:questionId/:answerId", unvoteAnswerHandler.bind(this));
+       // votes routes (private)
+       this.post("/votes/vote/:questionId", voteQuestionHandler.bind(this));
+       this.post("/votes/vote/:questionId/:answerId", voteAnswerHandler.bind(this));
        
       //  // comments routes (public)
       //  this.get("/comments/:questionId", getQuestionCommentsHandler.bind(this));
