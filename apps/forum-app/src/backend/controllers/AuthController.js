@@ -15,9 +15,7 @@ const jwt = require("jsonwebtoken");
  * */
 
 export const signupHandler = function (schema, request) {
-  const { username, password, ...rest } = JSON.parse(
-    request.requestBody
-  );
+  const { username, password, ...rest } = JSON.parse(request.requestBody);
   try {
     // check if username already exists
     const foundUser = schema.users.findBy({ username: username });
@@ -37,7 +35,7 @@ export const signupHandler = function (schema, request) {
       ...initialUserData,
       _id: uuid(),
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
     const createdUser = schema.users.create(newUser);
     const encodedToken = jwt.sign(
@@ -70,14 +68,29 @@ export const loginHandler = function (schema, request) {
       process.env.REACT_APP_JWT_SECRET
     );
     const foundUser = schema.users.findBy({ username: username });
-    if(!foundUser) {
-      return new Response(404, {}, { errors: ["The username you entered is not Registered. Not Found error"] });
+    if (!foundUser) {
+      return new Response(
+        404,
+        {},
+        {
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
+        }
+      );
     }
-      if (foundUser.password === password) {
-        return new Response(200, {}, { foundUser, encodedToken });
+    if (foundUser.password === password) {
+      return new Response(200, {}, { foundUser, encodedToken });
+    }
+    new Response(
+      401,
+      {},
+      {
+        errors: [
+          "The credentials you entered are invalid. Unauthorized access error.",
+        ],
       }
-      new Response(401, {}, { errors: [ 'The credentials you entered are invalid. Unauthorized access error.'] });
-    
+    );
   } catch (error) {
     return new Response(
       500,

@@ -11,7 +11,11 @@ export const requiresAuth = function (request) {
     const user = this.db.users.findBy({ username: decodedToken.username });
     return user;
   }
-  return new Response(401, {}, { errors: [ 'The token is invalid. Unauthorized access error.'] });
+  return new Response(
+    401,
+    {},
+    { errors: ["The token is invalid. Unauthorized access error."] }
+  );
 };
 
-export const initialUserData = {  };
+export const initialUserData = {};

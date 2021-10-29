@@ -122,6 +122,7 @@ The following Routes are Private Routes related to Posts.
 - **Functionality**: This API call edits a post of the user.
 
 ## Like/Dislike Post Routes
+
 The following Routes are Private Routes related to Liking and Disliking Posts.
 
 ### 1. POST `/api/posts/like/:postId`
@@ -161,6 +162,7 @@ The following Routes are Private Routes related to Liking and Disliking Posts.
 - **Functionality**: This API call dislikes/unlikes a liked post of the user.
 
 ## Bookmark Routes
+
 The following Routes are Private Routes related to Bookmarking Posts of User.
 
 ### 1. POST `/api/users/bookmark/:postId`
@@ -200,6 +202,7 @@ The following Routes are Private Routes related to Bookmarking Posts of User.
 - **Functionality**: This API call removes a post from user bookmarks.
 
 ## Follow/Unfollow Routes
+
 The following Routes are Private Routes related to Follow/Unfollow action of User.
 
 ### 1. POST `/api/users/follow/:followUserId`
@@ -241,6 +244,7 @@ The following Routes are Private Routes related to Follow/Unfollow action of Use
 - **Functionality**: This API call is responsible for unfollow action by the user.
 
 ## User Routes
+
 The following Routes are Public Routes related to User.
 
 ### 1. GET `/api/users`
@@ -268,7 +272,7 @@ The following Routes are Public Routes related to User.
   ```js
   {
     data: {
-      user: Object
+      user: Object;
     }
   }
   ```
@@ -286,15 +290,16 @@ The following Routes are Private Routes related to User.
 
   ```js
   {
-    userData
+    userData;
   }
   ```
+
 - **Response Body**:
 
   ```js
   {
     data: {
-      user: Object
+      user: Object;
     }
   }
   ```

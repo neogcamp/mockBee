@@ -245,7 +245,7 @@ function App() {
     try {
       const response = await axios.post(
         `/api/users/edit`,
-        {userData},
+        { userData },
         {
           headers: {
             authorization: encodedToken,
@@ -256,7 +256,7 @@ function App() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const handleUserPosts = async (username) => {
     try {
@@ -272,8 +272,8 @@ function App() {
       setUserPosts(response.data.posts);
     } catch (error) {
       console.log(error);
-    } 
-  }
+    }
+  };
 
   return (
     <div>
@@ -284,11 +284,17 @@ function App() {
       </button>
       <div>
         <ul>
-        <li>username: {currUser.username}</li>
-        <li>FirstName: {currUser.firstName}</li>
-        <li>LastName: {currUser.lastName}</li>
+          <li>username: {currUser.username}</li>
+          <li>FirstName: {currUser.firstName}</li>
+          <li>LastName: {currUser.lastName}</li>
         </ul>
-        <button onClick={() => handleEditUser({ firstName: "sodium", lastName:"lol" })}>Edit details</button>
+        <button
+          onClick={() =>
+            handleEditUser({ firstName: "sodium", lastName: "lol" })
+          }
+        >
+          Edit details
+        </button>
         Bookmarks:{" "}
         <ul>
           {currUser.bookmarks &&
@@ -303,10 +309,10 @@ function App() {
         </ul>
         <div>
           My posts
-          <button onClick={() => handleUserPosts(currUser.username)}>See my posts</button>
-          <ul>
-
-          </ul>
+          <button onClick={() => handleUserPosts(currUser.username)}>
+            See my posts
+          </button>
+          <ul></ul>
         </div>
       </div>
       {posts.map((item) => (
@@ -341,7 +347,9 @@ function App() {
             {item.username}{" "}
             <button onClick={() => fetchUserDetails(item._id)}>See User</button>
             <button onClick={() => handleFollowUser(item._id)}>Follow</button>
-            <button onClick={() => handleUnFollowUser(item._id)}>Unfollow</button>
+            <button onClick={() => handleUnFollowUser(item._id)}>
+              Unfollow
+            </button>
           </li>
         ))}
       </ul>

@@ -10,12 +10,12 @@ import { requiresAuth } from "../utils/authUtils";
  * send GET Request at /api/users
  * */
 
- export const getAllUsersHandler = function () {
-    return new Response(200, {}, { users: this.db.users });
+export const getAllUsersHandler = function () {
+  return new Response(200, {}, { users: this.db.users });
 };
 
 export const getUserHandler = function (schema, request) {
-    const userId = request.params.userId;
+  const userId = request.params.userId;
   try {
     const user = this.db.users.findBy({ _id: userId });
     return new Response(200, {}, { user });
@@ -36,29 +36,31 @@ export const getUserHandler = function (schema, request) {
  * body contains { userData }
  * */
 
- export const editUserHandler = function (schema, request) {
+export const editUserHandler = function (schema, request) {
   let user = requiresAuth.call(this, request);
-try {
-  if (!user) {
+  try {
+    if (!user) {
+      return new Response(
+        404,
+        {},
+        {
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
+        }
+      );
+    }
+    const { userData } = JSON.parse(request.requestBody);
+    user = { ...user, ...userData };
+    this.db.users.update({ _id: user._id }, user);
+    return new Response(201, {}, { user });
+  } catch (error) {
     return new Response(
-      404,
+      500,
       {},
       {
-        errors: ["The username you entered is not Registered. Not Found error"],
+        error,
       }
     );
   }
-  const { userData } = JSON.parse(request.requestBody);
-  user = {...user, ...userData}
-  this.db.users.update({_id: user._id}, user)
-  return new Response(201, {}, { user });
-} catch (error) {
-  return new Response(
-    500,
-    {},
-    {
-      error,
-    }
-  );
-}
 };

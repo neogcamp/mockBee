@@ -20,7 +20,10 @@ import {
   getAllProductsHandler,
   getProductHandler,
 } from "./backend/controllers/ProductController";
-import { getAllCategoriesHandler, getCategoryHandler } from "./backend/controllers/CategoryController";
+import {
+  getAllCategoriesHandler,
+  getCategoryHandler,
+} from "./backend/controllers/CategoryController";
 import { categories } from "./backend/db/categories";
 
 export function makeServer({ environment = "development" } = {}) {
@@ -35,7 +38,7 @@ export function makeServer({ environment = "development" } = {}) {
       wishList: Model,
       cart: Model,
       user: Model,
-      category: Model
+      category: Model,
     },
 
     // Runs on the start of the server
@@ -48,8 +51,7 @@ export function makeServer({ environment = "development" } = {}) {
         server.create("user", { ...item, cart: [], wishList: [] })
       );
 
-      categories.forEach((item) =>
-      server.create("category", { ...item}));
+      categories.forEach((item) => server.create("category", { ...item }));
     },
 
     routes() {
@@ -69,13 +71,19 @@ export function makeServer({ environment = "development" } = {}) {
       // cart routes (private)
       this.get("/user/cart", getCartItemsHandler.bind(this));
       this.post("/user/cart", addItemToCartHandler.bind(this));
-      this.delete("/user/cart/:productId", removeItemFromCartHandler.bind(this));
+      this.delete(
+        "/user/cart/:productId",
+        removeItemFromCartHandler.bind(this)
+      );
       this.post("/user/cart/:productId", updateCartItemHandler.bind(this));
 
       // wishlist routes (private)
       this.get("/user/wishlist", getWishListItemsHandler.bind(this));
       this.post("/user/wishlist", addItemToWishListHandler.bind(this));
-      this.delete("/user/wishlist/:productId", removeItemFromWishListHandler.bind(this));
+      this.delete(
+        "/user/wishlist/:productId",
+        removeItemFromWishListHandler.bind(this)
+      );
     },
   });
   return server;
