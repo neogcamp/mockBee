@@ -121,6 +121,10 @@ The following Routes are Private Routes related to Posts.
 
 - **Functionality**: This API call edits a post of the user.
 
+## Auth Routes
+
+You can refer documentation related to Authentication [here](/docs/api/general/auth)
+
 ## Like/Dislike Post Routes
 The following Routes are Private Routes related to Liking and Disliking Posts.
 
