@@ -28,18 +28,19 @@ export const signupHandler = function (schema, request) {
         }
       );
     }
+    const _id = uuid();
     const newUser = {
       username,
       password,
       ...rest,
       ...initialUserData,
-      _id: uuid(),
+      _id,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
     const createdUser = schema.users.create(newUser);
     const encodedToken = jwt.sign(
-      { username, password },
+      { _id, username },
       process.env.REACT_APP_JWT_SECRET
     );
     return new Response(201, {}, { createdUser, encodedToken });
@@ -63,10 +64,6 @@ export const signupHandler = function (schema, request) {
 export const loginHandler = function (schema, request) {
   const { username, password } = JSON.parse(request.requestBody);
   try {
-    const encodedToken = jwt.sign(
-      { username, password },
-      process.env.REACT_APP_JWT_SECRET
-    );
     const foundUser = schema.users.findBy({ username: username });
     if (!foundUser) {
       return new Response(
@@ -80,6 +77,10 @@ export const loginHandler = function (schema, request) {
       );
     }
     if (foundUser.password === password) {
+      const encodedToken = jwt.sign(
+        { _id: foundUser._id, username },
+        process.env.REACT_APP_JWT_SECRET
+      );
       return new Response(200, {}, { foundUser, encodedToken });
     }
     new Response(
