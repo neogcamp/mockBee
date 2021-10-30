@@ -1,7 +1,13 @@
 {
   "name": "create-mock-backend",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "This is npx starter package for installing your favourite backend template for mockBee.",
+  "keywords": [
+    "miragejs",
+    "mock-server",
+    "npx",
+    "fake-api"
+  ],
   "main": "dist/main.js",
   "bin": "bin.js",
   "scripts": {
@@ -24,7 +30,7 @@
     "url": "git+https://github.com/neogcamp/mockBee.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/neogcamp/mockBee/issues"
   },
