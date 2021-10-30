@@ -10,18 +10,26 @@ const FEATURED_TEMPLATES = [
   {
     name: "e-commerce",
     path: "mockBee/apps/e-commerce",
-    description:
-      "E-Commerce Backend. This is the default starter template (recommended)",
   },
   {
     name: "video-library",
     path: "mockBee/apps/video-library",
-    description: "Video Library Backend.",
   },
   {
     name: "social-media",
     path: "mockBee/apps/social-media",
-    description: "Social Media Backend.",
+  },
+  {
+    name: "forum-app",
+    path: "mockBee/apps/forum-app",
+  },
+  {
+    name: "notes-app",
+    path: "mockBee/apps/notes-app",
+  },
+  {
+    name: "vanilla-mockbee-starter",
+    path: "mockBee/apps/vanilla-mockbee-starter",
   },
 ];
 
