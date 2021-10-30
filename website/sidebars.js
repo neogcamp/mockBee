@@ -1,44 +1,48 @@
 module.exports = {
   docs: [
-    'introduction',
+    "introduction",
     {
-      type: 'category',
-      label: 'Getting Started',
+      type: "category",
+      label: "Getting Started",
       items: [
-        'installation',
-        'project-structure',
-        'configuration',
-        'getting-app-running'
-      ]
+        "installation",
+        "project-structure",
+        "configuration",
+        "getting-app-running",
+      ],
     },
     {
-      type: 'category',
-      label: 'Guides',
+      type: "category",
+      label: "Guides",
       items: [
-        'why-miragejs-mock-backend',
-        'how-it-works',
-        'customization',
-        'available-apis',
-        'playground'
-      ]
+        "why-miragejs-mock-backend",
+        "how-it-works",
+        "customization",
+        "available-apis",
+        "playground",
+      ],
     },
     {
-      type: 'category',
-      label: 'Advanced Guides',
-      items: ['main-concepts', 'custom-apis', 'resources']
-    }
+      type: "category",
+      label: "Advanced Guides",
+      items: ["main-concepts", "custom-apis", "resources"],
+    },
   ],
   api: [
-    'api/introduction',
+    "api/introduction",
     {
-      type: 'category',
-      label: 'General',
-      items: ['api/general/auth']
+      type: "category",
+      label: "General",
+      items: ["api/general/auth"],
     },
     {
-      type: 'category',
-      label: 'Apps',
-      items: ['api/apps/e-commerce', 'api/apps/video-library']
-    }
-  ]
-}
+      type: "category",
+      label: "Apps",
+      items: [
+        "api/apps/e-commerce",
+        "api/apps/video-library",
+        "api/apps/social-media",
+      ],
+    },
+  ],
+};
