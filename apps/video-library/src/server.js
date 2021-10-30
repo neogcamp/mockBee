@@ -115,8 +115,6 @@ export function makeServer({ environment = "development" } = {}) {
         removeVideoFromHistoryHandler.bind(this)
       );
       this.delete("/user/history/all", clearHistoryHandler.bind(this));
-
-      // TODO: Recommendations routes (private)
     },
   });
   return server;
