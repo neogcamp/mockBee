@@ -1,4 +1,9 @@
-<h1 align="center"><b>mockBEE 🐝 </b></h1>
+<p align="center">
+  <a href="https://mockbee.netlify.app/" rel="noopener" target="_blank"><img src="https://user-images.githubusercontent.com/47717492/139522047-d7c1be05-8c59-4d28-8c9e-76f94dfad25e.png" width="120" height="120" align="center"/></a>
+
+</p>
+
+<h1 align="center"><b>mockBEE</b></h1>
 
 <p align="center">
 <a href="https://github.com/neogcamp/mockBee/blob/main/LICENSE" target="blank">
