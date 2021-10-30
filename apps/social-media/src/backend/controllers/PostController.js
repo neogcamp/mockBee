@@ -40,7 +40,6 @@ export const getAllUserPostsHandler = function (schema, request) {
   const username = request.params.username;
   try {
     const posts = this.db.posts.findBy({ username: username });
-    console.log(posts);
     return new Response(200, {}, { posts });
   } catch (error) {
     return new Response(

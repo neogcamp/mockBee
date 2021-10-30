@@ -157,7 +157,6 @@ export const editQuestionHandler = function (schema, request) {
 
 export const deleteQuestionHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
-  console.log(user.username);
   try {
     if (!user) {
       return new Response(
@@ -172,7 +171,6 @@ export const deleteQuestionHandler = function (schema, request) {
     }
     const questionId = request.params.questionId;
     const question = this.db.questions.findBy({ _id: questionId });
-    console.log(question);
     if (question.username !== user.username) {
       return new Response(
         400,
