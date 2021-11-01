@@ -235,7 +235,10 @@ const init = async () => {
   Log.info("To build the app, run");
   Log.info(chalk.blue("yarn build"));
   Log.info("");
-  Log.info("Read the documentation at", chalk.underline("https://neog.camp"));
+  Log.info(
+    "Read the documentation at",
+    chalk.underline("https://mockbee.netlify.app/")
+  );
   Log.info(chalk.green("Enjoy building beautiful Frontend!"));
 };
 

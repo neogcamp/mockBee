@@ -32,7 +32,6 @@ export function makeServer({ environment = "development" } = {}) {
       application: RestSerializer,
     },
     environment,
-    // TODO: Use Relationships to have named relational Data
     models: {
       product: Model,
       wishList: Model,
