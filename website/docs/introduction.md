@@ -21,6 +21,8 @@
 
 - [E-Commerce](api/apps/e-commerce)
 - [Video Library](api/apps/video-library)
+- [Social Media](api/apps/social-media)
+- [Notes App](api/apps/notes-app)
 
 ## Quick Links
 
@@ -28,9 +30,3 @@
 - [Guides](why-miragejs-mock-backend)
 - [API Documentation](api/introduction)
 - [Advance Guides](main-concepts)
-
-## Contact us
-
-- Github
-- Twitter
-- Discord

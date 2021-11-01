@@ -60,6 +60,16 @@ You must have observed that this contains books database as our products. A typi
 
 Also note the `_id: uuid()`. This line of code generates a Unique ID for each item, which can be later used to DB Operations. It is compulsory to have `_id` key in the database items.
 
+### Setting up JWT Secret for Authentication
+
+For Authentication, **mockBee** provides JWT authentication strategy out of the box. The JWT requires a `JWT_SECRET` Key, which is essentially a secret stored on your hosted backend setup as an environment variable. Read more about JWT [here](api/general/auth). Since, we are working with `mock backend servers`; we need to give our `mock backend` access to the JWT secret key. So, for that go ahead and create a `.env` file in your root directory of the app and add the below code in it:
+
+```
+REACT_APP_JWT_SECRET=<your-jwt-secret>
+```
+
+Note that `REACT_APP_` prefix is important for our frontend to identify the variables in our development setup. Read more about adding custom environment variables [here](https://create-react-app.dev/docs/adding-custom-environment-variables/).
+
 ### Adding Custom Data
 
 What if you want to build your own T-Shirt Shop?
