@@ -42,6 +42,7 @@ module.exports = {
         "api/apps/e-commerce",
         "api/apps/video-library",
         "api/apps/social-media",
+        "api/apps/notes-app",
       ],
     },
   ],
