@@ -1,6 +1,6 @@
 {
   "name": "create-mock-backend",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "This is npx starter package for installing your favourite backend template for mockBee.",
   "keywords": [
     "miragejs",
