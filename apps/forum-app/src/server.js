@@ -11,14 +11,6 @@ import { Server, Model, RestSerializer } from "miragejs";
 import { users } from "./backend/db/users";
 import { questions } from "./backend/db/questions";
 import {
-  getAllQuestionsHandler,
-  getQuestionHandler,
-  getAllUserQuestionsHandler,
-  addQuestionHandler,
-  deleteQuestionHandler,
-  editQuestionHandler,
-} from "./backend/controllers/QuestionController";
-import {
   getAllAnswersHandler,
   addAnswerHandler,
   editAnswerHandler,
@@ -40,6 +32,14 @@ import {
   editAnswerCommentHandler,
   deleteAnswerCommentHandler,
 } from "./backend/controllers/CommentController";
+import {
+  getAllQuestionsHandler,
+  getQuestionHandler,
+  getAllUserQuestionsHandler,
+  addQuestionHandler,
+  editQuestionHandler,
+  deleteQuestionHandler,
+} from "./backend/controllers/QuestionController";
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
     serializers: {

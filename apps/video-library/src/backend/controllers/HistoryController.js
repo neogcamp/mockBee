@@ -1,5 +1,5 @@
-import { Response } from 'miragejs'
-import { requiresAuth } from '../utils/authUtils'
+import { Response } from "miragejs";
+import { requiresAuth } from "../utils/authUtils";
 
 /**
  * All the routes related to User History are present here.
@@ -12,28 +12,28 @@ import { requiresAuth } from '../utils/authUtils'
  * send GET Request at /api/user/history
  * */
 export const getHistoryVideosHandler = function (schema, request) {
-  const user = requiresAuth.call(this, request)
+  const user = requiresAuth.call(this, request);
   try {
     if (!user) {
       new Response(
         404,
         {},
         {
-          errors: ['The email you entered is not Registered. Not Found error']
+          errors: ["The email you entered is not Registered. Not Found error"],
         }
-      )
+      );
     }
-    return new Response(200, {}, { history: user.history })
+    return new Response(200, {}, { history: user.history });
   } catch (error) {
     return new Response(
       500,
       {},
       {
-        error
+        error,
       }
-    )
+    );
   }
-}
+};
 
 /**
  * This handler handles adding videos to user's history.
@@ -42,30 +42,30 @@ export const getHistoryVideosHandler = function (schema, request) {
  * */
 
 export const addVideoToHistoryHandler = function (schema, request) {
-  const user = requiresAuth.call(this, request)
+  const user = requiresAuth.call(this, request);
   try {
     if (!user) {
       return new Response(
         404,
         {},
         {
-          errors: ['The email you entered is not Registered. Not Found error']
+          errors: ["The email you entered is not Registered. Not Found error"],
         }
-      )
+      );
     }
-    const { video } = JSON.parse(request.requestBody)
-    user.history.push(video)
-    return new Response(201, {}, { history: user.history })
+    const { video } = JSON.parse(request.requestBody);
+    user.history.push(video);
+    return new Response(201, {}, { history: user.history });
   } catch (error) {
     return new Response(
       500,
       {},
       {
-        error
+        error,
       }
-    )
+    );
   }
-}
+};
 
 /**
  * This handler handles removing videos from user's history.
@@ -73,31 +73,31 @@ export const addVideoToHistoryHandler = function (schema, request) {
  * */
 
 export const removeVideoFromHistoryHandler = function (schema, request) {
-  const user = requiresAuth.call(this, request)
+  const user = requiresAuth.call(this, request);
   try {
     if (!user) {
       return new Response(
         404,
         {},
         {
-          errors: ['The email you entered is not Registered. Not Found error']
+          errors: ["The email you entered is not Registered. Not Found error"],
         }
-      )
+      );
     }
-    const videoId = request.params.videoId
-    const filteredHistory = user.history.filter((item) => item._id !== videoId)
-    this.db.users.update({ history: filteredHistory })
-    return new Response(200, {}, { history: filteredHistory })
+    const videoId = request.params.videoId;
+    const filteredHistory = user.history.filter((item) => item._id !== videoId);
+    this.db.users.update({ history: filteredHistory });
+    return new Response(200, {}, { history: filteredHistory });
   } catch (error) {
     return new Response(
       500,
       {},
       {
-        error
+        error,
       }
-    )
+    );
   }
-}
+};
 
 /**
  * This handler handles removing videos from user's history.
@@ -105,26 +105,26 @@ export const removeVideoFromHistoryHandler = function (schema, request) {
  * */
 
 export const clearHistoryHandler = function (schema, request) {
-  const user = requiresAuth.call(this, request)
+  const user = requiresAuth.call(this, request);
   try {
     if (!user) {
       return new Response(
         404,
         {},
         {
-          errors: ['The email you entered is not Registered. Not Found error']
+          errors: ["The email you entered is not Registered. Not Found error"],
         }
-      )
+      );
     }
-    this.db.users.update({ history: [] })
-    return new Response(200, {}, { history: [] })
+    this.db.users.update({ history: [] });
+    return new Response(200, {}, { history: [] });
   } catch (error) {
     return new Response(
       500,
       {},
       {
-        error
+        error,
       }
-    )
+    );
   }
-}
+};

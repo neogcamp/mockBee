@@ -53,8 +53,47 @@ export const getAnswerCommentsHandler = function (schema, request) {
 
 /**
  * This handler handles adding a comment to a particular question in the db.
- * send POST Request at /api/comments/add/:questionId/
+ * send POST Request at /api/comments/add/:questionId
  * */
+
+export const addQuestionCommentHandler = function (schema, request) {
+  const user = requiresAuth.call(this, request);
+  try {
+    if (!user) {
+      return new Response(
+        404,
+        {},
+        {
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
+        }
+      );
+    }
+    const { questionId } = request.params;
+    const { commentData } = JSON.parse(request.requestBody);
+    const comment = {
+      _id: uuid(),
+      ...commentData,
+      username: user.username,
+      createdAt: new Date().toDateString(),
+      updatedAt: new Date().toDateString(),
+    };
+    const question = this.db.questions.findBy({ _id: questionId });
+    question.comments.push(comment);
+    this.db.questions.update({ _id: questionId }, question);
+    return new Response(201, {}, { questions: this.db.questions });
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
+  }
+};
+
 /**
  * This handler handles editing a comment to a particular question in the db.
  * send POST Request at /api/comments/add/:questionId/:commentId
@@ -156,8 +195,8 @@ export const deleteQuestionCommentHandler = function (schema, request) {
 };
 
 /**
- * This handler handles adding a comment to a particular question in the db.
- * send POST Request at /api/comments/add/:questionId/
+ * This handler handles adding a comment to a particular answer in the db.
+ * send POST Request at /api/comments/add/:questionId/:answerId
  * */
 
 export const addAnswerCommentHandler = function (schema, request) {

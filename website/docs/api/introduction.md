@@ -47,4 +47,3 @@ Since these are Mock-APIs, they are amazing for **personal projects** or **produ
 - [Video Library](apps/video-library)
 - [Social Media](apps/social-media)
 - [Notes App](apps/notes-app)
-

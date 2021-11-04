@@ -1,4 +1,4 @@
-import { Response } from 'miragejs'
+import { Response } from "miragejs";
 
 /**
  * All the routes related to Videos are present here.
@@ -12,17 +12,17 @@ import { Response } from 'miragejs'
 
 export const getAllVideosHandler = function () {
   try {
-    return new Response(200, {}, { videos: this.db.videos })
+    return new Response(200, {}, { videos: this.db.videos });
   } catch (error) {
     return new Response(
       500,
       {},
       {
-        error
+        error,
       }
-    )
+    );
   }
-}
+};
 
 /**
  * This handler handles uploads a new video to the db.
@@ -37,17 +37,17 @@ export const getAllVideosHandler = function () {
  * */
 
 export const getVideoHandler = function (schema, request) {
-  const videoId = request.params.productId
+  const videoId = request.params.productId;
   try {
-    const video = this.db.videos.findBy({ _id: videoId })
-    return new Response(200, {}, { video })
+    const video = this.db.videos.findBy({ _id: videoId });
+    return new Response(200, {}, { video });
   } catch (error) {
     return new Response(
       500,
       {},
       {
-        error
+        error,
       }
-    )
+    );
   }
-}
+};

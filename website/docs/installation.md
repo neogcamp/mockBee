@@ -29,5 +29,3 @@ yarn start
 ```
 
 This should run your **react app** on `localhost:3000`!
-
-
