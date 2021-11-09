@@ -111,7 +111,7 @@ function assertValidName(folderName) {
   }
 }
 
-async function assertFolderEmptyAsync(projectRoot, folderName) {
+async function assertFolderEmptyAsync(projectRoot) {
   const conflicts = fs
     .readdirSync(projectRoot)
     .filter((file) => !/\.iml$/.test(file));
@@ -162,7 +162,7 @@ const resolveProjectRootAsync = async () => {
 
   await fs.ensureDir(projectRoot);
 
-  await assertFolderEmptyAsync(projectRoot, folderName);
+  await assertFolderEmptyAsync(projectRoot);
 
   return [projectRoot, folderName];
 };
@@ -181,7 +181,7 @@ const init = async () => {
       optionsPerPage: 20,
       choices: FEATURED_TEMPLATES.map((template) => {
         if (typeof template === "string") {
-          return prompts.separator(template);
+          return prompt.separator(template);
         } else {
           return {
             value: template.name,

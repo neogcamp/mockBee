@@ -1,6 +1,8 @@
+/*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
+
 const prompts = require("prompts");
 
-function prompt(questions, { nonInteractiveHelp, ...options } = {}) {
+function prompt(questions, { ...options } = {}) {
   questions = Array.isArray(questions) ? questions : [questions];
   return prompts(questions, {
     onCancel() {
