@@ -70,7 +70,7 @@ export const createTaskHandler = function (schema, request) {
   const projectId = request.params.projectId;
   const { task } = JSON.parse(request.requestBody);
   const project = user.projects.find((project) => project._id === projectId);
-  const newTask = { ...task, _id: uuid() };
+  const newTask = { ...task, projectId, _id: uuid() };
   project.tasks.push(newTask);
   this.db.users.update({ _id: user._id }, user);
   return new Response(200, {}, { tasks: project.tasks });

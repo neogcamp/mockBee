@@ -23,6 +23,12 @@ import {
   deleteLabelHandler,
   getLabelsHandler,
 } from "./backend/controllers/LabelController";
+import {
+  archiveTaskHandler,
+  deleteFromArchivesHandler,
+  getAllArchivedTasksHandler,
+  restoreFromArchivesHandler,
+} from "./backend/controllers/ArchiveController";
 
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
@@ -72,6 +78,18 @@ export function makeServer({ environment = "development" } = {}) {
       this.delete(
         "labels/:projectId/:labelName",
         deleteLabelHandler.bind(this)
+      );
+
+      // archive routes (private)
+      this.get("archives", getAllArchivedTasksHandler.bind(this));
+      this.post("archives/:projectId/:taskId", archiveTaskHandler.bind(this));
+      this.post(
+        "archives/restore/:taskId",
+        restoreFromArchivesHandler.bind(this)
+      );
+      this.delete(
+        "archives/delete/:taskId",
+        deleteFromArchivesHandler.bind(this)
       );
     },
   });

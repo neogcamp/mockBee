@@ -5,10 +5,12 @@ import axios from "axios";
 function App() {
   const [token, setToken] = useState("");
   const [projects, setProjects] = useState([]);
+  const [archives, setArchives] = useState([]);
   const encodedToken = localStorage.getItem("token");
   useEffect(() => {
     (async () => {
       token && (await handleFetchProjects());
+      token && (await handleFetchArchives());
     })();
   }, [token]);
 
@@ -20,6 +22,18 @@ function App() {
         },
       });
       setProjects(response.data.projects);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleFetchArchives = async () => {
+    try {
+      const response = await axios.get(`/api/archives`, {
+        headers: {
+          authorization: encodedToken,
+        },
+      });
+      setArchives(response.data.archives);
     } catch (error) {
       console.log(error);
     }
@@ -50,6 +64,24 @@ function App() {
         }
       );
       console.log(response.data.project);
+      await handleFetchProjects();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleArchiveTask = async (projectId, taskId) => {
+    try {
+      const response = await axios.post(
+        `/api/archives/${projectId}/${taskId}`,
+        {},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setArchives(response.data.archives);
+      await handleFetchArchives();
       await handleFetchProjects();
     } catch (error) {
       console.log(error);
@@ -147,6 +179,39 @@ function App() {
         }
       );
       setProjects(response.data.projects);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleRestoreFromArchives = async (taskId) => {
+    try {
+      const response = await axios.post(
+        `/api/archives/restore/${taskId}`,
+        {},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      setArchives(response.data.archives);
+      await handleFetchArchives();
+      await handleFetchProjects();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteFromArchives = async (taskId) => {
+    try {
+      const response = await axios.delete(`/api/archives/delete/${taskId}`, {
+        headers: {
+          authorization: encodedToken,
+        },
+      });
+      setArchives(response.data.archives);
+      await handleFetchArchives();
+      await handleFetchProjects();
     } catch (error) {
       console.log(error);
     }
@@ -264,6 +329,7 @@ function App() {
                 >
                   Create Task
                 </button>
+
                 {project.tasks &&
                   project.tasks.map((task, id) => (
                     <ul key={id}>
@@ -271,6 +337,11 @@ function App() {
                       <li>Task Description: {task.description}</li>
                       <li>Task Status: {task.status}</li>
                       <li>Task Priority: {task.priority}</li>
+                      <button
+                        onClick={() => handleArchiveTask(project._id, task._id)}
+                      >
+                        Archive Task
+                      </button>
                       <button
                         onClick={() =>
                           handleEditTask(project._id, task._id, {
@@ -300,6 +371,21 @@ function App() {
             </div>
           );
         })}
+      {console.log(archives)}
+      Archives
+      {archives.map((task, id) => {
+        return (
+          <div key={id}>
+            {task.title}{" "}
+            <button onClick={() => handleRestoreFromArchives(task._id)}>
+              Restore From Archives
+            </button>
+            <button onClick={() => handleDeleteFromArchives(task._id)}>
+              Delete From Archives
+            </button>
+          </div>
+        );
+      })}
     </div>
   );
 }

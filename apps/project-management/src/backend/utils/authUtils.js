@@ -18,4 +18,4 @@ export const requiresAuth = function (request) {
   );
 };
 
-export const initialUserData = { projects: [] };
+export const initialUserData = { projects: [], archives: [] };
