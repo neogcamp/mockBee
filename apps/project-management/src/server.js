@@ -64,11 +64,11 @@ export function makeServer({ environment = "development" } = {}) {
       this.get("tasks/:projectId/:taskId", getTaskHandler.bind(this));
       this.post("tasks/:projectId", createTaskHandler.bind(this));
       this.post("tasks/:projectId/:taskId", editTaskHandler.bind(this));
-      this.delete("tasks/:projectId/:taskId", deleteTaskHandler);
+      this.delete("tasks/:projectId/:taskId", deleteTaskHandler.bind(this));
 
       // label routes (private)
       this.get("labels/:projectId", getLabelsHandler.bind(this));
-      this.post("labels/:projectId", createLabelHandler.bind(this));
+      this.post("labels/:projectId/:labelName", createLabelHandler.bind(this));
       this.delete(
         "labels/:projectId/:labelName",
         deleteLabelHandler.bind(this)

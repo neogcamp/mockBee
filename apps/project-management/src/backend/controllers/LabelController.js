@@ -29,8 +29,7 @@ export const getLabelsHandler = function (schema, request) {
 
 /**
  * This handler handles creating user project labels.
- * send POST Request at /api/label/:projectId
- * body contains {label}
+ * send POST Request at /api/label/:projectId/:labelName
  * */
 
 export const createLabelHandler = function (schema, request) {
@@ -44,10 +43,9 @@ export const createLabelHandler = function (schema, request) {
       }
     );
   }
-  const projectId = request.params.projectId;
-  const { label } = JSON.parse(request.requestBody);
+  const { projectId, labelName } = request.params;
   const project = user.projects.find((project) => project._id === projectId);
-  project.labels.push(label);
+  project.labels.push(labelName);
   this.db.users.update({ _id: user._id }, user);
   return new Response(200, {}, { project });
 };

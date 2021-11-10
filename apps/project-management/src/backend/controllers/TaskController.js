@@ -93,7 +93,7 @@ export const editTaskHandler = function (schema, request) {
       }
     );
   }
-  const { projectId, taskId } = request.params.projectId;
+  const { projectId, taskId } = request.params;
   const { task } = JSON.parse(request.requestBody);
   const project = user.projects.find((project) => project._id === projectId);
   let taskIndex = project.tasks.findIndex((task) => task._id === taskId);
@@ -121,7 +121,7 @@ export const deleteTaskHandler = function (schema, request) {
       }
     );
   }
-  const { projectId, taskId } = request.params.projectId;
+  const { projectId, taskId } = request.params;
   const project = user.projects.find((project) => project._id === projectId);
   const filteredTasks = project.tasks.filter((task) => task._id !== taskId);
   project.tasks = filteredTasks;

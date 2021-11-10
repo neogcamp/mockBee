@@ -25,6 +25,53 @@ function App() {
     }
   };
 
+  const handleFetchLabels = async (projectId) => {
+    try {
+      const response = await axios.get(`/api/labels/${projectId}`, {
+        headers: {
+          authorization: encodedToken,
+        },
+      });
+      console.log(response.data.labels);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleCreateLabel = async (projectId, labelName) => {
+    try {
+      const response = await axios.post(
+        `/api/labels/${projectId}/${labelName}`,
+        {},
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      console.log(response.data.project);
+      await handleFetchProjects();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleDeleteLabel = async (projectId, labelName) => {
+    try {
+      const response = await axios.delete(
+        `/api/labels/${projectId}/${labelName}`,
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      console.log(response.data.project);
+      await handleFetchProjects();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleCreateProject = async (project) => {
     try {
       const response = await axios.post(
@@ -37,6 +84,53 @@ function App() {
         }
       );
       setProjects(response.data.projects);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleCreateTask = async (projectId, task) => {
+    try {
+      const response = await axios.post(
+        `/api/tasks/${projectId}`,
+        { task },
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      console.log(response.data.tasks);
+      await handleFetchProjects();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleEditTask = async (projectId, taskId, task) => {
+    try {
+      const response = await axios.post(
+        `/api/tasks/${projectId}/${taskId}`,
+        { task },
+        {
+          headers: {
+            authorization: encodedToken,
+          },
+        }
+      );
+      console.log(response.data.tasks);
+      await handleFetchProjects();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleDeleteTask = async (projectId, taskId) => {
+    try {
+      const response = await axios.delete(`/api/tasks/${projectId}/${taskId}`, {
+        headers: {
+          authorization: encodedToken,
+        },
+      });
+      console.log(response.data.tasks);
+      await handleFetchProjects();
     } catch (error) {
       console.log(error);
     }
@@ -125,6 +219,23 @@ function App() {
               <ul>
                 <li>Title: {project.title}</li>
                 <li>Description: {project.description} </li>
+                {project.labels &&
+                  project.labels.map((label, id) => (
+                    <div key={id}>{label}</div>
+                  ))}
+                <button onClick={() => handleFetchLabels(project._id)}>
+                  Fetch Project Labels
+                </button>
+                <button
+                  onClick={() => handleCreateLabel(project._id, "New Label")}
+                >
+                  Create Project Label
+                </button>
+                <button
+                  onClick={() => handleDeleteLabel(project._id, "New Label")}
+                >
+                  Delete Project Label
+                </button>
                 <button
                   onClick={() =>
                     handleEditProject(
@@ -141,14 +252,40 @@ function App() {
                 <button onClick={() => handleDeleteProject(project._id)}>
                   Delete Project
                 </button>
-
+                <button
+                  onClick={() =>
+                    handleCreateTask(project._id, {
+                      title: "My Task",
+                      description: "LOL this is fun",
+                      status: "active",
+                      priority: "high",
+                    })
+                  }
+                >
+                  Create Task
+                </button>
                 {project.tasks &&
                   project.tasks.map((task, id) => (
                     <ul key={id}>
                       <li>Task Title: {task.title}</li>
-                      <li>Task Title: {task.description}</li>
+                      <li>Task Description: {task.description}</li>
                       <li>Task Status: {task.status}</li>
                       <li>Task Priority: {task.priority}</li>
+                      <button
+                        onClick={() =>
+                          handleEditTask(project._id, task._id, {
+                            status: "inactive",
+                            priority: "low",
+                          })
+                        }
+                      >
+                        Edit Task
+                      </button>
+                      <button
+                        onClick={() => handleDeleteTask(project._id, task._id)}
+                      >
+                        Delete Task
+                      </button>
                       <li>
                         {task.labels &&
                           task.labels.map((label, id) => (
