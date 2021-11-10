@@ -2,7 +2,7 @@ import { Response } from "miragejs";
 import { requiresAuth } from "../utils/authUtils";
 
 /**
- * All the routes related to Notes are present here.
+ * All the routes related to Archives are present here.
  *  These are Privately accessible routes.
  * */
 
