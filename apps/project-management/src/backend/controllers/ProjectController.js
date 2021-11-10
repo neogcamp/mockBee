@@ -98,7 +98,7 @@ export const editProjectHandler = function (schema, request) {
   const projectIndex = user.projects.findIndex(
     (project) => project._id === projectId
   );
-  user.projects[projectIndex] = project;
+  user.projects[projectIndex] = { ...user.projects[projectIndex], ...project };
   this.db.users.update({ _id: user._id }, user);
   return new Response(200, {}, { projects: user.projects });
 };

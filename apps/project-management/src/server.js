@@ -54,7 +54,7 @@ export function makeServer({ environment = "development" } = {}) {
 
       // project routes (private)
       this.get("projects", getProjectsHandler.bind(this));
-      this.post("projects/", createProjectHandler.bind(this));
+      this.post("projects", createProjectHandler.bind(this));
       this.get("projects/:projectId", getProjectHandler.bind(this));
       this.post("projects/:projectId", editProjectHandler.bind(this));
       this.delete("projects/:projectId", deleteProjectHandler.bind(this));
