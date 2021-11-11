@@ -8,7 +8,7 @@ import { requiresAuth } from "../utils/authUtils";
 
 /**
  * This handler handles getting user project labels.
- * send GET Request at /api/label/:projectId
+ * send GET Request at /api/labels/:projectId
  * */
 
 export const getLabelsHandler = function (schema, request) {
@@ -29,7 +29,7 @@ export const getLabelsHandler = function (schema, request) {
 
 /**
  * This handler handles creating user project labels.
- * send POST Request at /api/label/:projectId/:labelName
+ * send POST Request at /api/labels/:projectId/:labelName
  * */
 
 export const createLabelHandler = function (schema, request) {
@@ -52,7 +52,7 @@ export const createLabelHandler = function (schema, request) {
 
 /**
  * This handler handles deleting user project labels.
- * send DELETE Request at /api/label/:projectId/:labelName
+ * send DELETE Request at /api/labels/:projectId/:labelName
  * */
 
 export const deleteLabelHandler = function (schema, request) {

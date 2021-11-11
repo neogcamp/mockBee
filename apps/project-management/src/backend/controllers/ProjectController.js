@@ -66,10 +66,10 @@ export const createProjectHandler = function (schema, request) {
   }
   const { project } = JSON.parse(request.requestBody);
   const createdProject = {
-    ...project,
     _id: uuid(),
     tasks: [],
     labels: [],
+    ...project,
   };
   user.projects.push(createdProject);
   this.db.users.update({ _id: user._id }, user);

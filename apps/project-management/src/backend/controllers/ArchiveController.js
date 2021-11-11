@@ -65,9 +65,9 @@ export const restoreFromArchivesHandler = function (schema, request) {
     );
   }
   const { taskId } = request.params;
-  const restoredTask = user.archives.filter((note) => note._id === taskId)[0];
-  const filteredTasks = user.archives.filter((note) => note._id !== taskId);
-  user.archives = filteredTasks;
+  const restoredTask = user.archives.filter((task) => task._id === taskId)[0];
+  const filteredArchives = user.archives.filter((task) => task._id !== taskId);
+  user.archives = filteredArchives;
   const project = user.projects.find(
     (project) => project._id === restoredTask.projectId
   );
