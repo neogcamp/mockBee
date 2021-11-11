@@ -28,6 +28,10 @@ const FEATURED_TEMPLATES = [
     path: "mockBee/apps/notes-app",
   },
   {
+    name: "project-management",
+    path: "mockBee/apps/project-management",
+  },
+  {
     name: "vanilla-mockbee-starter",
     path: "mockBee/apps/vanilla-mockbee-starter",
   },
