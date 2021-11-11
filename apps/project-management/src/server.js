@@ -29,6 +29,7 @@ import {
   getAllArchivedTasksHandler,
   restoreFromArchivesHandler,
 } from "./backend/controllers/ArchiveController";
+import { initialUserData } from "./backend/utils/authUtils";
 
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
@@ -45,9 +46,7 @@ export function makeServer({ environment = "development" } = {}) {
       users.forEach((item) =>
         server.create("user", {
           ...item,
-          likes: [],
-          playlists: [],
-          history: [],
+          ...initialUserData,
         })
       );
     },

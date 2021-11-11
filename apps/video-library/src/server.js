@@ -33,6 +33,7 @@ import {
   removeVideoFromPlaylistHandler,
 } from "./backend/controllers/PlaylistController";
 import { users } from "./backend/db/users";
+import { initialUserData } from "./backend/utils/authUtils";
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
     serializers: {
@@ -58,9 +59,7 @@ export function makeServer({ environment = "development" } = {}) {
       users.forEach((item) =>
         server.create("user", {
           ...item,
-          likes: [],
-          playlists: [],
-          history: [],
+          ...initialUserData,
         })
       );
     },

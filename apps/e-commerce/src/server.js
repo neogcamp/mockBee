@@ -25,6 +25,7 @@ import {
   getCategoryHandler,
 } from "./backend/controllers/CategoryController";
 import { categories } from "./backend/db/categories";
+import { initialUserData } from "./backend/utils/authUtils";
 
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
@@ -47,7 +48,7 @@ export function makeServer({ environment = "development" } = {}) {
       });
 
       users.forEach((item) =>
-        server.create("user", { ...item, cart: [], wishList: [] })
+        server.create("user", { ...item, ...initialUserData })
       );
 
       categories.forEach((item) => server.create("category", { ...item }));
