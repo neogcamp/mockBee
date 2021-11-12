@@ -72,7 +72,7 @@ export const createHabitHandler = function (schema, request) {
   };
   user.habits.push(createdHabit);
   this.db.users.update({ _id: user._id }, user);
-  return new Response(200, {}, { projects: user.projects });
+  return new Response(200, {}, { habits: user.habits });
 };
 
 /**
