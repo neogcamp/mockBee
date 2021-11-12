@@ -7,11 +7,11 @@ import { requiresAuth } from "../utils/authUtils";
  * */
 
 /**
- * This handler handles gets all archived tasks in the db.
+ * This handler handles gets all archived habits in the db.
  * send GET Request at /api/archives
  * */
 
-export const getAllArchivedTasksHandler = function (schema, request) {
+export const getAllArchivedHabitsHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
     new Response(
@@ -27,7 +27,7 @@ export const getAllArchivedTasksHandler = function (schema, request) {
 
 /**
  * This handler handles delete an archived task in the db.
- * send DELETE Request at /api/archives/:taskId
+ * send DELETE Request at /api/archives/:habitId
  * */
 
 export const deleteFromArchivesHandler = function (schema, request) {
@@ -41,16 +41,18 @@ export const deleteFromArchivesHandler = function (schema, request) {
       }
     );
   }
-  const { taskId } = request.params;
-  const filteredArchives = user.archives.filter((task) => task._id !== taskId);
+  const { habitId } = request.params;
+  const filteredArchives = user.archives.filter(
+    (habit) => habit._id !== habitId
+  );
   user.archives = filteredArchives;
   this.db.users.update({ _id: user._id }, user);
   return new Response(200, {}, { archives: user.archives });
 };
 
 /**
- * This handler handles restoring the archived tasks to projects.
- * send POST Request at /api/archives/restore/:taskId
+ * This handler handles restoring the archived habits.
+ * send POST Request at /api/archives/restore/:habitId
  * */
 
 export const restoreFromArchivesHandler = function (schema, request) {
@@ -64,28 +66,29 @@ export const restoreFromArchivesHandler = function (schema, request) {
       }
     );
   }
-  const { taskId } = request.params;
-  const restoredTask = user.archives.filter((task) => task._id === taskId)[0];
-  const filteredArchives = user.archives.filter((task) => task._id !== taskId);
-  user.archives = filteredArchives;
-  const project = user.projects.find(
-    (project) => project._id === restoredTask.projectId
+  const { habitId } = request.params;
+  const restoredHabit = user.archives.filter(
+    (habit) => habit._id === habitId
+  )[0];
+  const filteredArchives = user.archives.filter(
+    (habit) => habit._id !== habitId
   );
-  project.tasks.push({ ...restoredTask });
+  user.archives = filteredArchives;
+  user.habits.push(restoredHabit);
   this.db.users.update({ _id: user._id }, user);
   return new Response(
     200,
     {},
-    { archives: user.archives, tasks: project.tasks }
+    { archives: user.archives, habits: user.habits }
   );
 };
 
 /**
  * This handler handles archiving a task
- * send POST Request at /api/archives/:taskId
+ * send POST Request at /api/archives/:habitId
  * */
 
-export const archiveTaskHandler = function (schema, request) {
+export const archiveHabitHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
@@ -97,18 +100,18 @@ export const archiveTaskHandler = function (schema, request) {
         }
       );
     }
-    const { projectId, taskId } = request.params;
-    const project = user.projects.find((project) => project._id === projectId);
-    console.log(project);
-    const archivedTask = project.tasks.filter((task) => task._id === taskId)[0];
-    const filteredTasks = project.tasks.filter((task) => task._id !== taskId);
-    project.tasks = filteredTasks;
-    user.archives.push({ ...archivedTask });
+    const { habitId } = request.params;
+    const archivedHabit = user.habits.filter(
+      (habit) => habit._id === habitId
+    )[0];
+    const filteredHabits = user.habits.filter((habit) => habit._id !== habitId);
+    user.habits = filteredHabits;
+    user.archives.push({ ...archivedHabit });
     this.db.users.update({ _id: user._id }, user);
     return new Response(
       201,
       {},
-      { archives: user.archives, tasks: project.tasks }
+      { archives: user.archives, habits: user.habits }
     );
   } catch (error) {
     return new Response(

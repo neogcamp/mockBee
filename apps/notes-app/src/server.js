@@ -28,13 +28,6 @@ export function makeServer({ environment = "development" } = {}) {
       notes: Model,
     },
 
-    // Runs on the start of the server
-    seeds(server) {
-      // users.forEach((item) =>
-      //   server.create("user", { ...item, cart: [], wishList: [] })
-      // );
-    },
-
     routes() {
       this.namespace = "api";
       // auth routes (public)
