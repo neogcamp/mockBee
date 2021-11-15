@@ -14,6 +14,11 @@ export const getAllUsersHandler = function () {
   return new Response(200, {}, { users: this.db.users });
 };
 
+/**
+ * This handler handles gets all users in the db.
+ * send GET Request at /api/users/:userId
+ * */
+
 export const getUserHandler = function (schema, request) {
   const userId = request.params.userId;
   try {

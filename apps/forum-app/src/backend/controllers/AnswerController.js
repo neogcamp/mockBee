@@ -30,6 +30,7 @@ export const getAllAnswersHandler = function (schema, request) {
 /**
  * This handler handles adding an answer for a particular question in the db.
  * send POST Request at /api/answers/add/:questionId
+ * body contains {answerData}
  * */
 
 export const addAnswerHandler = function (schema, request) {
@@ -62,7 +63,8 @@ export const addAnswerHandler = function (schema, request) {
       updatedAt: new Date().toDateString(),
     };
     question.answers.push(answer);
-    return new Response(201, {}, { questions: this.db.questions });
+    this.db.questions.update({ _id: questionId }, question);
+    return new Response(201, {}, { answers: question.answers });
   } catch (error) {
     return new Response(
       500,
@@ -77,6 +79,7 @@ export const addAnswerHandler = function (schema, request) {
 /**
  * This handler edits an answer of a question in the db.
  * send POST Request at /api/answers/edit/:questionId/:answerId
+ * body contains {answerData}
  * */
 
 export const editAnswerHandler = function (schema, request) {
@@ -113,7 +116,7 @@ export const editAnswerHandler = function (schema, request) {
       updatedAt: new Date().toDateString(),
     };
     this.db.questions.update({ _id: questionId }, question);
-    return new Response(201, {}, { questions: this.db.questions });
+    return new Response(201, {}, { answers: question.answers });
   } catch (error) {
     return new Response(
       500,
@@ -160,7 +163,8 @@ export const deleteAnswerHandler = function (schema, request) {
       );
     }
     question.answers.splice(answerIndex, 1);
-    return new Response(201, {}, { questions: this.db.questions });
+    this.db.questions.update({ _id: questionId }, question);
+    return new Response(201, {}, { answers: question.answers });
   } catch (error) {
     return new Response(
       500,

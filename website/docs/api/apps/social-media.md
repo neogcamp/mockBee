@@ -4,6 +4,79 @@ A **Social Media** is a web app that connects users and enables to share their c
 
 ---
 
+## Auth Routes
+
+In `Social Media App`, the authentication is done with `username` and `password` credential fields. 
+
+You can refer documentation related to Authentication [here](/docs/api/general/auth)
+
+---
+
+## User Routes
+
+The following Routes are Public Routes related to User.
+
+### 1. GET `/api/users`
+
+- **Request URL**: `/api/users`
+- **HTTP Method**: GET
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      users: Array;
+    }
+  }
+  ```
+
+- **Functionality**: This API call gets all users in the db.
+
+### 2. GET `/api/users/:userId`
+
+- **Request URL**: `/api/users/:userId`
+- **HTTP Method**: GET
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      user: Object;
+    }
+  }
+  ```
+
+- **Functionality**: This API call gets a user from the db.
+
+The following Routes are Private Routes related to User.
+
+### 3. POST `/api/users/edit`
+
+- **Request URL**: `/api/users/edit`
+- **HTTP Method**: POST
+- **Request Headers**: `authorization: encodedToken`
+- **Request Body**:
+
+  ```js
+  {
+    userData;
+  }
+  ```
+
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      user: Object;
+    }
+  }
+  ```
+
+- **Functionality**: This API call is responsible for editing details of the user.
+
+---
+
 ## Post Routes
 
 The following Routes are relating to Posts. These are Publicly accessible routes.
@@ -243,65 +316,3 @@ The following Routes are Private Routes related to Follow/Unfollow action of Use
 
 - **Functionality**: This API call is responsible for unfollow action by the user.
 
-## User Routes
-
-The following Routes are Public Routes related to User.
-
-### 1. GET `/api/users`
-
-- **Request URL**: `/api/users`
-- **HTTP Method**: GET
-- **Response Body**:
-
-  ```js
-  {
-    data: {
-      users: Array;
-    }
-  }
-  ```
-
-- **Functionality**: This API call gets all users in the db.
-
-### 2. GET `/api/users/:userId`
-
-- **Request URL**: `/api/users/:userId`
-- **HTTP Method**: GET
-- **Response Body**:
-
-  ```js
-  {
-    data: {
-      user: Object;
-    }
-  }
-  ```
-
-- **Functionality**: This API call gets a user from the db.
-
-The following Routes are Private Routes related to User.
-
-### 3. POST `/api/users/edit`
-
-- **Request URL**: `/api/users/edit`
-- **HTTP Method**: POST
-- **Request Headers**: `authorization: encodedToken`
-- **Request Body**:
-
-  ```js
-  {
-    userData;
-  }
-  ```
-
-- **Response Body**:
-
-  ```js
-  {
-    data: {
-      user: Object;
-    }
-  }
-  ```
-
-- **Functionality**: This API call is responsible for editing details of the user.
