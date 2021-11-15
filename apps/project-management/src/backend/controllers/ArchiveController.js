@@ -99,7 +99,6 @@ export const archiveTaskHandler = function (schema, request) {
     }
     const { projectId, taskId } = request.params;
     const project = user.projects.find((project) => project._id === projectId);
-    console.log(project);
     const archivedTask = project.tasks.filter((task) => task._id === taskId)[0];
     const filteredTasks = project.tasks.filter((task) => task._id !== taskId);
     project.tasks = filteredTasks;

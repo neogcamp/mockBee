@@ -224,7 +224,6 @@ export const unfollowUserHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   const { followUserId } = request.params;
   const followUser = this.db.users.findBy({ _id: followUserId });
-  console.log(user, followUser);
   try {
     if (!user) {
       return new Response(
