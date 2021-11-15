@@ -4,6 +4,14 @@
 
 ---
 
+## Auth Routes
+
+In `E-Commerce App`, the authentication is done with `email` and `password` credential fields.
+
+You can refer documentation related to Authentication [here](/docs/api/general/auth)
+
+---
+
 ## Products Routes
 
 The following Routes are relating to Products. These are Publicly accessible routes.
@@ -77,12 +85,6 @@ The following Routes are relating to Categories. These are Publicly accessible r
   ```
 
 - **Functionality**: This API call gets category by categoryId from the db.
-
----
-
-## Auth Routes
-
-You can refer documentation related to Authentication [here](/docs/api/general/auth)
 
 ---
 

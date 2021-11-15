@@ -4,6 +4,14 @@
 
 ---
 
+## Auth Routes
+
+In `Notes App`, the authentication is done with `email` and `password` credential fields.
+
+You can refer documentation related to Authentication [here](/docs/api/general/auth)
+
+---
+
 ## Notes Routes
 
 The following Routes are relating to Notes. These are Privately accessible routes.
@@ -87,10 +95,6 @@ The following Routes are relating to Notes. These are Privately accessible route
   ```
 
 - **Functionality**: This API deletes a note for the user in the db.
-
-## Auth Routes
-
-You can refer documentation related to Authentication [here](/docs/api/general/auth)
 
 ---
 

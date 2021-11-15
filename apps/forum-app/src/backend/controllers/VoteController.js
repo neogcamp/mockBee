@@ -53,6 +53,7 @@ export const getAnswerVotesHandler = function (schema, request) {
 /**
  * This handler handles reacting to a particular question in the db.
  * send POST Request at /api/votes/react/:questionId
+ * body contains {vote: {reaction: upvote | downvote | unvote }}
  * */
 
 export const voteQuestionHandler = function (schema, request) {
@@ -110,7 +111,8 @@ export const voteQuestionHandler = function (schema, request) {
           }
         );
     }
-    return new Response(201, {}, { questions: this.db.questions });
+    this.db.questions.update({ _id: questionId }, question);
+    return new Response(201, {}, { votes: question.votes });
   } catch (error) {
     return new Response(
       500,
@@ -183,7 +185,8 @@ export const voteAnswerHandler = function (schema, request) {
           }
         );
     }
-    return new Response(201, {}, { questions: this.db.questions });
+    this.db.questions.update({ _id: questionId }, question);
+    return new Response(201, {}, { votes: answer.votes });
   } catch (error) {
     return new Response(
       500,

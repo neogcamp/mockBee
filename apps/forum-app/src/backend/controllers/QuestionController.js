@@ -60,6 +60,7 @@ export const getAllUserQuestionsHandler = function (schema, request) {
 /**
  * This handler adds a new question in the db.
  * send POST Request at /api/questions/add
+ * body contains: {questionData}
  * */
 
 export const addQuestionHandler = function (schema, request) {
@@ -106,6 +107,7 @@ export const addQuestionHandler = function (schema, request) {
 /**
  * This handler edits a question in the db.
  * send POST Request at /api/questions/edit/:questionId
+ * body contains {questionData}
  * */
 
 export const editQuestionHandler = function (schema, request) {

@@ -82,7 +82,7 @@ export const addQuestionCommentHandler = function (schema, request) {
     const question = this.db.questions.findBy({ _id: questionId });
     question.comments.push(comment);
     this.db.questions.update({ _id: questionId }, question);
-    return new Response(201, {}, { questions: this.db.questions });
+    return new Response(201, {}, { comments: question.comments });
   } catch (error) {
     return new Response(
       500,
@@ -96,7 +96,7 @@ export const addQuestionCommentHandler = function (schema, request) {
 
 /**
  * This handler handles editing a comment to a particular question in the db.
- * send POST Request at /api/comments/add/:questionId/:commentId
+ * send POST Request at /api/comments/edit/:questionId/:commentId
  * */
 
 export const editQuestionCommentHandler = function (schema, request) {
@@ -132,7 +132,7 @@ export const editQuestionCommentHandler = function (schema, request) {
       updatedAt: new Date().toDateString(),
     };
     this.db.questions.update({ _id: questionId }, question);
-    return new Response(201, {}, { questions: this.db.questions });
+    return new Response(201, {}, { comments: question.comments });
   } catch (error) {
     return new Response(
       500,
@@ -182,7 +182,7 @@ export const deleteQuestionCommentHandler = function (schema, request) {
       (comment) => comment._id !== commentId
     );
     this.db.questions.update({ _id: questionId }, question);
-    return new Response(201, {}, { questions: this.db.questions });
+    return new Response(201, {}, { comments: question.comments });
   } catch (error) {
     return new Response(
       500,
@@ -226,7 +226,7 @@ export const addAnswerCommentHandler = function (schema, request) {
     const answer = question.answers.find((answer) => answer._id === answerId);
     answer.comments.push(comment);
     this.db.questions.update({ _id: questionId }, question);
-    return new Response(201, {}, { questions: this.db.questions });
+    return new Response(201, {}, { comments: answer.comments });
   } catch (error) {
     return new Response(
       500,
@@ -280,7 +280,7 @@ export const editAnswerCommentHandler = function (schema, request) {
       updatedAt: new Date().toDateString(),
     };
     this.db.questions.update({ _id: questionId }, question);
-    return new Response(201, {}, { questions: this.db.questions });
+    return new Response(201, {}, { comments: answer.comments });
   } catch (error) {
     return new Response(
       500,
@@ -331,7 +331,7 @@ export const deleteAnswerCommentHandler = function (schema, request) {
       (comment) => comment._id !== commentId
     );
     this.db.questions.update({ _id: questionId }, question);
-    return new Response(201, {}, { questions: this.db.questions });
+    return new Response(201, {}, { comments: answer.comments });
   } catch (error) {
     return new Response(
       500,

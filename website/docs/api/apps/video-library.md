@@ -4,6 +4,15 @@ A **Video Library** is a web app that consists of collection of Videos. Similar 
 
 ---
 
+
+## Auth Routes
+
+In `Video Library App`, the authentication is done with `email` and `password` credential fields.
+
+You can refer documentation related to Authentication [here](/docs/api/general/auth)
+
+---
+
 ## Video Routes
 
 The following Routes are relating to Videos. These are Publicly accessible routes.
