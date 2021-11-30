@@ -23,6 +23,9 @@
 - [Video Library](api/apps/video-library)
 - [Social Media](api/apps/social-media)
 - [Notes App](api/apps/notes-app)
+- [Forum App](api/apps/forum-app)
+- [Project Management](api/apps/project-management)
+- [Habit Tracker](api/apps/habit-tracker)
 
 ## Quick Links
 
