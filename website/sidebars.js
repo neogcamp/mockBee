@@ -45,6 +45,7 @@ module.exports = {
         "api/apps/notes-app",
         "api/apps/forum-app",
         "api/apps/project-management",
+        "api/apps/habit-tracker",
       ],
     },
   ],

@@ -271,7 +271,7 @@ The following Routes are relating to Labels. These are Privately accessible rout
 
 # Archives Routes
 
-The following Routes are relating to Labels. These are Privately accessible routes.
+The following Routes are relating to Archives. These are Privately accessible routes.
 
 ### 1. GET `/api/archives`
 
@@ -287,7 +287,7 @@ The following Routes are relating to Labels. These are Privately accessible rout
   }
   ```
 
-- **Functionality**: This API call gets all user's archives of a particular project from the db.
+- **Functionality**: This API call gets all user's archives from the db.
 
 ### 2. POST `/api/archives/:projectId/:taskId`
 
