@@ -13,8 +13,8 @@ import { requiresAuth } from "../utils/authUtils";
  * */
 
 export const getWishListItemsHandler = function (schema, request) {
-  const user = requiresAuth.call(this, request);
-  if (!user) {
+  const userId = requiresAuth.call(this, request);
+  if (!userId) {
     new Response(
       404,
       {},
@@ -23,7 +23,8 @@ export const getWishListItemsHandler = function (schema, request) {
       }
     );
   }
-  return new Response(200, {}, { wishList: user.wishList });
+  const userWishList = schema.users.findBy({ _id: userId }).wishList;
+  return new Response(200, {}, { wishList: userWishList });
 };
 
 /**
@@ -33,9 +34,9 @@ export const getWishListItemsHandler = function (schema, request) {
  * */
 
 export const addItemToWishListHandler = function (schema, request) {
-  const user = requiresAuth.call(this, request);
+  const userId = requiresAuth.call(this, request);
   try {
-    if (!user) {
+    if (!userId) {
       new Response(
         404,
         {},
@@ -44,10 +45,11 @@ export const addItemToWishListHandler = function (schema, request) {
         }
       );
     }
-
+    const userWishList = schema.users.findBy({ _id: userId }).wishList;
     const { product } = JSON.parse(request.requestBody);
-    user.wishList.push(product);
-    return new Response(201, {}, { wishList: user.wishList });
+    userWishList.push(product);
+    this.db.users.update({ _id: userId, wishList: userWishList });
+    return new Response(201, {}, { wishList: userWishList });
   } catch (error) {
     return new Response(
       500,
@@ -66,9 +68,9 @@ export const addItemToWishListHandler = function (schema, request) {
  * */
 
 export const removeItemFromWishListHandler = function (schema, request) {
-  const user = requiresAuth.call(this, request);
+  const userId = requiresAuth.call(this, request);
   try {
-    if (!user) {
+    if (!userId) {
       new Response(
         404,
         {},
@@ -77,13 +79,11 @@ export const removeItemFromWishListHandler = function (schema, request) {
         }
       );
     }
+    let userWishList = schema.users.findBy({ _id: userId }).wishList;
     const productId = request.params.productId;
-    const filteredWishList = user.wishList.filter(
-      (item) => item._id !== productId
-    );
-    this.db.users.update({ wishList: filteredWishList });
-
-    return new Response(200, {}, { wishList: filteredWishList });
+    userWishList = userWishList.filter((item) => item._id !== productId);
+    this.db.users.update({ _id: userId, wishList: userWishList });
+    return new Response(200, {}, { wishList: userWishList });
   } catch (error) {
     return new Response(
       500,

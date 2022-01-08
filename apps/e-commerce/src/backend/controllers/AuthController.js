@@ -33,7 +33,7 @@ export const signupHandler = function (schema, request) {
       password,
       ...rest,
       cart: [],
-      wishlist: [],
+      wishList: [],
       _id,
     };
     const createdUser = schema.users.create(newUser);
