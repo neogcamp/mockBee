@@ -47,6 +47,7 @@ export const addItemToCartHandler = function (schema, request) {
     const userCart = schema.users.findBy({ _id: userId }).cart;
     const { product } = JSON.parse(request.requestBody);
     userCart.push({ ...product, qty: 1 });
+    this.db.users.update({ _id: userId }, { cart: userCart });
     return new Response(201, {}, { cart: userCart });
   } catch (error) {
     return new Response(
@@ -76,11 +77,11 @@ export const removeItemFromCartHandler = function (schema, request) {
         }
       );
     }
-    const user = schema.users.findBy({ _id: userId });
+    let userCart = schema.users.findBy({ _id: userId }).cart;
     const productId = request.params.productId;
-    const filteredCart = user.cart.filter((item) => item._id !== productId);
-    user.cart = filteredCart;
-    return new Response(200, {}, { cart: user.cart });
+    userCart = userCart.filter((item) => item._id !== productId);
+    this.db.users.update({ _id: userId }, { cart: userCart });
+    return new Response(200, {}, { cart: userCart });
   } catch (error) {
     return new Response(
       500,
@@ -126,6 +127,7 @@ export const updateCartItemHandler = function (schema, request) {
         }
       });
     }
+    this.db.users.update({ _id: userId }, { cart: userCart });
     return new Response(200, {}, { cart: userCart });
   } catch (error) {
     return new Response(
