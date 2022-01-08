@@ -7,14 +7,15 @@
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
     "axios": "^0.21.4",
+    "dayjs": "^1.10.7",
     "jsonwebtoken": "^8.5.1",
+    "miragejs": "^0.1.41",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^4.0.3",
     "uuid": "^8.3.2",
     "web-vitals": "^0.2.4",
-    "yarn": "^1.22.10",
-    "miragejs": "^0.1.41"
+    "yarn": "^1.22.10"
   },
   "scripts": {
     "start": "react-scripts start",

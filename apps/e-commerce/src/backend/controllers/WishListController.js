@@ -1,5 +1,5 @@
 import { Response } from "miragejs";
-import { requiresAuth } from "../utils/authUtils";
+import { formatDate, requiresAuth } from "../utils/authUtils";
 
 /**
  * All the routes related to Wishlist are present here.
@@ -23,8 +23,8 @@ export const getWishListItemsHandler = function (schema, request) {
       }
     );
   }
-  const userWishList = schema.users.findBy({ _id: userId }).wishList;
-  return new Response(200, {}, { wishList: userWishList });
+  const userWishList = schema.users.findBy({ _id: userId }).wishlist;
+  return new Response(200, {}, { wishlist: userWishList });
 };
 
 /**
@@ -45,11 +45,15 @@ export const addItemToWishListHandler = function (schema, request) {
         }
       );
     }
-    const userWishList = schema.users.findBy({ _id: userId }).wishList;
+    const userWishList = schema.users.findBy({ _id: userId }).wishlist;
     const { product } = JSON.parse(request.requestBody);
-    userWishList.push(product);
-    this.db.users.update({ _id: userId }, { wishList: userWishList });
-    return new Response(201, {}, { wishList: userWishList });
+    userWishList.push({
+      ...product,
+      createdAt: formatDate(),
+      updatedAt: formatDate(),
+    });
+    this.db.users.update({ _id: userId }, { wishlist: userWishList });
+    return new Response(201, {}, { wishlist: userWishList });
   } catch (error) {
     return new Response(
       500,
@@ -79,11 +83,11 @@ export const removeItemFromWishListHandler = function (schema, request) {
         }
       );
     }
-    let userWishList = schema.users.findBy({ _id: userId }).wishList;
+    let userWishList = schema.users.findBy({ _id: userId }).wishlist;
     const productId = request.params.productId;
     userWishList = userWishList.filter((item) => item._id !== productId);
-    this.db.users.update({ _id: userId }, { wishList: userWishList });
-    return new Response(200, {}, { wishList: userWishList });
+    this.db.users.update({ _id: userId }, { wishlist: userWishList });
+    return new Response(200, {}, { wishlist: userWishList });
   } catch (error) {
     return new Response(
       500,

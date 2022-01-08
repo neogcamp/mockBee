@@ -1,5 +1,5 @@
 import { Response } from "miragejs";
-import { requiresAuth } from "../utils/authUtils";
+import { formatDate, requiresAuth } from "../utils/authUtils";
 
 /**
  * All the routes related to Cart are present here.
@@ -46,7 +46,12 @@ export const addItemToCartHandler = function (schema, request) {
     }
     const userCart = schema.users.findBy({ _id: userId }).cart;
     const { product } = JSON.parse(request.requestBody);
-    userCart.push({ ...product, qty: 1 });
+    userCart.push({
+      ...product,
+      createdAt: formatDate(),
+      updatedAt: formatDate(),
+      qty: 1,
+    });
     this.db.users.update({ _id: userId }, { cart: userCart });
     return new Response(201, {}, { cart: userCart });
   } catch (error) {
@@ -118,6 +123,7 @@ export const updateCartItemHandler = function (schema, request) {
       userCart.forEach((product) => {
         if (product._id === productId) {
           product.qty += 1;
+          product.updatedAt = formatDate();
         }
       });
     } else if (action.type === "decrement") {
