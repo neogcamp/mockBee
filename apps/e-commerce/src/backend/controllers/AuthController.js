@@ -36,6 +36,7 @@ export const signupHandler = function (schema, request) {
       email,
       password: encryptedPassword,
       createdAt: formatDate(),
+      updatedAt: formatDate(),
       ...rest,
       ...initialUserData,
     };
@@ -51,7 +52,6 @@ export const signupHandler = function (schema, request) {
       {},
       {
         error,
-        errorMessage: "Unexpected error occured",
       }
     );
   }
