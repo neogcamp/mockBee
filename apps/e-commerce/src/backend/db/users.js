@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-
+import bcyrpt from "bcryptjs";
 /**
  * User Database can be added here.
  * You can add default users of your wish with different attributes
@@ -12,20 +12,20 @@ export const users = [
     firstName: "Adarsh",
     lastName: "Balika",
     email: "adarshbalika@gmail.com",
-    password: "adarshBalika123",
+    password: bcyrpt.hashSync("adarshBalika123", 5),
   },
   {
     _id: uuid(),
     firstName: "Dhruvi",
     lastName: "Shah",
     email: "dhruvishah@gmail.com",
-    password: "dhruviShah123",
+    password: bcyrpt.hashSync("dhruviShah123", 5),
   },
   {
     _id: uuid(),
     firstName: "Shubham",
     lastName: "Soni",
     email: "shubhamsoni@gmail.com",
-    password: "shubhamSoni123",
+    password: bcyrpt.hashSync("shubhamSoni123", 5),
   },
 ];
