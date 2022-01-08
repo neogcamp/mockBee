@@ -22,7 +22,6 @@ import {
   getWishListItemsHandler,
   removeItemFromWishListHandler,
 } from "./backend/controllers/WishListController";
-import { initialUserData } from "./backend/utils/authUtils";
 import { categories } from "./backend/db/categories";
 import { products } from "./backend/db/products";
 import { users } from "./backend/db/users";
@@ -43,12 +42,14 @@ export function makeServer({ environment = "development" } = {}) {
 
     // Runs on the start of the server
     seeds(server) {
+      // disballing console logs from Mirage
+      server.logging = false;
       products.forEach((item) => {
         server.create("product", { ...item });
       });
 
       users.forEach((item) =>
-        server.create("user", { ...item, ...initialUserData })
+        server.create("user", { ...item, cart: [], wishList: [] })
       );
 
       categories.forEach((item) => server.create("category", { ...item }));

@@ -12,8 +12,8 @@ import { requiresAuth } from "../utils/authUtils";
  * send GET Request at /api/user/cart
  * */
 export const getCartItemsHandler = function (schema, request) {
-  const user = requiresAuth.call(this, request);
-  if (!user) {
+  const userId = requiresAuth.call(this, request);
+  if (!userId) {
     new Response(
       404,
       {},
@@ -22,7 +22,8 @@ export const getCartItemsHandler = function (schema, request) {
       }
     );
   }
-  return new Response(200, {}, { cart: user.cart });
+  const userCart = schema.users.findBy({ _id: userId }).cart;
+  return new Response(200, {}, { cart: userCart });
 };
 
 /**
@@ -32,9 +33,9 @@ export const getCartItemsHandler = function (schema, request) {
  * */
 
 export const addItemToCartHandler = function (schema, request) {
-  const user = requiresAuth.call(this, request);
+  const userId = requiresAuth.call(this, request);
   try {
-    if (!user) {
+    if (!userId) {
       new Response(
         404,
         {},
@@ -43,9 +44,10 @@ export const addItemToCartHandler = function (schema, request) {
         }
       );
     }
+    const userCart = schema.users.findBy({ _id: userId }).cart;
     const { product } = JSON.parse(request.requestBody);
-    user.cart.push({ ...product, qty: 1 });
-    return new Response(201, {}, { cart: user.cart });
+    userCart.push({ ...product, qty: 1 });
+    return new Response(201, {}, { cart: userCart });
   } catch (error) {
     return new Response(
       500,
@@ -59,14 +61,13 @@ export const addItemToCartHandler = function (schema, request) {
 
 /**
  * This handler handles removing items to user's cart.
- * send DELETE Request at /api/user/cart
- * body contains {product}
+ * send DELETE Request at /api/user/cart/:productId
  * */
 
 export const removeItemFromCartHandler = function (schema, request) {
-  const user = requiresAuth.call(this, request);
+  const userId = requiresAuth.call(this, request);
   try {
-    if (!user) {
+    if (!userId) {
       new Response(
         404,
         {},
@@ -75,10 +76,11 @@ export const removeItemFromCartHandler = function (schema, request) {
         }
       );
     }
+    const user = schema.users.findBy({ _id: userId });
     const productId = request.params.productId;
     const filteredCart = user.cart.filter((item) => item._id !== productId);
-    this.db.users.update({ cart: filteredCart });
-    return new Response(200, {}, { cart: filteredCart });
+    user.cart = filteredCart;
+    return new Response(200, {}, { cart: user.cart });
   } catch (error) {
     return new Response(
       500,
@@ -93,14 +95,14 @@ export const removeItemFromCartHandler = function (schema, request) {
 /**
  * This handler handles adding items to user's cart.
  * send POST Request at /api/user/cart/:productId
- * body contains {action} (can be increment or decrement)
+ * body contains {action} (whose 'type' can be increment or decrement)
  * */
 
 export const updateCartItemHandler = function (schema, request) {
   const productId = request.params.productId;
-  const user = requiresAuth.call(this, request);
+  const userId = requiresAuth.call(this, request);
   try {
-    if (!user) {
+    if (!userId) {
       new Response(
         404,
         {},
@@ -109,21 +111,22 @@ export const updateCartItemHandler = function (schema, request) {
         }
       );
     }
+    const userCart = schema.users.findBy({ _id: userId }).cart;
     const { action } = JSON.parse(request.requestBody);
     if (action.type === "increment") {
-      user.cart.forEach((product) => {
+      userCart.forEach((product) => {
         if (product._id === productId) {
           product.qty += 1;
         }
       });
     } else if (action.type === "decrement") {
-      user.cart.forEach((product) => {
+      userCart.forEach((product) => {
         if (product._id === productId) {
           product.qty -= 1;
         }
       });
     }
-    return new Response(200, {}, { cart: user.cart });
+    return new Response(200, {}, { cart: userCart });
   } catch (error) {
     return new Response(
       500,
