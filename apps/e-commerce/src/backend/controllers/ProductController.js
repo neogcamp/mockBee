@@ -22,7 +22,7 @@ export const getAllProductsHandler = function () {
 export const getProductHandler = function (schema, request) {
   const productId = request.params.productId;
   try {
-    const product = this.db.products.findBy({ _id: productId });
+    const product = schema.products.findBy({ _id: productId });
     return new Response(200, {}, { product });
   } catch (error) {
     return new Response(
