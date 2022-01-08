@@ -1,7 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { Response } from "miragejs";
-import { initialUserData } from "../utils/authUtils";
-import dayjs from "dayjs";
+import { formatDate, initialUserData } from "../utils/authUtils";
 import bcrypt from "bcryptjs";
 const jwt = require("jsonwebtoken");
 
@@ -18,7 +17,6 @@ const jwt = require("jsonwebtoken");
 
 export const signupHandler = function (schema, request) {
   const { email, password, ...rest } = JSON.parse(request.requestBody);
-  const createdAt = dayjs().format("YYYY-MM-DDTHH:mm:ssZ");
   try {
     // check if email already exists
     const foundUser = schema.users.findBy({ email });
@@ -37,7 +35,7 @@ export const signupHandler = function (schema, request) {
       _id,
       email,
       password: encryptedPassword,
-      createdAt,
+      createdAt: formatDate(),
       ...rest,
       ...initialUserData,
     };
