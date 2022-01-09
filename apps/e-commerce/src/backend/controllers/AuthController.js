@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { Response } from "miragejs";
-import { formatDate, initialUserData } from "../utils/authUtils";
+import { formatDate } from "../utils/authUtils";
 import bcrypt from "bcryptjs";
 const jwt = require("jsonwebtoken");
 
@@ -40,7 +40,6 @@ export const signupHandler = function (schema, request) {
       ...rest,
       cart: [],
       wishlist: [],
-      _id,
     };
     const createdUser = schema.users.create(newUser);
     const encodedToken = jwt.sign(
