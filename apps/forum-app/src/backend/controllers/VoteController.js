@@ -13,7 +13,7 @@ import { requiresAuth } from "../utils/authUtils";
 export const getQuestionVotesHandler = function (schema, request) {
   const questionId = request.params.questionId;
   try {
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     return new Response(200, {}, { votes: question.votes });
   } catch (error) {
     return new Response(
@@ -34,7 +34,7 @@ export const getQuestionVotesHandler = function (schema, request) {
 export const getAnswerVotesHandler = function (schema, request) {
   const { questionId, answerId } = request.params;
   try {
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     const { votes } = question.answers.find(
       (answer) => answer._id === answerId
     );
@@ -71,17 +71,25 @@ export const voteQuestionHandler = function (schema, request) {
         }
       );
     }
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     const vote = JSON.parse(request.requestBody);
+
     switch (vote.reaction) {
       case "upvote":
-        question.votes.upvotedBy = question.votes.upvotedBy.filter(
-          (username) => username !== user.username
-        );
+        if (!question.votes.upvotedBy.includes(user.username)) {
+          question.votes.upvotedBy.push(user.username);
+        }
         question.votes.downvotedBy = question.votes.downvotedBy.filter(
           (username) => username !== user.username
         );
-        question.votes.upvotedBy.push(user.username);
+        break;
+      case "downvote":
+        if (!question.votes.downvotedBy.includes(user.username)) {
+          question.votes.downvotedBy.push(user.username);
+        }
+        question.votes.upvotedBy = question.votes.upvotedBy.filter(
+          (username) => username !== user.username
+        );
         break;
       case "unvote":
         question.votes.upvotedBy = question.votes.upvotedBy.filter(
@@ -90,15 +98,6 @@ export const voteQuestionHandler = function (schema, request) {
         question.votes.downvotedBy = question.votes.downvotedBy.filter(
           (username) => username !== user.username
         );
-        break;
-      case "downvote":
-        question.votes.upvotedBy = question.votes.upvotedBy.filter(
-          (username) => username !== user.username
-        );
-        question.votes.downvotedBy = question.votes.downvotedBy.filter(
-          (username) => username !== user.username
-        );
-        question.votes.downvotedBy.push(user.username);
         break;
       default:
         return new Response(
@@ -144,18 +143,25 @@ export const voteAnswerHandler = function (schema, request) {
         }
       );
     }
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     const answer = question.answers.find((answer) => answer._id === answerId);
     const vote = JSON.parse(request.requestBody);
     switch (vote.reaction) {
       case "upvote":
-        answer.votes.upvotedBy = answer.votes.upvotedBy.filter(
-          (username) => username !== user.username
-        );
+        if (!answer.votes.upvotedBy.includes(user.username)) {
+          answer.votes.upvotedBy.push(user.username);
+        }
         answer.votes.downvotedBy = answer.votes.downvotedBy.filter(
           (username) => username !== user.username
         );
-        answer.votes.upvotedBy.push(user.username);
+        break;
+      case "downvote":
+        if (!answer.votes.downvotedBy.includes(user.username)) {
+          answer.votes.downvotedBy.push(user.username);
+        }
+        answer.votes.upvotedBy = answer.votes.upvotedBy.filter(
+          (username) => username !== user.username
+        );
         break;
       case "unvote":
         answer.votes.upvotedBy = answer.votes.upvotedBy.filter(
@@ -164,15 +170,6 @@ export const voteAnswerHandler = function (schema, request) {
         answer.votes.downvotedBy = answer.votes.downvotedBy.filter(
           (username) => username !== user.username
         );
-        break;
-      case "downvote":
-        answer.votes.upvotedBy = answer.votes.upvotedBy.filter(
-          (username) => username !== user.username
-        );
-        answer.votes.downvotedBy = answer.votes.downvotedBy.filter(
-          (username) => username !== user.username
-        );
-        answer.votes.downvotedBy.push(user.username);
         break;
       default:
         return new Response(
