@@ -18,10 +18,10 @@ import {
   getProductHandler,
 } from "./backend/controllers/ProductController";
 import {
-  addItemToWishListHandler,
-  getWishListItemsHandler,
-  removeItemFromWishListHandler,
-} from "./backend/controllers/WishListController";
+  addItemToWishlistHandler,
+  getWishlistItemsHandler,
+  removeItemFromWishlistHandler,
+} from "./backend/controllers/WishlistController";
 import { categories } from "./backend/db/categories";
 import { products } from "./backend/db/products";
 import { users } from "./backend/db/users";
@@ -79,11 +79,11 @@ export function makeServer({ environment = "development" } = {}) {
       );
 
       // wishlist routes (private)
-      this.get("/user/wishlist", getWishListItemsHandler.bind(this));
-      this.post("/user/wishlist", addItemToWishListHandler.bind(this));
+      this.get("/user/wishlist", getWishlistItemsHandler.bind(this));
+      this.post("/user/wishlist", addItemToWishlistHandler.bind(this));
       this.delete(
         "/user/wishlist/:productId",
-        removeItemFromWishListHandler.bind(this)
+        removeItemFromWishlistHandler.bind(this)
       );
     },
   });
