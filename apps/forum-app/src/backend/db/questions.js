@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-
+import { formatDate } from "../utils/authUtils";
 /**
  * Questions can be added here.
  * You can add default Questions of your wish with different attributes
@@ -46,7 +46,7 @@ export const questions = [
         ],
       },
     ],
-    createdAt: new Date().toDateString(),
-    updatedAt: new Date().toDateString(),
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
   },
 ];

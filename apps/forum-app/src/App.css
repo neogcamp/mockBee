@@ -14,13 +14,12 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #22201c;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
@@ -28,11 +27,25 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.brand-title {
+  font-size: 3rem;
+  color: #d9d9d9;
+}
+
+.brand-title span {
+  color: #ffde59;
+}
+
+.brand-description {
+  font-size: 1.4rem;
+}
+
+.links {
+  display: flex;
+}
+
+.links a {
+  color: #d9d9d9;
+  font-size: 1.2rem;
+  margin: 1rem;
 }
