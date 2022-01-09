@@ -38,7 +38,9 @@ export const signupHandler = function (schema, request) {
       createdAt: formatDate(),
       updatedAt: formatDate(),
       ...rest,
-      ...initialUserData,
+      cart: [],
+      wishlist: [],
+      _id,
     };
     const createdUser = schema.users.create(newUser);
     const encodedToken = jwt.sign(
