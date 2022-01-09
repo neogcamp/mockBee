@@ -1,5 +1,5 @@
 import { Response } from "miragejs";
-import { requiresAuth } from "../utils/authUtils";
+import { formatDate, requiresAuth } from "../utils/authUtils";
 import { v4 as uuid } from "uuid";
 
 /**
@@ -14,8 +14,8 @@ import { v4 as uuid } from "uuid";
 export const getAllAnswersHandler = function (schema, request) {
   const questionId = request.params.questionId;
   try {
-    const question = this.db.questions.findBy({ _id: questionId });
-    return new Response(200, {}, { answers: question.answers });
+    const answers = schema.questions.findBy({ _id: questionId }).attrs.answers;
+    return new Response(200, {}, { answers });
   } catch (error) {
     return new Response(
       500,
@@ -48,7 +48,7 @@ export const addAnswerHandler = function (schema, request) {
         }
       );
     }
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     const { answerData } = JSON.parse(request.requestBody);
     const answer = {
       _id: uuid(),
@@ -59,8 +59,8 @@ export const addAnswerHandler = function (schema, request) {
       comments: [],
       ...answerData,
       username: user.username,
-      createdAt: new Date().toDateString(),
-      updatedAt: new Date().toDateString(),
+      createdAt: formatDate(),
+      updatedAt: formatDate(),
     };
     question.answers.push(answer);
     this.db.questions.update({ _id: questionId }, question);
@@ -98,7 +98,7 @@ export const editAnswerHandler = function (schema, request) {
     }
     const { questionId, answerId } = request.params;
     const { answerData } = JSON.parse(request.requestBody);
-    let question = this.db.questions.findBy({ _id: questionId });
+    let question = schema.questions.findBy({ _id: questionId }).attrs;
     const answerIndex = question.answers.findIndex(
       (answer) => answer._id === answerId
     );
@@ -106,14 +106,14 @@ export const editAnswerHandler = function (schema, request) {
       return new Response(
         400,
         {},
-        { errors: ["Cannot edit an Answer doesn't belong to the User."] }
+        { errors: ["Cannot edit an Answer that doesn't belong to the User."] }
       );
     }
 
     question.answers[answerIndex] = {
       ...question.answers[answerIndex],
       ...answerData,
-      updatedAt: new Date().toDateString(),
+      updatedAt: formatDate(),
     };
     this.db.questions.update({ _id: questionId }, question);
     return new Response(201, {}, { answers: question.answers });
@@ -148,14 +148,11 @@ export const deleteAnswerHandler = function (schema, request) {
         }
       );
     }
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     const answerIndex = question.answers.findIndex(
       (answer) => answer._id === answerId
     );
-    if (
-      question.answers[answerIndex].username !== user.username &&
-      question.username !== user.username
-    ) {
+    if (question.answers[answerIndex].username !== user.username) {
       return new Response(
         400,
         {},
