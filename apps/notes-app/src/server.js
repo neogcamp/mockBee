@@ -15,6 +15,8 @@ import {
   getAllNotesHandler,
   updateNoteHandler,
 } from "./backend/controllers/NotesController";
+import { users } from "./backend/db/users";
+import { initialUserData } from "./backend/utils/authUtils";
 
 export function makeServer({ environment = "development" } = {}) {
   const server = new Server({
@@ -26,6 +28,15 @@ export function makeServer({ environment = "development" } = {}) {
     models: {
       user: Model,
       notes: Model,
+    },
+
+    seeds(server) {
+      users.forEach((item) =>
+        server.create("user", {
+          ...item,
+          ...initialUserData,
+        })
+      );
     },
 
     routes() {

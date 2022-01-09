@@ -1,5 +1,6 @@
 import { Response } from "miragejs";
 const jwt = require("jsonwebtoken");
+import dayjs from "dayjs";
 
 export const requiresAuth = function (request) {
   const encodedToken = request.requestHeaders.authorization;
@@ -19,3 +20,4 @@ export const requiresAuth = function (request) {
 };
 
 export const initialUserData = { notes: [], archives: [] };
+export const formatDate = () => dayjs().format("YYYY-MM-DDTHH:mm:ssZ");
