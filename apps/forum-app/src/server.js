@@ -53,6 +53,7 @@ export function makeServer({ environment = "development" } = {}) {
 
     // Runs on the start of the server
     seeds(server) {
+      server.logging = false;
       users.forEach((item) => server.create("user", { ...item }));
 
       questions.forEach((item) => {

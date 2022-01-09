@@ -1,5 +1,5 @@
 import { Response } from "miragejs";
-import { requiresAuth } from "../utils/authUtils";
+import { formatDate, requiresAuth } from "../utils/authUtils";
 import { v4 as uuid } from "uuid";
 
 /**
@@ -23,7 +23,7 @@ export const getAllQuestionsHandler = function () {
 export const getQuestionHandler = function (schema, request) {
   const questionId = request.params.questionId;
   try {
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId });
     return new Response(200, {}, { question });
   } catch (error) {
     return new Response(
@@ -44,7 +44,7 @@ export const getQuestionHandler = function (schema, request) {
 export const getAllUserQuestionsHandler = function (schema, request) {
   const username = request.params.username;
   try {
-    const questions = this.db.questions.findBy({ username: username });
+    const questions = schema.questions.where({ username }).models;
     return new Response(200, {}, { questions });
   } catch (error) {
     return new Response(
@@ -88,8 +88,8 @@ export const addQuestionHandler = function (schema, request) {
       answers: [],
       ...questionData,
       username: user.username,
-      createdAt: new Date().toDateString(),
-      updatedAt: new Date().toDateString(),
+      createdAt: formatDate(),
+      updatedAt: formatDate(),
     };
     this.db.questions.insert(question);
     return new Response(201, {}, { questions: this.db.questions });
@@ -126,18 +126,22 @@ export const editQuestionHandler = function (schema, request) {
     }
     const questionId = request.params.questionId;
     const { questionData } = JSON.parse(request.requestBody);
-    let question = this.db.questions.findBy({ _id: questionId });
+    let question = schema.questions.findBy({ _id: questionId }).attrs;
     if (question.username !== user.username) {
       return new Response(
         400,
         {},
-        { errors: ["Cannot delete a Question doesn't belong to the User."] }
+        {
+          errors: [
+            "Cannot edit a Question doesn't belong to the logged in User.",
+          ],
+        }
       );
     }
     question = {
       ...question,
       ...questionData,
-      updatedAt: new Date().toDateString(),
+      updatedAt: formatDate(),
     };
     this.db.questions.update({ _id: questionId }, question);
     return new Response(201, {}, { questions: this.db.questions });
@@ -172,7 +176,7 @@ export const deleteQuestionHandler = function (schema, request) {
       );
     }
     const questionId = request.params.questionId;
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     if (question.username !== user.username) {
       return new Response(
         400,
