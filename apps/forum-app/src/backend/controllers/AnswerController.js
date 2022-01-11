@@ -152,7 +152,10 @@ export const deleteAnswerHandler = function (schema, request) {
     const answerIndex = question.answers.findIndex(
       (answer) => answer._id === answerId
     );
-    if (question.answers[answerIndex].username !== user.username) {
+    if (
+      question.answers[answerIndex].username !== user.username &&
+      question.username !== user.username
+    ) {
       return new Response(
         400,
         {},
