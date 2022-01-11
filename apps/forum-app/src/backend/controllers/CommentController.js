@@ -1,5 +1,5 @@
 import { Response } from "miragejs";
-import { requiresAuth } from "../utils/authUtils";
+import { formatDate, requiresAuth } from "../utils/authUtils";
 import { v4 as uuid } from "uuid";
 
 /**
@@ -14,7 +14,7 @@ import { v4 as uuid } from "uuid";
 export const getQuestionCommentsHandler = function (schema, request) {
   const questionId = request.params.questionId;
   try {
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     return new Response(200, {}, { comments: question.comments });
   } catch (error) {
     return new Response(
@@ -35,7 +35,7 @@ export const getQuestionCommentsHandler = function (schema, request) {
 export const getAnswerCommentsHandler = function (schema, request) {
   const { questionId, answerId } = request.params;
   try {
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     const { comments } = question.answers.find(
       (answer) => answer._id === answerId
     );
@@ -72,14 +72,15 @@ export const addQuestionCommentHandler = function (schema, request) {
     }
     const { questionId } = request.params;
     const { commentData } = JSON.parse(request.requestBody);
+
     const comment = {
       _id: uuid(),
       ...commentData,
       username: user.username,
-      createdAt: new Date().toDateString(),
-      updatedAt: new Date().toDateString(),
+      createdAt: formatDate(),
+      updatedAt: formatDate(),
     };
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     question.comments.push(comment);
     this.db.questions.update({ _id: questionId }, question);
     return new Response(201, {}, { comments: question.comments });
@@ -115,7 +116,7 @@ export const editQuestionCommentHandler = function (schema, request) {
     }
     const { questionId, commentId } = request.params;
     const { commentData } = JSON.parse(request.requestBody);
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     const commentIndex = question.comments.findIndex(
       (comment) => comment._id === commentId
     );
@@ -129,7 +130,7 @@ export const editQuestionCommentHandler = function (schema, request) {
     question.comments[commentIndex] = {
       ...question.comments[commentIndex],
       ...commentData,
-      updatedAt: new Date().toDateString(),
+      updatedAt: formatDate(),
     };
     this.db.questions.update({ _id: questionId }, question);
     return new Response(201, {}, { comments: question.comments });
@@ -164,7 +165,7 @@ export const deleteQuestionCommentHandler = function (schema, request) {
       );
     }
     const { questionId, commentId } = request.params;
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     const commentIndex = question.comments.findIndex(
       (comment) => comment._id === commentId
     );
@@ -219,10 +220,10 @@ export const addAnswerCommentHandler = function (schema, request) {
       _id: uuid(),
       ...commentData,
       username: user.username,
-      createdAt: new Date().toDateString(),
-      updatedAt: new Date().toDateString(),
+      createdAt: formatDate(),
+      updatedAt: formatDate(),
     };
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     const answer = question.answers.find((answer) => answer._id === answerId);
     answer.comments.push(comment);
     this.db.questions.update({ _id: questionId }, question);
@@ -259,15 +260,12 @@ export const editAnswerCommentHandler = function (schema, request) {
     }
     const { questionId, answerId, commentId } = request.params;
     const { commentData } = JSON.parse(request.requestBody);
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     const answer = question.answers.find((answer) => answer._id === answerId);
     const commentIndex = answer.comments.findIndex(
       (comment) => comment._id === commentId
     );
-    if (
-      answer.comments[commentIndex].username !== user.username &&
-      answer.username !== user.username
-    ) {
+    if (answer.comments[commentIndex].username !== user.username) {
       return new Response(
         400,
         {},
@@ -277,7 +275,7 @@ export const editAnswerCommentHandler = function (schema, request) {
     answer.comments[commentIndex] = {
       ...answer.comments[commentIndex],
       ...commentData,
-      updatedAt: new Date().toDateString(),
+      updatedAt: formatDate(),
     };
     this.db.questions.update({ _id: questionId }, question);
     return new Response(201, {}, { comments: answer.comments });
@@ -312,7 +310,7 @@ export const deleteAnswerCommentHandler = function (schema, request) {
       );
     }
     const { questionId, answerId, commentId } = request.params;
-    const question = this.db.questions.findBy({ _id: questionId });
+    const question = schema.questions.findBy({ _id: questionId }).attrs;
     const answer = question.answers.find((answer) => answer._id === answerId);
     const commentIndex = answer.comments.findIndex(
       (comment) => comment._id === commentId
