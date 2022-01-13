@@ -81,8 +81,7 @@ export const deleteNoteHandler = function (schema, request) {
       );
     }
     const noteId = request.params.noteId;
-    const filteredNotes = user.notes.filter((item) => item._id !== noteId);
-    user.notes = [...filteredNotes];
+    user.notes = user.notes.filter((item) => item._id !== noteId);
     this.db.users.update({ _id: user._id }, user);
     return new Response(200, {}, { notes: user.notes });
   } catch (error) {
@@ -151,8 +150,7 @@ export const archiveNoteHandler = function (schema, request) {
     }
     const { noteId } = request.params;
     const archivedNote = user.notes.filter((note) => note._id === noteId)[0];
-    const filteredNotes = user.notes.filter((note) => note._id !== noteId);
-    user.notes = filteredNotes;
+    user.notes = user.notes.filter((note) => note._id !== noteId);
     user.archives.push({ ...archivedNote });
     this.db.users.update({ _id: user._id }, user);
     return new Response(

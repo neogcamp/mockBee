@@ -16,7 +16,6 @@ import {
   updateNoteHandler,
 } from "./backend/controllers/NotesController";
 import { users } from "./backend/db/users";
-import { initialUserData } from "./backend/utils/authUtils";
 
 export function makeServer({ environment = "development" } = {}) {
   const server = new Server({
@@ -35,7 +34,8 @@ export function makeServer({ environment = "development" } = {}) {
       users.forEach((item) =>
         server.create("user", {
           ...item,
-          ...initialUserData,
+          notes: [],
+          archives: [],
         })
       );
     },
@@ -51,6 +51,7 @@ export function makeServer({ environment = "development" } = {}) {
       this.post("/notes", createNoteHandler.bind(this));
       this.post("/notes/:noteId", updateNoteHandler.bind(this));
       this.delete("/notes/:noteId", deleteNoteHandler.bind(this));
+      this.post("/notes/archives/:noteId", archiveNoteHandler.bind(this));
 
       // archive routes (private)
       this.get("/archives", getAllArchivedNotesHandler.bind(this));
@@ -58,7 +59,6 @@ export function makeServer({ environment = "development" } = {}) {
         "/archives/restore/:noteId",
         restoreFromArchivesHandler.bind(this)
       );
-      this.post("/notes/archives/:noteId", archiveNoteHandler.bind(this));
       this.delete(
         "/archives/delete/:noteId",
         deleteFromArchivesHandler.bind(this)

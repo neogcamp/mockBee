@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { Response } from "miragejs";
-import { formatDate, initialUserData } from "../utils/authUtils";
+import { formatDate } from "../utils/authUtils";
 import bcrypt from "bcryptjs";
 const jwt = require("jsonwebtoken");
 
@@ -38,7 +38,8 @@ export const signupHandler = function (schema, request) {
       createdAt: formatDate(),
       updatedAt: formatDate(),
       ...rest,
-      ...initialUserData,
+      notes: [],
+      archives: [],
     };
     const createdUser = schema.users.create(newUser);
     const encodedToken = jwt.sign(
