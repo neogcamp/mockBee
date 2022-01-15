@@ -26,7 +26,7 @@ The following Routes are relating to Projects. These are Privately accessible ro
   ```js
   {
     data: {
-      projects: Array
+      projects: Array;
     }
   }
   ```
@@ -43,7 +43,7 @@ The following Routes are relating to Projects. These are Privately accessible ro
   ```js
   {
     data: {
-      project: Object
+      project: Object;
     }
   }
   ```
@@ -59,7 +59,7 @@ The following Routes are relating to Projects. These are Privately accessible ro
 
   ```js
   {
-    project
+    project;
   }
   ```
 
@@ -68,7 +68,7 @@ The following Routes are relating to Projects. These are Privately accessible ro
   ```js
   {
     data: {
-      projects: Array
+      projects: Array;
     }
   }
   ```
@@ -84,7 +84,7 @@ The following Routes are relating to Projects. These are Privately accessible ro
 
   ```js
   {
-    project
+    project;
   }
   ```
 
@@ -93,7 +93,7 @@ The following Routes are relating to Projects. These are Privately accessible ro
   ```js
   {
     data: {
-      projects: Array
+      projects: Array;
     }
   }
   ```
@@ -111,12 +111,13 @@ The following Routes are relating to Projects. These are Privately accessible ro
   ```js
   {
     data: {
-      projects: Array
+      projects: Array,
+      archives: Array
     }
   }
   ```
 
-- **Functionality**: This API call deletes a user project in the db.
+- **Functionality**: This API call deletes a user project and its corresponding archives in the db.
 
 ---
 
@@ -130,10 +131,11 @@ The following Routes are relating to Task. These are Privately accessible routes
 - **HTTP Method**: GET
 - **Request Headers**: `authorization: encodedToken`
 - **Response Body**:
+
   ```js
   {
     data: {
-      tasks: Array
+      tasks: Array;
     }
   }
   ```
@@ -146,10 +148,11 @@ The following Routes are relating to Task. These are Privately accessible routes
 - **HTTP Method**: GET
 - **Request Headers**: `authorization: encodedToken`
 - **Response Body**:
+
   ```js
   {
     data: {
-      task: Object
+      task: Object;
     }
   }
   ```
@@ -164,14 +167,15 @@ The following Routes are relating to Task. These are Privately accessible routes
 - **Request Body**:
   ```js
   {
-    task
+    task;
   }
   ```
 - **Response Body**:
+
   ```js
   {
     data: {
-      tasks: Array
+      tasks: Array;
     }
   }
   ```
@@ -186,14 +190,15 @@ The following Routes are relating to Task. These are Privately accessible routes
 - **Request Body**:
   ```js
   {
-    task
+    task;
   }
   ```
 - **Response Body**:
+
   ```js
   {
     data: {
-      tasks: Array
+      tasks: Array;
     }
   }
   ```
@@ -206,10 +211,11 @@ The following Routes are relating to Task. These are Privately accessible routes
 - **HTTP Method**: DELETE
 - **Request Headers**: `authorization: encodedToken`
 - **Response Body**:
+
   ```js
   {
     data: {
-      tasks: Array
+      tasks: Array;
     }
   }
   ```
@@ -226,10 +232,11 @@ The following Routes are relating to Labels. These are Privately accessible rout
 - **HTTP Method**: GET
 - **Request Headers**: `authorization: encodedToken`
 - **Response Body**:
+
   ```js
   {
     data: {
-      labels: Array
+      labels: Array;
     }
   }
   ```
@@ -243,10 +250,11 @@ The following Routes are relating to Labels. These are Privately accessible rout
 - **Request Headers**: `authorization: encodedToken`
 - **Request Body**: {}
 - **Response Body**:
+
   ```js
   {
     data: {
-      labels: Array
+      labels: Array;
     }
   }
   ```
@@ -259,10 +267,11 @@ The following Routes are relating to Labels. These are Privately accessible rout
 - **HTTP Method**: DELETE
 - **Request Headers**: `authorization: encodedToken`
 - **Response Body**:
+
   ```js
   {
     data: {
-      labels: Array
+      labels: Array;
     }
   }
   ```
@@ -279,10 +288,11 @@ The following Routes are relating to Archives. These are Privately accessible ro
 - **HTTP Method**: GET
 - **Request Headers**: `authorization: encodedToken`
 - **Response Body**:
+
   ```js
   {
     data: {
-      archives: Array
+      archives: Array;
     }
   }
   ```
@@ -296,6 +306,7 @@ The following Routes are relating to Archives. These are Privately accessible ro
 - **Request Headers**: `authorization: encodedToken`
 - **Request Body**: {}
 - **Response Body**:
+
   ```js
   {
     data: {
@@ -314,6 +325,7 @@ The following Routes are relating to Archives. These are Privately accessible ro
 - **Request Headers**: `authorization: encodedToken`
 - **Request Body**: {}
 - **Response Body**:
+
   ```js
   {
     data: {
@@ -331,14 +343,13 @@ The following Routes are relating to Archives. These are Privately accessible ro
 - **HTTP Method**: DELETE
 - **Request Headers**: `authorization: encodedToken`
 - **Response Body**:
+
   ```js
   {
     data: {
-      archives: Array
+      archives: Array;
     }
   }
   ```
 
 - **Functionality**: This API call deletes an archived task of a particular project from the db.
-
-
