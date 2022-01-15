@@ -269,7 +269,7 @@ The following Routes are relating to Labels. These are Privately accessible rout
 
 - **Functionality**: This API call deletes a label of a particular project from the db.
 
-# Archives Routes
+## Archives Routes
 
 The following Routes are relating to Archives. These are Privately accessible routes.
 

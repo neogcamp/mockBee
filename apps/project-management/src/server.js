@@ -31,7 +31,7 @@ import {
 } from "./backend/controllers/ArchiveController";
 
 export function makeServer({ environment = "development" } = {}) {
-  let server = new Server({
+  return new Server({
     serializers: {
       application: RestSerializer,
     },
@@ -93,5 +93,4 @@ export function makeServer({ environment = "development" } = {}) {
       );
     },
   });
-  return server;
 }
