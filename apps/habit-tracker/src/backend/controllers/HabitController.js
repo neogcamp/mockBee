@@ -117,8 +117,7 @@ export const deleteHabitHandler = function (schema, request) {
     );
   }
   const habitId = request.params.habitId;
-  const filteredHabits = user.habits.filter((habit) => habit._id !== habitId);
-  user.habits = filteredHabits;
+  user.habits = user.habits.filter((habit) => habit._id !== habitId);
   this.db.users.update({ _id: user._id }, user);
   return new Response(200, {}, { habits: user.habits });
 };
