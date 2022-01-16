@@ -14,6 +14,7 @@ export const posts = [
     likes: {
       likeCount: 0,
       likedBy: [],
+      dislikedBy: [],
     },
     username: "adarshbalika",
     createdAt: formatDate(),
@@ -26,6 +27,7 @@ export const posts = [
     likes: {
       likeCount: 0,
       likedBy: [],
+      dislikedBy: [],
     },
     username: "shubhamsoni",
     createdAt: formatDate(),

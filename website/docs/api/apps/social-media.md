@@ -6,7 +6,7 @@ A **Social Media** is a web app that connects users and enables to share their c
 
 ## Auth Routes
 
-In `Social Media App`, the authentication is done with `username` and `password` credential fields. 
+In `Social Media App`, the authentication is done with `username` and `password` credential fields.
 
 You can refer documentation related to Authentication [here](/docs/api/general/auth)
 
@@ -99,7 +99,7 @@ The following Routes are relating to Posts. These are Publicly accessible routes
 
 ### 2. GET `/api/posts/:postId`
 
-- **Request URL**: `/api/post/:postId`
+- **Request URL**: `/api/posts/:postId`
 - **HTTP Method**: GET
 - **Response Body**:
 
@@ -113,9 +113,9 @@ The following Routes are relating to Posts. These are Publicly accessible routes
 
 - **Functionality**: This API call gets post by postId from the db.
 
-### 3. GET `/api/posts/:username`
+### 3. GET `/api/posts/user/:username`
 
-- **Request URL**: `/api/post/:username`
+- **Request URL**: `/api/posts/user/:username`
 - **HTTP Method**: GET
 - **Response Body**:
 
@@ -315,4 +315,3 @@ The following Routes are Private Routes related to Follow/Unfollow action of Use
   ```
 
 - **Functionality**: This API call is responsible for unfollow action by the user.
-
