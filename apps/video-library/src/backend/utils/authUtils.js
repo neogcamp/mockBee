@@ -19,6 +19,4 @@ export const requiresAuth = function (request) {
   );
 };
 
-export const initialUserData = { likes: [], history: [], playlists: [] };
-
 export const formatDate = () => dayjs().format("YYYY-MM-DDTHH:mm:ssZ");
