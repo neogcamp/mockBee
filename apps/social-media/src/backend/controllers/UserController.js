@@ -1,5 +1,5 @@
 import { Response } from "miragejs";
-import { requiresAuth } from "../utils/authUtils";
+import { formatDate, requiresAuth } from "../utils/authUtils";
 
 /**
  * All the routes related to user are present here.
@@ -22,7 +22,7 @@ export const getAllUsersHandler = function () {
 export const getUserHandler = function (schema, request) {
   const userId = request.params.userId;
   try {
-    const user = this.db.users.findBy({ _id: userId });
+    const user = schema.users.findBy({ _id: userId }).attrs;
     return new Response(200, {}, { user });
   } catch (error) {
     return new Response(
@@ -56,7 +56,7 @@ export const editUserHandler = function (schema, request) {
       );
     }
     const { userData } = JSON.parse(request.requestBody);
-    user = { ...user, ...userData };
+    user = { ...user, ...userData, updatedAt: formatDate() };
     this.db.users.update({ _id: user._id }, user);
     return new Response(201, {}, { user });
   } catch (error) {
@@ -71,13 +71,11 @@ export const editUserHandler = function (schema, request) {
 };
 
 /**
- * This handler handles adding a post to user's bookmarks in the db.
- * send POST Request at /api/users/bookmark/:postId/
+ * This handler gets all the user bookmarks from the db.
+ * send GET Request at /api/users/bookmark/
  * */
 
-export const bookmarkPostHandler = function (schema, request) {
-  const { postId } = request.params;
-  const post = this.db.posts.findBy({ _id: postId });
+export const getBookmarkPostsHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
@@ -91,14 +89,53 @@ export const bookmarkPostHandler = function (schema, request) {
         }
       );
     }
-    const isBookmarked = user.bookmarks.find(
+    return new Response(200, {}, { bookmarks: user.bookmarks });
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
+  }
+};
+/**
+ * This handler handles adding a post to user's bookmarks in the db.
+ * send POST Request at /api/users/bookmark/:postId/
+ * */
+
+export const bookmarkPostHandler = function (schema, request) {
+  const { postId } = request.params;
+  const post = schema.posts.findBy({ _id: postId }).attrs;
+  const user = requiresAuth.call(this, request);
+  try {
+    if (!user) {
+      return new Response(
+        404,
+        {},
+        {
+          errors: [
+            "The username you entered is not Registered. Not Found error",
+          ],
+        }
+      );
+    }
+    const isBookmarked = user.bookmarks.some(
       (currPost) => currPost._id === postId
     );
     if (isBookmarked) {
-      return new Response(400, {}, { errors: ["Post already bookmarked"] });
+      return new Response(
+        400,
+        {},
+        { errors: ["This Post is already bookmarked"] }
+      );
     }
     user.bookmarks.push(post);
-    this.db.users.update({ _id: user._id }, { ...user, updatedAt: new Date() });
+    this.db.users.update(
+      { _id: user._id },
+      { ...user, updatedAt: formatDate() }
+    );
     return new Response(200, {}, { bookmarks: user.bookmarks });
   } catch (error) {
     return new Response(
@@ -131,7 +168,7 @@ export const removePostFromBookmarkHandler = function (schema, request) {
         }
       );
     }
-    const isBookmarked = user.bookmarks.find(
+    const isBookmarked = user.bookmarks.some(
       (currPost) => currPost._id === postId
     );
     if (!isBookmarked) {
@@ -141,7 +178,10 @@ export const removePostFromBookmarkHandler = function (schema, request) {
       (currPost) => currPost._id !== postId
     );
     user = { ...user, bookmarks: filteredBookmarks };
-    this.db.users.update({ _id: user._id }, { ...user, updatedAt: new Date() });
+    this.db.users.update(
+      { _id: user._id },
+      { ...user, updatedAt: formatDate() }
+    );
     return new Response(200, {}, { bookmarks: user.bookmarks });
   } catch (error) {
     return new Response(
@@ -162,7 +202,7 @@ export const removePostFromBookmarkHandler = function (schema, request) {
 export const followUserHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   const { followUserId } = request.params;
-  const followUser = this.db.users.findBy({ _id: followUserId });
+  const followUser = schema.users.findBy({ _id: followUserId }).attrs;
   try {
     if (!user) {
       return new Response(
@@ -175,7 +215,7 @@ export const followUserHandler = function (schema, request) {
         }
       );
     }
-    const isFollowing = user.following.find(
+    const isFollowing = user.following.some(
       (currUser) => currUser._id === followUser._id
     );
 
@@ -193,11 +233,11 @@ export const followUserHandler = function (schema, request) {
     };
     this.db.users.update(
       { _id: user._id },
-      { ...updatedUser, updatedAt: new Date() }
+      { ...updatedUser, updatedAt: formatDate() }
     );
     this.db.users.update(
       { _id: followUser._id },
-      { ...updatedFollowUser, updatedAt: new Date() }
+      { ...updatedFollowUser, updatedAt: formatDate() }
     );
     return new Response(
       200,
@@ -236,7 +276,7 @@ export const unfollowUserHandler = function (schema, request) {
         }
       );
     }
-    const isFollowing = user.following.find(
+    const isFollowing = user.following.some(
       (currUser) => currUser._id === followUser._id
     );
 
@@ -258,11 +298,11 @@ export const unfollowUserHandler = function (schema, request) {
     };
     this.db.users.update(
       { _id: user._id },
-      { ...updatedUser, updatedAt: new Date() }
+      { ...updatedUser, updatedAt: formatDate() }
     );
     this.db.users.update(
       { _id: followUser._id },
-      { ...updatedFollowUser, updatedAt: new Date() }
+      { ...updatedFollowUser, updatedAt: formatDate() }
     );
     return new Response(
       200,

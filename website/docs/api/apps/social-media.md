@@ -274,6 +274,23 @@ The following Routes are Private Routes related to Bookmarking Posts of User.
 
 - **Functionality**: This API call removes a post from user bookmarks.
 
+### 3. GET `/api/users/bookmark`
+
+- **Request URL**: `/api/users/bookmark/`
+- **HTTP Method**: GET
+- **Request Headers**: `authorization: encodedToken`
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      bookmarks: Array;
+    }
+  }
+  ```
+
+- **Functionality**: This API call gets all user bookmarked posts from the db.
+
 ## Follow/Unfollow Routes
 
 The following Routes are Private Routes related to Follow/Unfollow action of User.
