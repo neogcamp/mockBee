@@ -1,0 +1,13 @@
+{
+  "name": "cra-template-mockbee-ecommerce",
+  "version": "0.1.0",
+  "private": true,
+  "main": "template.json",
+  "files": [
+    "template",
+    "template.json"
+  ],
+  "engines": {
+    "node": ">=14"
+  }
+}
