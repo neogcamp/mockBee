@@ -40,8 +40,9 @@ import {
   editQuestionHandler,
   deleteQuestionHandler,
 } from "./backend/controllers/QuestionController";
+
 export function makeServer({ environment = "development" } = {}) {
-  let server = new Server({
+  return new Server({
     serializers: {
       application: RestSerializer,
     },
@@ -53,6 +54,7 @@ export function makeServer({ environment = "development" } = {}) {
 
     // Runs on the start of the server
     seeds(server) {
+      server.logging = false;
       users.forEach((item) => server.create("user", { ...item }));
 
       questions.forEach((item) => {
@@ -69,7 +71,6 @@ export function makeServer({ environment = "development" } = {}) {
       // user routes (public)
       this.get("/users", getAllUsersHandler.bind(this));
       this.get("/users/:userId", getUserHandler.bind(this));
-
       // user routes (private)
       this.post("users/edit", editUserHandler.bind(this));
 
@@ -80,7 +81,6 @@ export function makeServer({ environment = "development" } = {}) {
         "/user/questions/:username",
         getAllUserQuestionsHandler.bind(this)
       );
-
       // questions routes (private)
       this.post("/questions/add", addQuestionHandler.bind(this));
       this.post("/questions/edit/:questionId", editQuestionHandler.bind(this));
@@ -91,7 +91,6 @@ export function makeServer({ environment = "development" } = {}) {
 
       // answers routes (public)
       this.get("/answers/:questionId", getAllAnswersHandler.bind(this));
-
       // answers routes (private)
       this.post("/answers/add/:questionId", addAnswerHandler.bind(this));
       this.post(
@@ -109,7 +108,6 @@ export function makeServer({ environment = "development" } = {}) {
         "/votes/:questionId/:answerId",
         getAnswerVotesHandler.bind(this)
       );
-
       // votes routes (private)
       this.post("/votes/vote/:questionId", voteQuestionHandler.bind(this));
       this.post(
@@ -123,7 +121,6 @@ export function makeServer({ environment = "development" } = {}) {
         "/comments/:questionId/:answerId",
         getAnswerCommentsHandler.bind(this)
       );
-
       // comments routes (private)
       this.post(
         "/comments/add/:questionId",
@@ -151,5 +148,4 @@ export function makeServer({ environment = "development" } = {}) {
       );
     },
   });
-  return server;
 }
