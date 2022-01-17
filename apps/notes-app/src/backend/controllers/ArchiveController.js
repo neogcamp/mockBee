@@ -42,8 +42,7 @@ export const deleteFromArchivesHandler = function (schema, request) {
     );
   }
   const { noteId } = request.params;
-  const filteredArchives = user.archives.filter((note) => note._id !== noteId);
-  user.archives = filteredArchives;
+  user.archives = user.archives.filter((note) => note._id !== noteId);
   this.db.users.update({ _id: user._id }, user);
   return new Response(200, {}, { archives: user.archives });
 };
@@ -66,8 +65,7 @@ export const restoreFromArchivesHandler = function (schema, request) {
   }
   const { noteId } = request.params;
   const restoredNote = user.archives.filter((note) => note._id === noteId)[0];
-  const filteredNotes = user.archives.filter((note) => note._id !== noteId);
-  user.archives = filteredNotes;
+  user.archives = user.archives.filter((note) => note._id !== noteId);
   user.notes.push({ ...restoredNote });
   this.db.users.update({ _id: user._id }, user);
   return new Response(200, {}, { archives: user.archives, notes: user.notes });
