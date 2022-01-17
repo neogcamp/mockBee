@@ -123,8 +123,7 @@ export const deleteTaskHandler = function (schema, request) {
   }
   const { projectId, taskId } = request.params;
   const project = user.projects.find((project) => project._id === projectId);
-  const filteredTasks = project.tasks.filter((task) => task._id !== taskId);
-  project.tasks = filteredTasks;
+  project.tasks = project.tasks.filter((task) => task._id !== taskId);
   this.db.users.update({ _id: user._id }, user);
   return new Response(200, {}, { tasks: project.tasks });
 };

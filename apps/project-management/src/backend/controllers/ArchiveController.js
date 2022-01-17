@@ -42,8 +42,7 @@ export const deleteFromArchivesHandler = function (schema, request) {
     );
   }
   const { taskId } = request.params;
-  const filteredArchives = user.archives.filter((task) => task._id !== taskId);
-  user.archives = filteredArchives;
+  user.archives = user.archives.filter((task) => task._id !== taskId);
   this.db.users.update({ _id: user._id }, user);
   return new Response(200, {}, { archives: user.archives });
 };
@@ -65,9 +64,8 @@ export const restoreFromArchivesHandler = function (schema, request) {
     );
   }
   const { taskId } = request.params;
-  const restoredTask = user.archives.filter((task) => task._id === taskId)[0];
-  const filteredArchives = user.archives.filter((task) => task._id !== taskId);
-  user.archives = filteredArchives;
+  const restoredTask = user.archives.find((task) => task._id === taskId);
+  user.archives = user.archives.filter((task) => task._id !== taskId);
   const project = user.projects.find(
     (project) => project._id === restoredTask.projectId
   );

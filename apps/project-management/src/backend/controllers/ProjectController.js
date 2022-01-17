@@ -120,10 +120,14 @@ export const deleteProjectHandler = function (schema, request) {
     );
   }
   const projectId = request.params.projectId;
-  const filteredProjects = user.projects.filter(
-    (project) => project._id !== projectId
+  user.projects = user.projects.filter((project) => project._id !== projectId);
+  user.archives = user.archives.filter(
+    (archive) => archive.projectId !== projectId
   );
-  user.projects = filteredProjects;
   this.db.users.update({ _id: user._id }, user);
-  return new Response(200, {}, { projects: user.projects });
+  return new Response(
+    200,
+    {},
+    { projects: user.projects, archives: user.archives }
+  );
 };

@@ -29,10 +29,9 @@ import {
   getAllArchivedTasksHandler,
   restoreFromArchivesHandler,
 } from "./backend/controllers/ArchiveController";
-import { initialUserData } from "./backend/utils/authUtils";
 
 export function makeServer({ environment = "development" } = {}) {
-  let server = new Server({
+  return new Server({
     serializers: {
       application: RestSerializer,
     },
@@ -43,10 +42,12 @@ export function makeServer({ environment = "development" } = {}) {
 
     // Runs on the start of the server
     seeds(server) {
+      server.logging = false;
       users.forEach((item) =>
         server.create("user", {
           ...item,
-          ...initialUserData,
+          projects: [],
+          archives: [],
         })
       );
     },
@@ -92,5 +93,4 @@ export function makeServer({ environment = "development" } = {}) {
       );
     },
   });
-  return server;
 }
