@@ -42,10 +42,7 @@ export const deleteFromArchivesHandler = function (schema, request) {
     );
   }
   const { habitId } = request.params;
-  const filteredArchives = user.archives.filter(
-    (habit) => habit._id !== habitId
-  );
-  user.archives = filteredArchives;
+  user.archives = user.archives.filter((habit) => habit._id !== habitId);
   this.db.users.update({ _id: user._id }, user);
   return new Response(200, {}, { archives: user.archives });
 };
@@ -70,10 +67,7 @@ export const restoreFromArchivesHandler = function (schema, request) {
   const restoredHabit = user.archives.filter(
     (habit) => habit._id === habitId
   )[0];
-  const filteredArchives = user.archives.filter(
-    (habit) => habit._id !== habitId
-  );
-  user.archives = filteredArchives;
+  user.archives = user.archives.filter((habit) => habit._id !== habitId);
   user.habits.push(restoredHabit);
   this.db.users.update({ _id: user._id }, user);
   return new Response(
@@ -104,8 +98,7 @@ export const archiveHabitHandler = function (schema, request) {
     const archivedHabit = user.habits.filter(
       (habit) => habit._id === habitId
     )[0];
-    const filteredHabits = user.habits.filter((habit) => habit._id !== habitId);
-    user.habits = filteredHabits;
+    user.habits = user.habits.filter((habit) => habit._id !== habitId);
     user.archives.push({ ...archivedHabit });
     this.db.users.update({ _id: user._id }, user);
     return new Response(

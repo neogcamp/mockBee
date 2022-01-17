@@ -22,7 +22,6 @@ import {
   getLabelsHandler,
 } from "./backend/controllers/LabelController";
 import { users } from "./backend/db/users";
-import { initialUserData } from "./backend/utils/authUtils";
 
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
@@ -36,10 +35,13 @@ export function makeServer({ environment = "development" } = {}) {
 
     // Runs on the start of the server
     seeds(server) {
+      server.logging = false;
       users.forEach((item) =>
         server.create("user", {
           ...item,
-          ...initialUserData,
+          habits: [],
+          archives: [],
+          labels: [],
         })
       );
     },

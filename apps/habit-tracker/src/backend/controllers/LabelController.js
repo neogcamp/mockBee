@@ -42,6 +42,13 @@ export const createLabelHandler = function (schema, request) {
     );
   }
   const { labelName } = request.params;
+  if (user.labels.includes(labelName)) {
+    return new Response(
+      409,
+      {},
+      { errors: ["Duplicate data found. Label name must be unique."] }
+    );
+  }
   user.labels.push(labelName);
   this.db.users.update({ _id: user._id }, user);
   return new Response(200, {}, { labels: user.labels });
@@ -64,8 +71,7 @@ export const deleteLabelHandler = function (schema, request) {
     );
   }
   const { labelName } = request.params;
-  const updatedLabels = user.labels.filter((label) => label !== labelName);
-  user.labels = updatedLabels;
+  user.labels = user.labels.filter((label) => label !== labelName);
   this.db.users.update({ _id: user._id }, user);
   return new Response(200, {}, { labels: user.labels });
 };
