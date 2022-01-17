@@ -130,7 +130,7 @@ The following Routes are relating to User's Cart. These are private routes.
   }
   ```
 
-- **Functionality**: This API call adds an item to the cart of the user in the db.
+- **Functionality**: This API call adds a new item to the cart of the user in the db.
 
 ### 3. DELETE `/api/user/cart/:productId`
 
@@ -174,7 +174,7 @@ The following Routes are relating to User's Cart. These are private routes.
   }
   ```
 
-- **Functionality**: This API call updates an cart item of the user in the db.
+- **Functionality**: This API call updates an existing cart item quantity for the user in the db.
 
 ---
 

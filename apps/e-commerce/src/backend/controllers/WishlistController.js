@@ -1,5 +1,5 @@
 import { Response } from "miragejs";
-import { requiresAuth } from "../utils/authUtils";
+import { formatDate, requiresAuth } from "../utils/authUtils";
 
 /**
  * All the routes related to Wishlist are present here.
@@ -12,9 +12,9 @@ import { requiresAuth } from "../utils/authUtils";
  * send GET Request at /api/user/wishlist
  * */
 
-export const getWishListItemsHandler = function (schema, request) {
-  const user = requiresAuth.call(this, request);
-  if (!user) {
+export const getWishlistItemsHandler = function (schema, request) {
+  const userId = requiresAuth.call(this, request);
+  if (!userId) {
     new Response(
       404,
       {},
@@ -23,7 +23,8 @@ export const getWishListItemsHandler = function (schema, request) {
       }
     );
   }
-  return new Response(200, {}, { wishList: user.wishList });
+  const userWishlist = schema.users.findBy({ _id: userId }).wishlist;
+  return new Response(200, {}, { wishlist: userWishlist });
 };
 
 /**
@@ -32,10 +33,10 @@ export const getWishListItemsHandler = function (schema, request) {
  * body contains {product}
  * */
 
-export const addItemToWishListHandler = function (schema, request) {
-  const user = requiresAuth.call(this, request);
+export const addItemToWishlistHandler = function (schema, request) {
+  const userId = requiresAuth.call(this, request);
   try {
-    if (!user) {
+    if (!userId) {
       new Response(
         404,
         {},
@@ -44,10 +45,15 @@ export const addItemToWishListHandler = function (schema, request) {
         }
       );
     }
-
+    const userWishlist = schema.users.findBy({ _id: userId }).wishlist;
     const { product } = JSON.parse(request.requestBody);
-    user.wishList.push(product);
-    return new Response(201, {}, { wishList: user.wishList });
+    userWishlist.push({
+      ...product,
+      createdAt: formatDate(),
+      updatedAt: formatDate(),
+    });
+    this.db.users.update({ _id: userId }, { wishlist: userWishlist });
+    return new Response(201, {}, { wishlist: userWishlist });
   } catch (error) {
     return new Response(
       500,
@@ -65,10 +71,10 @@ export const addItemToWishListHandler = function (schema, request) {
  * body contains {product}
  * */
 
-export const removeItemFromWishListHandler = function (schema, request) {
-  const user = requiresAuth.call(this, request);
+export const removeItemFromWishlistHandler = function (schema, request) {
+  const userId = requiresAuth.call(this, request);
   try {
-    if (!user) {
+    if (!userId) {
       new Response(
         404,
         {},
@@ -77,13 +83,11 @@ export const removeItemFromWishListHandler = function (schema, request) {
         }
       );
     }
+    let userWishlist = schema.users.findBy({ _id: userId }).wishlist;
     const productId = request.params.productId;
-    const filteredWishList = user.wishList.filter(
-      (item) => item._id !== productId
-    );
-    this.db.users.update({ wishList: filteredWishList });
-
-    return new Response(200, {}, { wishList: filteredWishList });
+    userWishlist = userWishlist.filter((item) => item._id !== productId);
+    this.db.users.update({ _id: userId }, { wishlist: userWishlist });
+    return new Response(200, {}, { wishlist: userWishlist });
   } catch (error) {
     return new Response(
       500,

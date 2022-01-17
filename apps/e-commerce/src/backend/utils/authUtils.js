@@ -1,5 +1,6 @@
 import { Response } from "miragejs";
 const jwt = require("jsonwebtoken");
+import dayjs from "dayjs";
 
 export const requiresAuth = function (request) {
   const encodedToken = request.requestHeaders.authorization;
@@ -9,7 +10,9 @@ export const requiresAuth = function (request) {
   );
   if (decodedToken) {
     const user = this.db.users.findBy({ email: decodedToken.email });
-    return user;
+    if (user) {
+      return user._id;
+    }
   }
   return new Response(
     401,
@@ -18,4 +21,4 @@ export const requiresAuth = function (request) {
   );
 };
 
-export const initialUserData = { cart: [], wishList: [] };
+export const formatDate = () => dayjs().format("YYYY-MM-DDTHH:mm:ssZ");
