@@ -16,17 +16,18 @@ import {
   getAllUserPostsHandler,
 } from "./backend/controllers/PostController";
 import {
-  bookmarkPostHandler,
   followUserHandler,
   getAllUsersHandler,
   getUserHandler,
+  getBookmarkPostsHandler,
+  bookmarkPostHandler,
   removePostFromBookmarkHandler,
   unfollowUserHandler,
   editUserHandler,
 } from "./backend/controllers/UserController";
-import { initialUserData } from "./backend/utils/authUtils";
+
 export function makeServer({ environment = "development" } = {}) {
-  let server = new Server({
+  return new Server({
     serializers: {
       application: RestSerializer,
     },
@@ -39,8 +40,14 @@ export function makeServer({ environment = "development" } = {}) {
 
     // Runs on the start of the server
     seeds(server) {
+      server.logging = false;
       users.forEach((item) =>
-        server.create("user", { ...item, ...initialUserData })
+        server.create("user", {
+          ...item,
+          followers: [],
+          following: [],
+          bookmarks: [],
+        })
       );
       posts.forEach((item) => server.create("post", { ...item }));
     },
@@ -54,7 +61,7 @@ export function makeServer({ environment = "development" } = {}) {
       // post routes (public)
       this.get("/posts", getAllpostsHandler.bind(this));
       this.get("/posts/:postId", getPostHandler.bind(this));
-      this.get("/posts/:username", getAllUserPostsHandler.bind(this));
+      this.get("/posts/user/:username", getAllUserPostsHandler.bind(this));
 
       // post routes (private)
       this.post("/posts", createPostHandler.bind(this));
@@ -69,6 +76,7 @@ export function makeServer({ environment = "development" } = {}) {
 
       // user routes (private)
       this.post("users/edit", editUserHandler.bind(this));
+      this.get("/users/bookmark", getBookmarkPostsHandler.bind(this));
       this.post("/users/bookmark/:postId/", bookmarkPostHandler.bind(this));
       this.post(
         "/users/remove-bookmark/:postId/",
@@ -81,5 +89,4 @@ export function makeServer({ environment = "development" } = {}) {
       );
     },
   });
-  return server;
 }
