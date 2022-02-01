@@ -37,9 +37,9 @@ export const getAllVideosHandler = function () {
  * */
 
 export const getVideoHandler = function (schema, request) {
-  const videoId = request.params.productId;
+  const { videoId } = request.params;
   try {
-    const video = this.db.videos.findBy({ _id: videoId });
+    const video = schema.videos.findBy({ _id: videoId }).attrs;
     return new Response(200, {}, { video });
   } catch (error) {
     return new Response(

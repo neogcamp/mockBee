@@ -74,7 +74,7 @@ export function makeServer({ environment = "development" } = {}) {
 
       // video routes (public)
       this.get("/videos", getAllVideosHandler.bind(this));
-      this.get("video/:videoId", getVideoHandler);
+      this.get("video/:videoId", getVideoHandler.bind(this));
 
       // TODO: POST VIDEO TO DB
 
