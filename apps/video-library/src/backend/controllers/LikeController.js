@@ -45,6 +45,15 @@ export const addItemToLikedVideos = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (user) {
     const { video } = JSON.parse(request.requestBody);
+    if (user.likes.some((item) => item.id === video.id)) {
+      return new Response(
+        409,
+        {},
+        {
+          errors: ["The video is already in your liked videos"],
+        }
+      );
+    }
     user.likes.push(video);
     return new Response(201, {}, { likes: user.likes });
   }

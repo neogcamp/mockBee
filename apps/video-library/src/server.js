@@ -26,8 +26,8 @@ import {
 } from "./backend/controllers/LikeController";
 import {
   getAllPlaylistsHandler,
-  addItemToPlaylistsHandler,
-  removeItemFromPlaylistHandler,
+  addNewPlaylistHandler,
+  removePlaylistHandler,
   getVideosFromPlaylistHandler,
   addVideoToPlaylistHandler,
   removeVideoFromPlaylistHandler,
@@ -89,10 +89,10 @@ export function makeServer({ environment = "development" } = {}) {
 
       // playlist routes (private)
       this.get("/user/playlists", getAllPlaylistsHandler.bind(this));
-      this.post("/user/playlists", addItemToPlaylistsHandler.bind(this));
+      this.post("/user/playlists", addNewPlaylistHandler.bind(this));
       this.delete(
         "/user/playlists/:playlistId",
-        removeItemFromPlaylistHandler.bind(this)
+        removePlaylistHandler.bind(this)
       );
 
       this.get(
