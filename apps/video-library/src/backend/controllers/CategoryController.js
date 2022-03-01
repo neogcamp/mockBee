@@ -1,5 +1,4 @@
 import { Response } from "miragejs";
-
 /**
  * All the routes related to Category are present here.
  * These are Publicly accessible routes.
@@ -30,9 +29,9 @@ export const getAllCategoriesHandler = function () {
  * */
 
 export const getCategoryHandler = function (schema, request) {
-  const categoryId = request.params.categoryId;
+  const { categoryId } = request.params;
   try {
-    const category = this.db.categories.findBy({ _id: categoryId });
+    const category = schema.categories.findBy({ _id: categoryId }).attrs;
     return new Response(200, {}, { category });
   } catch (error) {
     return new Response(
