@@ -26,16 +26,15 @@ import {
 } from "./backend/controllers/LikeController";
 import {
   getAllPlaylistsHandler,
-  addItemToPlaylistsHandler,
-  removeItemFromPlaylistHandler,
+  addNewPlaylistHandler,
+  removePlaylistHandler,
   getVideosFromPlaylistHandler,
   addVideoToPlaylistHandler,
   removeVideoFromPlaylistHandler,
 } from "./backend/controllers/PlaylistController";
 import { users } from "./backend/db/users";
-import { initialUserData } from "./backend/utils/authUtils";
 export function makeServer({ environment = "development" } = {}) {
-  let server = new Server({
+  return new Server({
     serializers: {
       application: RestSerializer,
     },
@@ -52,6 +51,7 @@ export function makeServer({ environment = "development" } = {}) {
 
     // Runs on the start of the server
     seeds(server) {
+      server.logging = false;
       videos.forEach((item) => {
         server.create("video", { ...item });
       });
@@ -59,7 +59,9 @@ export function makeServer({ environment = "development" } = {}) {
       users.forEach((item) =>
         server.create("user", {
           ...item,
-          ...initialUserData,
+          likes: [],
+          history: [],
+          playlists: [],
         })
       );
     },
@@ -72,7 +74,7 @@ export function makeServer({ environment = "development" } = {}) {
 
       // video routes (public)
       this.get("/videos", getAllVideosHandler.bind(this));
-      this.get("video/:videoId", getVideoHandler);
+      this.get("video/:videoId", getVideoHandler.bind(this));
 
       // TODO: POST VIDEO TO DB
 
@@ -87,10 +89,10 @@ export function makeServer({ environment = "development" } = {}) {
 
       // playlist routes (private)
       this.get("/user/playlists", getAllPlaylistsHandler.bind(this));
-      this.post("/user/playlists", addItemToPlaylistsHandler.bind(this));
+      this.post("/user/playlists", addNewPlaylistHandler.bind(this));
       this.delete(
         "/user/playlists/:playlistId",
-        removeItemFromPlaylistHandler.bind(this)
+        removePlaylistHandler.bind(this)
       );
 
       this.get(
@@ -116,5 +118,4 @@ export function makeServer({ environment = "development" } = {}) {
       this.delete("/user/history/all", clearHistoryHandler.bind(this));
     },
   });
-  return server;
 }
