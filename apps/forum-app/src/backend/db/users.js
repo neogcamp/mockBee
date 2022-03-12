@@ -19,10 +19,10 @@ export const users = [
   },
   {
     _id: uuid(),
-    firstName: "Dhruvi",
+    firstName: "Soham",
     lastName: "Shah",
-    username: "dhruvishah",
-    password: bcyrpt.hashSync("dhruviShah123"),
+    username: "sohamshah",
+    password: bcyrpt.hashSync("sohamShah123"),
     createdAt: formatDate(),
     updatedAt: formatDate(),
   },

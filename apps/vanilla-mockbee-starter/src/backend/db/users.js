@@ -16,10 +16,10 @@ export const users = [
   },
   {
     _id: uuid(),
-    firstName: "Dhruvi",
+    firstName: "Soham",
     lastName: "Shah",
-    email: "dhruvishah@gmail.com",
-    password: bcyrpt.hashSync("dhruviShah123", 5),
+    email: "sohamshah@gmail.com",
+    password: bcyrpt.hashSync("sohamShah123", 5),
   },
   {
     _id: uuid(),
