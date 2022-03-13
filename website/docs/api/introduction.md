@@ -1,6 +1,6 @@
 # Introduction
 
-APIs are the heart of **mockBee**; and best part is you necessarily need to write them in order to use them!
+APIs are the heart of **mockBee**; and best part is you don't necessarily need to write them in order to use them!
 
 In the industry, **frontend developers** are given the API endpoints and are expected to build the UI, mingle with Data and do request-response with the APIs.
 
