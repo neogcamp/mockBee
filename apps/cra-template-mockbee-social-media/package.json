@@ -1,7 +1,6 @@
 {
   "name": "cra-template-mockbee-social-media",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
   "main": "template.json",
   "files": [
     "template",
