@@ -1,0 +1,31 @@
+{
+  "package": {
+    "dependencies": {
+      "@testing-library/jest-dom": "^5.11.6",
+      "@testing-library/react": "^11.2.2",
+      "@testing-library/user-event": "^12.6.0",
+      "axios": "^0.21.4",
+      "bcryptjs": "^2.4.3",
+      "dayjs": "^1.10.7",
+      "jsonwebtoken": "^8.5.1",
+      "miragejs": "^0.1.41",
+      "uuid": "^8.3.2",
+      "web-vitals": "^0.2.4",
+      "yarn": "^1.22.10"
+    },
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject"
+    },
+    "browserslist": {
+      "production": [">0.2%", "not dead", "not op_mini all"],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    }
+  }
+}

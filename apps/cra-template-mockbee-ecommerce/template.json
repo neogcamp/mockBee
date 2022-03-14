@@ -1,0 +1,26 @@
+{
+  "package": {
+    "dependencies": {
+      "dayjs": "^1.10.7",
+      "miragejs": "^0.1.41",
+      "uuid": "^8.3.2",
+      "jwt-decode": "^3.1.2",
+      "jwt-encode": "^1.0.1",
+      "mockman-js": "^1.0.5"
+    },
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject"
+    },
+    "browserslist": {
+      "production": [">0.2%", "not dead", "not op_mini all"],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    }
+  }
+}
