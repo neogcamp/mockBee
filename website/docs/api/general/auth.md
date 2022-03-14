@@ -10,8 +10,6 @@ Authentication APIs serve functionalities such as Login and Signup. These Routes
 
 The state is maintained on the client-side in this case. JWT is self-contained. It can carry important user information, which can be decoded on the server using a private secret key. The decoded information is then used for user identification on the server.
 
-This is managed by a package called [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
-
 In simple words, JWT Authentication Strategy can be understood as:
 
 - For signing up, the user sends data such as firstName, lastName, email and password to the server.

@@ -54,8 +54,10 @@ You can refer `README.md` file for more insights about the project you are worki
 
 - **React** and **ReactDOM** - Frontend Library
 - **MirageJS** - API Mocking Library
-- **jsonwebtoken** - For JWT Authentication
+- **jwt-encode, jwt-decode** - For JWT Authentication
 - **uuid** - For generating random IDs
+- **day-js** - For date formatting
+- **mockman-js** - For Testing APIs in the Browser
 
 Feel free to extend the dependencies by installing more by running:
 
