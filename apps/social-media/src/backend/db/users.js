@@ -18,10 +18,10 @@ export const users = [
   },
   {
     _id: uuid(),
-    firstName: "Dhruvi",
+    firstName: "Soham",
     lastName: "Shah",
-    username: "dhruvishah",
-    password: bcrypt.hashSync("dhruviShah123", 5),
+    username: "sohamshah",
+    password: bcrypt.hashSync("sohamShah123", 5),
     createdAt: formatDate(),
     updatedAt: formatDate(),
   },
