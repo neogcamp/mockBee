@@ -1,7 +1,6 @@
 {
   "name": "cra-template-mockbee-ecommerce",
   "version": "1.0.0",
-  "private": true,
   "main": "template.json",
   "files": [
     "template",
