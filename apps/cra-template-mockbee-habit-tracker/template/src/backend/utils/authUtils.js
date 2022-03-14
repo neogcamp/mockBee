@@ -1,10 +1,10 @@
 import { Response } from "miragejs";
-const jwt = require("jsonwebtoken");
+import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 
 export const requiresAuth = function (request) {
   const encodedToken = request.requestHeaders.authorization;
-  const decodedToken = jwt.verify(
+  const decodedToken = jwt_decode(
     encodedToken,
     process.env.REACT_APP_JWT_SECRET
   );
