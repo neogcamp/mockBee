@@ -1,8 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { Response } from "miragejs";
 import { formatDate } from "../utils/authUtils";
-import bcrypt from "bcryptjs";
-const jwt = require("jsonwebtoken");
+const sign = require("jwt-encode");
 
 /**
  * All the routes related to Auth are present here.
@@ -30,20 +29,20 @@ export const signupHandler = function (schema, request) {
       );
     }
     const _id = uuid();
-    const encryptedPassword = bcrypt.hashSync(password, 5);
+
     const newUser = {
       _id,
       createdAt: formatDate(),
       updatedAt: formatDate(),
       username,
-      password: encryptedPassword,
+      password,
       ...rest,
       followers: [],
       following: [],
       bookmarks: [],
     };
     const createdUser = schema.users.create(newUser);
-    const encodedToken = jwt.sign(
+    const encodedToken = sign(
       { _id, username },
       process.env.REACT_APP_JWT_SECRET
     );
@@ -80,8 +79,8 @@ export const loginHandler = function (schema, request) {
         }
       );
     }
-    if (bcrypt.compareSync(password, foundUser.password)) {
-      const encodedToken = jwt.sign(
+    if (password === foundUser.password) {
+      const encodedToken = sign(
         { _id: foundUser._id, username },
         process.env.REACT_APP_JWT_SECRET
       );
