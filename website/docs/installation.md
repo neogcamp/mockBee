@@ -2,9 +2,33 @@
 
 Getting started with mockBee is easy! 🏄‍♂️
 
-## Scaffolding your Project
+## Installing the mockbee template
 
-### Step 1: Cloning the Repo
+### Approach 1: mockBee 2.0: CRA Templates
+
+Now you can use the CRA templates to install your favourite mockbee project directly!
+
+```bash
+npx create-react-app my-app --template mockbee-[project-name-here]
+```
+
+Available templates:
+
+- [mockbee-ecommerce](https://www.npmjs.com/package/cra-template-mockbee-ecommerce)
+- [mockbee-video-library](https://www.npmjs.com/package/cra-template-mockbee-video-library)
+- [mockbee-social-media](https://www.npmjs.com/package/cra-template-mockbee-social-media)
+- [mockbee-forum-app](https://www.npmjs.com/package/cra-template-mockbee-forum-app)
+- [mockbee-project-management](https://www.npmjs.com/package/cra-template-mockbee-project-management)
+- [mockbee-habit-tracker](https://www.npmjs.com/package/cra-template-mockbee-habit-tracker)
+- [mockbee-notes-app](https://www.npmjs.com/package/cra-template-mockbee-notes-app)
+
+Example command (say you want to install e-commerce template):
+
+```bash
+npx create-react-app my-app --template mockbee-ecommerce
+```
+
+### Approach 2: By using mock-backend starter
 
 Run the following command in your terminal.
 
@@ -18,7 +42,7 @@ That's it! Wait for the installation to be finished follow the instructions in t
 
 Select the name of your app, your favourite mockBee template and let us handle the rest for you!
 
-### Step 2: Running the App
+## Running the App
 
 Head over to your project and run,
 
