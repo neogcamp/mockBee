@@ -14,7 +14,7 @@ import { requiresAuth } from "../utils/authUtils";
 export const getAllArchivedNotesHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -33,7 +33,7 @@ export const getAllArchivedNotesHandler = function (schema, request) {
 export const deleteFromArchivesHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -55,7 +55,7 @@ export const deleteFromArchivesHandler = function (schema, request) {
 export const restoreFromArchivesHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {

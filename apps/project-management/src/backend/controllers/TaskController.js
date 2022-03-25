@@ -15,7 +15,7 @@ import { requiresAuth } from "../utils/authUtils";
 export const getTasksHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -36,7 +36,7 @@ export const getTasksHandler = function (schema, request) {
 export const getTaskHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -59,7 +59,7 @@ export const getTaskHandler = function (schema, request) {
 export const createTaskHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -85,7 +85,7 @@ export const createTaskHandler = function (schema, request) {
 export const editTaskHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -113,7 +113,7 @@ export const editTaskHandler = function (schema, request) {
 export const deleteTaskHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
