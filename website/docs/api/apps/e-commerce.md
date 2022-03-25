@@ -192,7 +192,7 @@ The following Routes are relating to User's Wishlist. These are private routes.
   ```js
   {
     data: {
-      wishList: Array;
+      wishlist: Array;
     }
   }
   ```
@@ -215,7 +215,7 @@ The following Routes are relating to User's Wishlist. These are private routes.
   ```js
   {
     data: {
-      wishList: Array;
+      wishlist: Array;
     }
   }
   ```
@@ -232,7 +232,7 @@ The following Routes are relating to User's Wishlist. These are private routes.
   ```js
   {
     data: {
-      wishList: Array;
+      wishlist: Array;
     }
   }
   ```
