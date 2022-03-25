@@ -69,7 +69,7 @@ export const addItemToWatchLaterVideos = function (schema, request) {
 
 /**
  * This handler handles removing videos from user's watchlater playlist.
- * send DELETE Request at /api/user/watchlater/videoId
+ * send DELETE Request at /api/user/watchlater/:videoId
  * */
 
 export const removeItemFromWatchLaterVideos = function (schema, request) {
