@@ -117,7 +117,7 @@ The following Routes are relating to User's Cart. These are private routes.
 - **Request Body**:
   ```js
   {
-    cart;
+    product;
   }
   ```
 - **Response Body**:
