@@ -33,9 +33,9 @@ The following Routes are relating to Videos. These are Publicly accessible route
 
 - **Functionality**: This API call gets all videos from the db.
 
-### 2. GET `/api/videos/:videoId`
+### 2. GET `/api/video/:videoId`
 
-- **Request URL**: `/api/videos/:videoId`
+- **Request URL**: `/api/video/:videoId`
 - **HTTP Method**: GET
 - **Response Body**:
 
