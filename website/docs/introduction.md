@@ -19,13 +19,13 @@
 
 ## Available APIs
 
-- [E-Commerce](api/apps/e-commerce)
-- [Video Library](api/apps/video-library)
-- [Social Media](api/apps/social-media)
-- [Notes App](api/apps/notes-app)
-- [Forum App](api/apps/forum-app)
-- [Project Management](api/apps/project-management)
-- [Habit Tracker](api/apps/habit-tracker)
+- [E-Commerce](apps/e-commerce)
+- [Video Library](apps/video-library)
+- [Social Media](apps/social-media)
+- [Notes App](apps/notes-app)
+- [Forum App](apps/forum-app)
+- [Project Management](apps/project-management)
+- [Habit Tracker](apps/habit-tracker)
 
 ## Quick Links
 
