@@ -53,3 +53,11 @@ yarn start
 ```
 
 This should run your **react app** on `localhost:3000`!
+
+> **Note:** If you are running this application for the first time, make sure that you have the updated dependencies by running,
+
+```
+npm install
+// or
+yarn
+```

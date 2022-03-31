@@ -15,7 +15,7 @@ import { requiresAuth } from "../utils/authUtils";
 export const getHabitsHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -34,7 +34,7 @@ export const getHabitsHandler = function (schema, request) {
 export const getHabitHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -56,7 +56,7 @@ export const getHabitHandler = function (schema, request) {
 export const createHabitHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -84,7 +84,7 @@ export const createHabitHandler = function (schema, request) {
 export const editHabitHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -108,7 +108,7 @@ export const editHabitHandler = function (schema, request) {
 export const deleteHabitHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {

@@ -14,7 +14,7 @@ import { requiresAuth } from "../utils/authUtils";
 export const getLabelsHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -35,7 +35,7 @@ export const getLabelsHandler = function (schema, request) {
 export const createLabelHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -65,7 +65,7 @@ export const createLabelHandler = function (schema, request) {
 export const deleteLabelHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {

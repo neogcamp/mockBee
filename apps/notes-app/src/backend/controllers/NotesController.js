@@ -15,7 +15,7 @@ import { v4 as uuid } from "uuid";
 export const getAllNotesHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -36,7 +36,7 @@ export const createNoteHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
-      new Response(
+      return new Response(
         404,
         {},
         {
@@ -72,7 +72,7 @@ export const deleteNoteHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
-      new Response(
+      return new Response(
         404,
         {},
         {
@@ -105,7 +105,7 @@ export const updateNoteHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
-      new Response(
+      return new Response(
         404,
         {},
         {
@@ -140,7 +140,7 @@ export const archiveNoteHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   try {
     if (!user) {
-      new Response(
+      return new Response(
         404,
         {},
         {

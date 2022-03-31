@@ -4,7 +4,6 @@ A **Video Library** is a web app that consists of collection of Videos. Similar 
 
 ---
 
-
 ## Auth Routes
 
 In `Video Library App`, the authentication is done with `email` and `password` credential fields.
@@ -33,9 +32,9 @@ The following Routes are relating to Videos. These are Publicly accessible route
 
 - **Functionality**: This API call gets all videos from the db.
 
-### 2. GET `/api/videos/:videoId`
+### 2. GET `/api/video/:videoId`
 
-- **Request URL**: `/api/videos/:videoId`
+- **Request URL**: `/api/video/:videoId`
 - **HTTP Method**: GET
 - **Response Body**:
 
@@ -155,6 +154,69 @@ The following Routes are relating to User's liked Videos. These are private rout
   ```
 
 - **Functionality**: This API call removes a video from the liked videos of the user in the db.
+
+---
+
+## Watch Later Routes
+
+The following Routes are relating to User's Watch Later Videos. These are private routes.
+
+### 1. GET `/api/user/watchlater`
+
+- **Request URL**: `/api/user/watchlater`
+- **HTTP Method**: GET
+- **Request Headers**: `authorization: encodedToken`
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      watchlater: Array;
+    }
+  }
+  ```
+
+- **Functionality**: This API call gets all watch later videos of the user from the db.
+
+### 2. POST `/api/user/watchlater`
+
+- **Request URL**: `/api/user/watchlater`
+- **HTTP Method**: POST
+- **Request Headers**: `authorization: encodedToken`
+- **Request Body**:
+  ```js
+  {
+    video;
+  }
+  ```
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      watchlater: Array;
+    }
+  }
+  ```
+
+- **Functionality**: This API call adds a video to the watch later videos of the user in the db.
+
+### 3. DELETE `/api/user/watchlater/:videoId`
+
+- **Request URL**: `/api/user/watchlater/:videoId`
+- **HTTP Method**: DELETE
+- **Request Headers**: `authorization: encodedToken`
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      watchlater: Array;
+    }
+  }
+  ```
+
+- **Functionality**: This API call removes a video from the watch later videos of the user in the db.
 
 ---
 

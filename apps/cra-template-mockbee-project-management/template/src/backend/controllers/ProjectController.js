@@ -15,7 +15,7 @@ import { requiresAuth } from "../utils/authUtils";
 export const getProjectsHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -34,7 +34,7 @@ export const getProjectsHandler = function (schema, request) {
 export const getProjectHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -56,7 +56,7 @@ export const getProjectHandler = function (schema, request) {
 export const createProjectHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -85,7 +85,7 @@ export const createProjectHandler = function (schema, request) {
 export const editProjectHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
@@ -111,7 +111,7 @@ export const editProjectHandler = function (schema, request) {
 export const deleteProjectHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   if (!user) {
-    new Response(
+    return new Response(
       404,
       {},
       {
