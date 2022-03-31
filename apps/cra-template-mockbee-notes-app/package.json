@@ -1,6 +1,6 @@
 {
   "name": "cra-template-mockbee-notes-app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "template.json",
   "files": [
     "template",
