@@ -50,4 +50,3 @@ Now, on top of this; you can start building your frontend as you like.
 - Want to read more on the whys and hows of **mockBee**, miragejs, customization, available APIs and more?
   We have curated some Guides [here](why-miragejs-mock-backend)
 - Interested in exploring main concepts, how to add custom APIs and resources for learning miragejs?
-  Make sure you visit [Advanced Guides](main-concepts)

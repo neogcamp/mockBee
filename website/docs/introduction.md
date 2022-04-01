@@ -32,4 +32,3 @@
 - [Get Started](installation)
 - [Guides](why-miragejs-mock-backend)
 - [API Documentation](api/introduction)
-- [Advance Guides](main-concepts)
