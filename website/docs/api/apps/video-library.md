@@ -335,7 +335,7 @@ The following Routes are relating to User's Playlists and Playlisted Videos. The
   ```js
   {
     data: {
-      playlists: Array;
+      playlist: Array;
     }
   }
   ```
