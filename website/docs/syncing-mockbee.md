@@ -16,7 +16,7 @@ This section briefs about how you can keep your existing mockbee powered app up 
 ### 2. Copy-paste file contents
 
 - Copy the parts which aren't present in your project in `server.js` file.
-- Copy the new `WatchLaterController.js` in your project's controllers folder as in the github mockbee.
+- Copy the new `WatchLaterController.js` and `AuthController.js` in your project's controllers folder as in the github mockbee.
 - For this feature, we didn't had to copy anything else.
 
 ### 3. Testing its working
