@@ -13,6 +13,7 @@ import {
   createNoteHandler,
   deleteNoteHandler,
   getAllNotesHandler,
+  trashNoteHandler,
   updateNoteHandler,
 } from "./backend/controllers/NotesController";
 import {
@@ -58,6 +59,7 @@ export function makeServer({ environment = "development" } = {}) {
       this.post("/notes/:noteId", updateNoteHandler.bind(this));
       this.delete("/notes/:noteId", deleteNoteHandler.bind(this));
       this.post("/notes/archives/:noteId", archiveNoteHandler.bind(this));
+      this.post("/notes/trash/:noteId", trashNoteHandler.bind(this));
 
       // archive routes (private)
       this.get("/archives", getAllArchivedNotesHandler.bind(this));

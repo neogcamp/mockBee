@@ -171,3 +171,79 @@ The following Routes are relating to Notes. These are Privately accessible route
   ```
 
 - **Functionality**: This API call restores a note for the user's archives in the db.
+
+---
+
+## Trash Routes
+
+### 1. GET `/api/trash`
+
+- **Request URL**: `/api/trash`
+- **HTTP Method**: GET
+- **Request Headers**: `authorization: encodedToken`
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      trash: Array;
+    }
+  }
+  ```
+
+- **Functionality**: This API call gets all trashed notes of the user from the db.
+
+### 2. POST `/notes/trash/:noteId`
+
+- **Request URL**: `/api/trash/:noteId`
+- **HTTP Method**: POST
+- **Request Headers**: `authorization: encodedToken`
+- **Request Body**: {}
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      notes: Array,
+      trash: Array
+    }
+  }
+  ```
+
+- **Functionality**: This API call adds a note for the user's trashed in the db.
+
+### 3. POST `/api/trash/restore/:noteId`
+
+- **Request URL**: `/api/trash/restore/:noteId`
+- **HTTP Method**: POST
+- **Request Headers**: `authorization: encodedToken`
+- **Request Body**: {}
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      notes: Array,
+      trash: Array
+    }
+  }
+  ```
+
+- **Functionality**: This API call restores a note for the user's trashed in the db.
+
+### 3. DELETE `/api/trash/delete/:noteId`
+
+- **Request URL**: `/api/trash/delete/:noteId`
+- **HTTP Method**: DELETE
+- **Request Headers**: `authorization: encodedToken`
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      trash: Array;
+    }
+  }
+  ```
+
+- **Functionality**: This API call restores a note for the user's trashed in the db.
