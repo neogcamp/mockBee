@@ -6,7 +6,7 @@ This section briefs about how you can keep your existing mockbee powered app up 
 
 ### 1. Find your project
 
-- Go to `github.com/mockbee/apps/video-library`
+- Go to `https://github.com/neogcamp/mockBee/tree/main/apps/video-library`
 - As we know, the logic is inside the controllers. So the `Watch Later` feature will be inside `src/backend/controllers`.
 - Watch Later feature is present in `WatchLaterController.js` (this file will not present be in present mockbee project).
 - In `utils` folder, we dont find any utility file related to this new feature. Though for other cases, you must check it if it is in sync with your project or not.
