@@ -19,17 +19,16 @@
 
 ## Available APIs
 
-- [E-Commerce](api/apps/e-commerce)
-- [Video Library](api/apps/video-library)
-- [Social Media](api/apps/social-media)
-- [Notes App](api/apps/notes-app)
-- [Forum App](api/apps/forum-app)
-- [Project Management](api/apps/project-management)
-- [Habit Tracker](api/apps/habit-tracker)
+- [E-Commerce](api/apps/e-commerce.md)
+- [Video Library](api/apps/video-library.md)
+- [Social Media](api/apps/social-media.md)
+- [Notes App](api/apps/notes-app.md)
+- [Forum App](api/apps/forum-app.md)
+- [Project Management](api/apps/project-management.md)
+- [Habit Tracker](api/apps/habit-tracker.md)
 
 ## Quick Links
 
-- [Get Started](installation)
-- [Guides](why-miragejs-mock-backend)
-- [API Documentation](api/introduction)
-- [Advance Guides](main-concepts)
+- [Get Started](installation.md)
+- [Guides](why-miragejs-mock-backend.md)
+- [API Documentation](api/introduction.md)

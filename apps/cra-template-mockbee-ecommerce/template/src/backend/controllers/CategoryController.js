@@ -35,7 +35,7 @@ export const getCategoryHandler = function (schema, request) {
     const category = schema.categories.findBy({ _id: categoryId });
     return new Response(200, {}, { category });
   } catch (error) {
-    new Response(
+    return new Response(
       500,
       {},
       {

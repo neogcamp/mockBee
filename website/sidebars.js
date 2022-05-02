@@ -14,18 +14,7 @@ module.exports = {
     {
       type: "category",
       label: "Guides",
-      items: [
-        "why-miragejs-mock-backend",
-        "how-it-works",
-        "customization",
-        "available-apis",
-        "playground",
-      ],
-    },
-    {
-      type: "category",
-      label: "Advanced Guides",
-      items: ["main-concepts", "custom-apis", "resources"],
+      items: ["why-miragejs-mock-backend", "syncing-mockbee", "customization"],
     },
   ],
   api: [

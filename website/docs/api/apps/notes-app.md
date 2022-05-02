@@ -117,12 +117,17 @@ The following Routes are relating to Notes. These are Privately accessible route
 
 - **Functionality**: This API call gets all archived notes of the user from the db.
 
-### 2. POST `/notes/archives/:noteId`
+### 2. POST `/api/notes/archives/:noteId`
 
-- **Request URL**: `/api/archives/:noteId`
+- **Request URL**: `/api/notes/archives/:noteId`
 - **HTTP Method**: POST
 - **Request Headers**: `authorization: encodedToken`
-- **Request Body**: {}
+- **Request Body**:
+  ```js
+  {
+    note;
+  }
+  ```
 - **Response Body**:
 
   ```js
