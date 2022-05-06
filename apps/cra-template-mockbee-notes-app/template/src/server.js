@@ -7,14 +7,21 @@ import {
 import {
   loginHandler,
   signupHandler,
+  userProfilehandler,
 } from "./backend/controllers/AuthController";
 import {
   archiveNoteHandler,
   createNoteHandler,
   deleteNoteHandler,
   getAllNotesHandler,
+  trashNoteHandler,
   updateNoteHandler,
 } from "./backend/controllers/NotesController";
+import {
+  deleteFromTrashHandler,
+  getAllTrashNotesHandler,
+  restoreFromTrashHandler,
+} from "./backend/controllers/TrashController";
 import { users } from "./backend/db/users";
 
 export function makeServer({ environment = "development" } = {}) {
@@ -36,15 +43,20 @@ export function makeServer({ environment = "development" } = {}) {
           ...item,
           notes: [],
           archives: [],
+          trash: [],
         })
       );
     },
 
     routes() {
       this.namespace = "api";
+
       // auth routes (public)
       this.post("/auth/signup", signupHandler.bind(this));
       this.post("/auth/login", loginHandler.bind(this));
+
+      // user route (private)
+      this.get("/user", userProfilehandler.bind(this));
 
       // notes routes (private)
       this.get("/notes", getAllNotesHandler.bind(this));
@@ -52,6 +64,7 @@ export function makeServer({ environment = "development" } = {}) {
       this.post("/notes/:noteId", updateNoteHandler.bind(this));
       this.delete("/notes/:noteId", deleteNoteHandler.bind(this));
       this.post("/notes/archives/:noteId", archiveNoteHandler.bind(this));
+      this.post("/notes/trash/:noteId", trashNoteHandler.bind(this));
 
       // archive routes (private)
       this.get("/archives", getAllArchivedNotesHandler.bind(this));
@@ -63,6 +76,10 @@ export function makeServer({ environment = "development" } = {}) {
         "/archives/delete/:noteId",
         deleteFromArchivesHandler.bind(this)
       );
+      // trash routes (private)
+      this.get("/trash", getAllTrashNotesHandler.bind(this));
+      this.post("/trash/restore/:noteId", restoreFromTrashHandler.bind(this));
+      this.delete("/trash/delete/:noteId", deleteFromTrashHandler.bind(this));
     },
   });
   return server;

@@ -2,6 +2,7 @@ import { Server, Model, RestSerializer } from "miragejs";
 import {
   loginHandler,
   signupHandler,
+  userProfilehandler,
 } from "./backend/controllers/AuthController";
 import { users } from "./backend/db/users";
 import {
@@ -21,6 +22,7 @@ import {
 import {
   createLabelHandler,
   deleteLabelHandler,
+  editLabelHandler,
   getLabelsHandler,
 } from "./backend/controllers/LabelController";
 import {
@@ -58,6 +60,9 @@ export function makeServer({ environment = "development" } = {}) {
       this.post("/auth/signup", signupHandler.bind(this));
       this.post("/auth/login", loginHandler.bind(this));
 
+      // user route (private)
+      this.get("/user" , userProfilehandler.bind(this))
+      
       // project routes (private)
       this.get("projects", getProjectsHandler.bind(this));
       this.post("projects", createProjectHandler.bind(this));
@@ -75,6 +80,10 @@ export function makeServer({ environment = "development" } = {}) {
       // label routes (private)
       this.get("labels/:projectId", getLabelsHandler.bind(this));
       this.post("labels/:projectId/:labelName", createLabelHandler.bind(this));
+      this.post(
+        "/labels/:projectId/:labelName/edit",
+        editLabelHandler.bind(this)
+      );
       this.delete(
         "labels/:projectId/:labelName",
         deleteLabelHandler.bind(this)

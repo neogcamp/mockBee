@@ -6,6 +6,8 @@ import {
   getAllUsersHandler,
   getUserHandler,
   editUserHandler,
+  followUserHandler,
+  unfollowUserHandler,
 } from "./backend/controllers/UserController";
 import { Server, Model, RestSerializer } from "miragejs";
 import { users } from "./backend/db/users";
@@ -55,7 +57,9 @@ export function makeServer({ environment = "development" } = {}) {
     // Runs on the start of the server
     seeds(server) {
       server.logging = false;
-      users.forEach((item) => server.create("user", { ...item }));
+      users.forEach((item) =>
+        server.create("user", { ...item, followers: [], following: [] })
+      );
 
       questions.forEach((item) => {
         server.create("question", { ...item });
@@ -73,6 +77,11 @@ export function makeServer({ environment = "development" } = {}) {
       this.get("/users/:userId", getUserHandler.bind(this));
       // user routes (private)
       this.post("users/edit", editUserHandler.bind(this));
+      this.post("/users/follow/:followUserId/", followUserHandler.bind(this));
+      this.post(
+        "/users/unfollow/:followUserId/",
+        unfollowUserHandler.bind(this)
+      );
 
       // questions routes (public)
       this.get("/questions", getAllQuestionsHandler.bind(this));

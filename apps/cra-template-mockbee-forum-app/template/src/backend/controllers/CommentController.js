@@ -12,7 +12,7 @@ import { v4 as uuid } from "uuid";
  * */
 
 export const getQuestionCommentsHandler = function (schema, request) {
-  const questionId = request.params.questionId;
+  const { questionId } = request.params;
   try {
     const question = schema.questions.findBy({ _id: questionId }).attrs;
     return new Response(200, {}, { comments: question.comments });

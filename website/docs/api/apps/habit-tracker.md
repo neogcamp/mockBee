@@ -4,7 +4,7 @@
 
 Because...
 
-> *Habits don't restrict freedom, they create it*
+> _Habits don't restrict freedom, they create it_
 
 ---
 
@@ -13,6 +13,29 @@ Because...
 In `Habit Tracker App`, the authentication is done with `email` and `password` credential fields.
 
 You can refer documentation related to Authentication [here](/docs/api/general/auth)
+
+---
+
+## Profile Routes
+
+The following Route is related to profile user . This are Privately accessible route.
+
+### 1. GET `/api/user`
+
+- **Request URL**: `/api/user`
+- **HTTP Method**: GET
+- **Request Headers**: `authorization: encodedToken`
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      user: Object;
+    }
+  }
+  ```
+
+- **Functionality**: This API call gets all user's data from the db.
 
 ---
 
@@ -30,7 +53,7 @@ The following Routes are relating to Habits. These are Privately accessible rout
   ```js
   {
     data: {
-      habits: Array
+      habits: Array;
     }
   }
   ```
@@ -47,7 +70,7 @@ The following Routes are relating to Habits. These are Privately accessible rout
   ```js
   {
     data: {
-      habit: Object
+      habit: Object;
     }
   }
   ```
@@ -63,7 +86,7 @@ The following Routes are relating to Habits. These are Privately accessible rout
 
   ```js
   {
-    habit: Object
+    habit: Object;
   }
   ```
 
@@ -72,7 +95,7 @@ The following Routes are relating to Habits. These are Privately accessible rout
   ```js
   {
     data: {
-      habits: Array
+      habits: Array;
     }
   }
   ```
@@ -88,7 +111,7 @@ The following Routes are relating to Habits. These are Privately accessible rout
 
   ```js
   {
-    habit
+    habit;
   }
   ```
 
@@ -97,7 +120,7 @@ The following Routes are relating to Habits. These are Privately accessible rout
   ```js
   {
     data: {
-      habits: Array
+      habits: Array;
     }
   }
   ```
@@ -115,7 +138,7 @@ The following Routes are relating to Habits. These are Privately accessible rout
   ```js
   {
     data: {
-      habits: Array
+      habits: Array;
     }
   }
   ```
@@ -134,10 +157,11 @@ The following Routes are relating to Labels. These are Privately accessible rout
 - **HTTP Method**: GET
 - **Request Headers**: `authorization: encodedToken`
 - **Response Body**:
+
   ```js
   {
     data: {
-      labels: Array
+      labels: Array;
     }
   }
   ```
@@ -151,10 +175,11 @@ The following Routes are relating to Labels. These are Privately accessible rout
 - **Request Headers**: `authorization: encodedToken`
 - **Request Body**: {}
 - **Response Body**:
+
   ```js
   {
     data: {
-      labels: Array
+      labels: Array;
     }
   }
   ```
@@ -167,10 +192,11 @@ The following Routes are relating to Labels. These are Privately accessible rout
 - **HTTP Method**: DELETE
 - **Request Headers**: `authorization: encodedToken`
 - **Response Body**:
+
   ```js
   {
     data: {
-      labels: Array
+      labels: Array;
     }
   }
   ```
@@ -187,10 +213,11 @@ The following Routes are relating to Archives. These are Privately accessible ro
 - **HTTP Method**: GET
 - **Request Headers**: `authorization: encodedToken`
 - **Response Body**:
+
   ```js
   {
     data: {
-      archives: Array
+      archives: Array;
     }
   }
   ```
@@ -204,6 +231,7 @@ The following Routes are relating to Archives. These are Privately accessible ro
 - **Request Headers**: `authorization: encodedToken`
 - **Request Body**: {}
 - **Response Body**:
+
   ```js
   {
     data: {
@@ -222,6 +250,7 @@ The following Routes are relating to Archives. These are Privately accessible ro
 - **Request Headers**: `authorization: encodedToken`
 - **Request Body**: {}
 - **Response Body**:
+
   ```js
   {
     data: {
@@ -239,17 +268,13 @@ The following Routes are relating to Archives. These are Privately accessible ro
 - **HTTP Method**: DELETE
 - **Request Headers**: `authorization: encodedToken`
 - **Response Body**:
+
   ```js
   {
     data: {
-      archives: Array
+      archives: Array;
     }
   }
   ```
 
 - **Functionality**: This API call deletes an archived habit from the db.
-
-
-
-
-
