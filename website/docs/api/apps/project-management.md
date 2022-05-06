@@ -12,6 +12,29 @@ You can refer documentation related to Authentication [here](/docs/api/general/a
 
 ---
 
+## Profile Routes
+
+The following Route is related to profile user . This are Privately accessible route.
+
+### 1. GET `/api/user`
+
+- **Request URL**: `/api/user`
+- **HTTP Method**: GET
+- **Request Headers**: `authorization: encodedToken`
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      user: Object;
+    }
+  }
+  ```
+
+- **Functionality**: This API call gets all user's data from the db.
+
+---
+
 ## Project Routes
 
 The following Routes are relating to Projects. These are Privately accessible routes.
@@ -261,7 +284,32 @@ The following Routes are relating to Labels. These are Privately accessible rout
 
 - **Functionality**: This API call adds a new label of a particular project from the db.
 
-### 3. DELETE `/api/labels/:projectId/:labelName`
+### 3. POST `/api/labels/:projectId/:labelName/edit`
+
+- **Request URL**: `/api/labels/:projectId/:labelName/edit`
+- **HTTP Method**: POST
+- **Request Headers**: `authorization: encodedToken`
+- **Request Body**:
+
+```js
+{
+  label;
+}
+```
+
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      labels: Array;
+    }
+  }
+  ```
+
+- **Functionality**: This API call edits a label of a particular project from the db.
+
+### 4. DELETE `/api/labels/:projectId/:labelName`
 
 - **Request URL**: `/api/labels/:projectId/:labelName`
 - **HTTP Method**: DELETE

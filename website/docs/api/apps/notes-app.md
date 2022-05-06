@@ -12,6 +12,29 @@ You can refer documentation related to Authentication [here](/docs/api/general/a
 
 ---
 
+## Profile Routes
+
+The following Route is related to profile user . This are Privately accessible route.
+
+### 1. GET `/api/user`
+
+- **Request URL**: `/api/user`
+- **HTTP Method**: GET
+- **Request Headers**: `authorization: encodedToken`
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      user: Object;
+    }
+  }
+  ```
+
+- **Functionality**: This API call gets all user's data from the db.
+
+---
+
 ## Notes Routes
 
 The following Routes are relating to Notes. These are Privately accessible routes.

@@ -1,6 +1,6 @@
 # Forum App
 
-**Forum App** is an app where users can ask questions, get answers, comments, replies and more. User can also upvote and downvote questions and answers in the application. It is similar to Quora or Stackoverflow application. 
+**Forum App** is an app where users can ask questions, get answers, comments, replies and more. User can also upvote and downvote questions and answers in the application. It is similar to Quora or Stackoverflow application.
 
 ---
 
@@ -29,6 +29,7 @@ The following Routes are relating to Users. Below are Publicly accessible routes
     }
   }
   ```
+
 - **Functionality**: This API call gets all users from the db.
 
 ### 2. GET `/api/users/:userId`
@@ -44,6 +45,7 @@ The following Routes are relating to Users. Below are Publicly accessible routes
     }
   }
   ```
+
 - **Functionality**: This API call gets a particular user from the db.
 
 ---
@@ -58,7 +60,7 @@ Below are Privately accessible routes.
 - **Request Body**:
   ```js
   {
-    userData
+    userData;
   }
   ```
 - **Response Body**:
@@ -70,7 +72,46 @@ Below are Privately accessible routes.
     }
   }
   ```
+
 - **Functionality**: This API call edits a user to the db.
+
+### 4. POST `/api/users/follow/:followUserId`
+
+- **Request URL**: `/api/users/follow/:followUserId`
+- **HTTP Method**: POST
+- **Request Headers**: `authorization: encodedToken`
+- **Request Body**: {}
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      user: Object;
+      followUser: Object;
+    }
+  }
+  ```
+
+- **Functionality**: This API call is responsible for follow action by the user.
+
+### 5. POST `/api/users/unfollow/:followUserId`
+
+- **Request URL**: `/api/users/unfollow/:followUserId`
+- **HTTP Method**: POST
+- **Request Headers**: `authorization: encodedToken`
+- **Request Body**: {}
+- **Response Body**:
+
+  ```js
+  {
+    data: {
+      user: Object,
+      followUser: Object
+    }
+  }
+  ```
+
+- **Functionality**: This API call is responsible for unfollow action by the user.
 
 ---
 
@@ -91,6 +132,7 @@ The following Routes are relating to Questions. Below are Publicly accessible ro
     }
   }
   ```
+
 - **Functionality**: This API call gets all questions from the db.
 
 ### 2. GET `/api/questions/:questionId`
@@ -106,6 +148,7 @@ The following Routes are relating to Questions. Below are Publicly accessible ro
     }
   }
   ```
+
 - **Functionality**: This API call gets a particular question from the db.
 
 ### 3. GET `/api/questions/:username`
@@ -121,9 +164,10 @@ The following Routes are relating to Questions. Below are Publicly accessible ro
     }
   }
   ```
+
 - **Functionality**: This API call gets all questions by username from the db.
 
---- 
+---
 
 Below are Privately accessible routes.
 
@@ -135,7 +179,7 @@ Below are Privately accessible routes.
 - **Request Body**:
   ```js
   {
-    questionData
+    questionData;
   }
   ```
 - **Response Body**:
@@ -147,8 +191,8 @@ Below are Privately accessible routes.
     }
   }
   ```
-- **Functionality**: This API call adds a question to the db.
 
+- **Functionality**: This API call adds a question to the db.
 
 ### 5. POST `/api/questions/edit/:questionId`
 
@@ -158,7 +202,7 @@ Below are Privately accessible routes.
 - **Request Body**:
   ```js
   {
-    questionData
+    questionData;
   }
   ```
 - **Response Body**:
@@ -170,6 +214,7 @@ Below are Privately accessible routes.
     }
   }
   ```
+
 - **Functionality**: This API call edits a question in the db.
 
 ### 6. DELETE `/api/questions/delete/:questionId`
@@ -204,9 +249,10 @@ The following Routes are relating to Answers. Below are Publicly accessible rout
     }
   }
   ```
+
 - **Functionality**: This API call gets all answers of a particular question from the db.
 
---- 
+---
 
 Below are Privately accessible routes.
 
@@ -218,7 +264,7 @@ Below are Privately accessible routes.
 - **Request Body**:
   ```js
   {
-    answerData
+    answerData;
   }
   ```
 - **Response Body**:
@@ -230,6 +276,7 @@ Below are Privately accessible routes.
     }
   }
   ```
+
 - **Functionality**: This API call adds an answer to the question in the db.
 
 ### 3. POST `/api/answers/edit/:questionId/:answerId`
@@ -240,7 +287,7 @@ Below are Privately accessible routes.
 - **Request Body**:
   ```js
   {
-    answerData
+    answerData;
   }
   ```
 - **Response Body**:
@@ -252,6 +299,7 @@ Below are Privately accessible routes.
     }
   }
   ```
+
 - **Functionality**: This API call edits an answer of the question in the db.
 
 ### 4. DELETE `/api/answers/delete/:questionId/:answerId`
@@ -268,6 +316,7 @@ Below are Privately accessible routes.
     }
   }
   ```
+
 - **Functionality**: This API call deletes an answer of the question in the db.
 
 ## Votes Routes
@@ -287,6 +336,7 @@ The following Routes are relating to Votes. Below are Publicly accessible routes
     }
   }
   ```
+
 - **Functionality**: This API call gets all votes of a question from the db.
 
 ### 2. GET `/api/votes/:questionId/:answerId`
@@ -302,9 +352,10 @@ The following Routes are relating to Votes. Below are Publicly accessible routes
     }
   }
   ```
+
 - **Functionality**: This API call gets all votes of an answer to a question from the db.
 
---- 
+---
 
 Below are Privately accessible routes.
 
@@ -313,9 +364,12 @@ Below are Privately accessible routes.
 - **Request URL**: `/api/votes/react/:questionId`
 - **HTTP Method**: POST
 - **Request Body**:
+
   ```js
   {
-    vote: {reaction: 'upvote' | 'unvote' | 'downvote'}
+    vote: {
+      reaction: "upvote" | "unvote" | "downvote";
+    }
   }
   ```
 
@@ -328,6 +382,7 @@ Below are Privately accessible routes.
     }
   }
   ```
+
 - **Functionality**: This API call reacts to a question from the db.
 
 ### 4. POST `/api/votes/react/:questionId/:answerId`
@@ -335,9 +390,12 @@ Below are Privately accessible routes.
 - **Request URL**: `/api/votes/react/:questionId/:answerId`
 - **HTTP Method**: POST
 - **Request Body**:
+
   ```js
   {
-    vote: {reaction: 'upvote' | 'unvote' | 'downvote'}
+    vote: {
+      reaction: "upvote" | "unvote" | "downvote";
+    }
   }
   ```
 
@@ -350,6 +408,7 @@ Below are Privately accessible routes.
     }
   }
   ```
+
 - **Functionality**: This API call reacts to an answer of a question from the db.
 
 ## Comment Routes
@@ -369,6 +428,7 @@ The following Routes are relating to Comments. Below are Publicly accessible rou
     }
   }
   ```
+
 - **Functionality**: This API call gets all comments of a question from the db.
 
 ### 2. GET `/api/comments/:questionId/:answerId`
@@ -384,6 +444,7 @@ The following Routes are relating to Comments. Below are Publicly accessible rou
     }
   }
   ```
+
 - **Functionality**: This API call gets all comments of an answer to a question from the db.
 
 ---
@@ -398,9 +459,10 @@ Below are Privately accessible routes.
 
   ```js
   {
-   commentData
+    commentData;
   }
   ```
+
 - **Response Body**:
 
   ```js
@@ -410,6 +472,7 @@ Below are Privately accessible routes.
     }
   }
   ```
+
 - **Functionality**: This API call adds a comment to question from the db.
 
 ### 4. POST `/api/comments/edit/:questionId/:commentId`
@@ -419,7 +482,7 @@ Below are Privately accessible routes.
 - **Request Body**:
   ```js
   {
-   commentData
+    commentData;
   }
   ```
 - **Response Body**:
@@ -431,6 +494,7 @@ Below are Privately accessible routes.
     }
   }
   ```
+
 - **Functionality**: This API call edits a comment to question from the db.
 
 ### 5. DELETE `/api/comments/delete/:questionId/:commentId`
@@ -446,6 +510,7 @@ Below are Privately accessible routes.
     }
   }
   ```
+
 - **Functionality**: This API call deletes a comment of a question from the db.
 
 ### 6. POST `/api/comments/add/:questionId/:answerId`
@@ -455,7 +520,7 @@ Below are Privately accessible routes.
 - **Request Body**:
   ```js
   {
-   commentData
+    commentData;
   }
   ```
 - **Response Body**:
@@ -467,6 +532,7 @@ Below are Privately accessible routes.
     }
   }
   ```
+
 - **Functionality**: This API call adds a comment to an answer of a question from the db.
 
 ### 7. POST `/api/comments/edit/:questionId/:answerId/:commentId`
@@ -476,7 +542,7 @@ Below are Privately accessible routes.
 - **Request Body**:
   ```js
   {
-   commentData
+    commentData;
   }
   ```
 - **Response Body**:
@@ -488,6 +554,7 @@ Below are Privately accessible routes.
     }
   }
   ```
+
 - **Functionality**: This API call edits a comment to an answer of a question from the db.
 
 ### 8. POST `/api/comments/delete/:questionId/:answerId/:commentId`
@@ -503,6 +570,5 @@ Below are Privately accessible routes.
     }
   }
   ```
+
 - **Functionality**: This API call deletes a comment to an answer of a question from the db.
-
-
