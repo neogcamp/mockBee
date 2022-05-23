@@ -51,7 +51,7 @@ Social Media -      npx create-react-app your-app-name --template mockbee-social
 Notes App -         npx create-react-app your-app-name --template mockbee-notes-app
 Forum App -         npx create-react-app your-app-name --template mockbee-forum-app
 Project Management- npx create-react-app your-app-name --template mockbee-project-management
-Habit Tracker -     npx create-react-app your-app-name --template mockbee-habbit-tracker
+Habit Tracker -     npx create-react-app your-app-name --template mockbee-habit-tracker
 
 ```
 
