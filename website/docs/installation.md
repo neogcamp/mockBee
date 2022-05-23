@@ -42,6 +42,19 @@ That's it! Wait for the installation to be finished follow the instructions in t
 
 Select the name of your app, your favourite mockBee template and let us handle the rest for you!
 
+### Approach 3 : By using given commands 
+
+```bash
+E-commerce -        npx create-react-app your-app-name --template mockbee-e-commerce
+Video Library -     npx create-react-app your-app-name --template mockbee-video-library
+Social Media -      npx create-react-app your-app-name --template mockbee-social-media
+Notes App -         npx create-react-app your-app-name --template mockbee-notes-app
+Forum App -         npx create-react-app your-app-name --template mockbee-forum-app
+Project Management- npx create-react-app your-app-name --template mockbee-project-management
+Habit Tracker -     npx create-react-app your-app-name --template mockbee-habbit-tracker
+
+```
+
 ## Running the App
 
 Head over to your project and run,
