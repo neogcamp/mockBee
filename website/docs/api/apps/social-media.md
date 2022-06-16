@@ -266,10 +266,10 @@ The following Routes are Private Routes related to comments on a post.
 
 - **Functionality**: This API edits a comment of a particualar post.
 
-### 4. POST `/api/comments/delete/:postId/:commentId`
+### 4. DELETE `/api/comments/delete/:postId/:commentId`
 
 - **Request URL**: `/api/comments/delete/:postId/:commentId`
-- **HTTP Method**: POST
+- **HTTP Method**: DELETE
 - **Request Headers**: `authorization: encodedToken`
 - **Response Body**:
 
