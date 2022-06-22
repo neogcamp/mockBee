@@ -40,7 +40,7 @@ The Authentication with **mockBee** takes `email` and `password` as credentials 
   ```js
   {
     data: {
-      user, encodedToken;
+      createdUser, encodedToken;
     }
   }
   ```
@@ -64,7 +64,7 @@ The Authentication with **mockBee** takes `email` and `password` as credentials 
   ```js
   {
     data: {
-      user, encodedToken;
+      foundUser, encodedToken;
     }
   }
   ```
