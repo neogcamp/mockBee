@@ -10,6 +10,16 @@ import { Response } from "miragejs";
  * send GET Request at /api/coupon
  * */
 
-export const getAllCouponsHandler = function () {
-  return new Response(200, {}, { coupons: this.db.coupons });
+ export const getAllCouponsHandler = function () {
+  try {
+    return new Response(200, {}, { coupons: this.db.coupons });
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
+  }
 };
