@@ -239,11 +239,13 @@ The following Routes are relating to User's Wishlist. These are private routes.
 
 - **Functionality**: This API call removes a product from the wishlist of the user in the db.
 
+---
+
 ## Coupons Routes
 
 The following Routes are relating to Coupons. These are Publicly accessible routes.
 
-### 1. GET `/api/products`
+### 1. GET `/api/coupon`
 
 - **Request URL**: `/api/coupon`
 - **HTTP Method**: GET
