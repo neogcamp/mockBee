@@ -122,7 +122,7 @@ The following Routes are relating to Posts. These are Publicly accessible routes
   ```js
   {
     data: {
-      posts: Object;
+      posts: Array;
     }
   }
   ```
@@ -139,7 +139,7 @@ The following Routes are Private Routes related to Posts.
 - **Request Body**:
   ```js
   {
-    post;
+    postData: post;
   }
   ```
 - **Response Body**:
