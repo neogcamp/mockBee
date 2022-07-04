@@ -40,6 +40,7 @@ module.exports = {
           position: "left",
         },
         { to: "/docs/api/introduction", label: "API", position: "left" },
+        { to: "/showcase", label: "Showcase", position: "left" },
         {
           href: "https://github.com/neogcamp/neoG-Camp-mock-backend",
           label: "GitHub",
