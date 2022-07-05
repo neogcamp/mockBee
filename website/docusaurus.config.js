@@ -8,6 +8,19 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "neogcamp", // Usually your GitHub org/user name.
   projectName: "mockBee", // Usually your repo name.
+  plugins: [
+    [
+      "ideal-image",
+      ({
+        quality: 70,
+        max: 1030,
+        min: 640,
+        steps: 2,
+        // Use false to debug, but it incurs huge perf costs
+        disableInDev: true,
+      }),
+    ],
+  ],
   presets: [
     [
       "@docusaurus/preset-classic",
