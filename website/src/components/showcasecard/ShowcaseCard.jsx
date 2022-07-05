@@ -1,5 +1,5 @@
 import React from "react";
-import CardFilterChip from "../CardFilterChip/CardFilterChip";
+import CardFilterChip from "../cardfilterchip/CardFilterChip";
 import Image from "@theme/IdealImage";
 import "./ShowcaseCard.css";
 
