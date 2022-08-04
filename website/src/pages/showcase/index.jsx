@@ -13,17 +13,17 @@ const filters = [
     color: "pink",
   },
   {
-    id: 1,
+    id: 2,
     name: "Open Source",
     color: "red",
   },
   {
-    id: 1,
+    id: 3,
     name: "Product",
     color: "green",
   },
   {
-    id: 1,
+    id: 4,
     name: "Design",
     color: "blue",
   },
@@ -71,7 +71,7 @@ function ShowcaseCards() {
   return (
     <div className="showcase-cards-container container margin-top--l margin-bottom--lg">
       {users.map((user) => (
-        <ShowcaseCard user={user} />
+        <ShowcaseCard key={user.id} user={user} />
       ))}
     </div>
   );
@@ -79,13 +79,15 @@ function ShowcaseCards() {
 
 const Showcase = () => {
   return (
-   <Layout  title={`Showcase`}
-   description="Description will go into a meta tag in <head />" >
-    <ShowcaseHeader />
-    <ShowcaseFilters />
-    <ShowcaseCards />
-   </Layout>
-  )
-}
+    <Layout
+      title={`Showcase`}
+      description="Description will go into a meta tag in <head />"
+    >
+      <ShowcaseHeader />
+      <ShowcaseFilters />
+      <ShowcaseCards />
+    </Layout>
+  );
+};
 
-export default Showcase
+export default Showcase;

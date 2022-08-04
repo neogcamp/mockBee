@@ -10,17 +10,17 @@ const filters = [
     color: "pink",
   },
   {
-    id: 1,
+    id: 2,
     name: "Open Source",
     color: "red",
   },
   {
-    id: 1,
+    id: 3,
     name: "Product",
     color: "green",
   },
   {
-    id: 1,
+    id: 4,
     name: "Design",
     color: "blue",
   },
