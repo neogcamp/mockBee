@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 /*
 Welcome to submissions for Mockbee.
 
@@ -40,6 +41,7 @@ Thank you for submitting!
 
 export const users = [
   {
+    id: uuid(),
     title: "AgileTs",
     description: "Global State and Logic Framework for reactive Applications",
     preview: require("./showcase/agilets.png"),
@@ -48,6 +50,7 @@ export const users = [
     tags: ["opensource", "design"],
   },
   {
+    id: uuid(),
     title: "AgileTs",
     description: "Global State and Logic Framework for reactive Applications",
     preview: require("./showcase/agilets.png"),
@@ -56,6 +59,7 @@ export const users = [
     tags: ["opensource", "design"],
   },
   {
+    id: uuid(),
     title: "AgileTs",
     description: "Global State and Logic Framework for reactive Applications",
     preview: require("./showcase/agilets.png"),
@@ -64,6 +68,7 @@ export const users = [
     tags: ["opensource", "design"],
   },
   {
+    id: uuid(),
     title: "AgileTs",
     description: "Global State and Logic Framework for reactive Applications",
     preview: require("./showcase/agilets.png"),
@@ -72,6 +77,7 @@ export const users = [
     tags: ["opensource", "design"],
   },
   {
+    id: uuid(),
     title: "AgileTs",
     description: "Global State and Logic Framework for reactive Applications",
     preview: require("./showcase/agilets.png"),
@@ -80,6 +86,7 @@ export const users = [
     tags: ["opensource", "design"],
   },
   {
+    id: uuid(),
     title: "AgileTs",
     description: "Global State and Logic Framework for reactive Applications",
     preview: require("./showcase/agilets.png"),

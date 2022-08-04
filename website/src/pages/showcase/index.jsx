@@ -3,31 +3,9 @@ import Translate from "@docusaurus/Translate";
 import Layout from "@theme/Layout";
 import { users } from "../../data/users";
 import ShowcaseCard from "../../components/ShowcaseCard/ShowcaseCard";
-import "./showcase.css";
 import FilterChip from "../../components/FilterChip/FilterChip";
-
-const filters = [
-  {
-    id: 1,
-    name: "Favourite",
-    color: "pink",
-  },
-  {
-    id: 2,
-    name: "Open Source",
-    color: "red",
-  },
-  {
-    id: 3,
-    name: "Product",
-    color: "green",
-  },
-  {
-    id: 4,
-    name: "Design",
-    color: "blue",
-  },
-];
+import { filters } from "../../data/filters";
+import "./showcase.css";
 
 const ShowcaseHeader = () => {
   return (

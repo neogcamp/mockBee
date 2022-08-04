@@ -1,30 +1,8 @@
 import React from "react";
 import CardFilterChip from "../cardfilterchip/CardFilterChip";
 import Image from "@theme/IdealImage";
+import { filters } from "../../data/filters";
 import "./ShowcaseCard.css";
-
-const filters = [
-  {
-    id: 1,
-    name: "Favourite",
-    color: "pink",
-  },
-  {
-    id: 2,
-    name: "Open Source",
-    color: "red",
-  },
-  {
-    id: 3,
-    name: "Product",
-    color: "green",
-  },
-  {
-    id: 4,
-    name: "Design",
-    color: "blue",
-  },
-];
 
 function ShowcaseCards({ user }) {
   return (
