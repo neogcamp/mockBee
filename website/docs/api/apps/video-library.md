@@ -70,9 +70,9 @@ The following Routes are relating to Categories. These are Publicly accessible r
 
 - **Functionality**: This API call gets all categories from the db.
 
-### 2. GET `/api/category/:categoryId`
+### 2. GET `/api/categories/:categoryId`
 
-- **Request URL**: `/api/category/:categoryId`
+- **Request URL**: `/api/categories/:categoryId`
 - **HTTP Method**: GET
 - **Response Body**:
 
