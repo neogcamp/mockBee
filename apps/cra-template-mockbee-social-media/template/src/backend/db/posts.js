@@ -18,27 +18,7 @@ export const posts = [
     },
     username: "adarshbalika",
     createdAt: formatDate(),
-    updatedAt: formatDate(),
-    comments: [
-      {
-        _id: uuid(),
-        username: "shubhamsoni",
-        text: "Interesting",
-        votes: {
-          upvotedBy: [],
-          downvotedBy: [],
-        },
-      },
-      {
-        _id: uuid(),
-        username: "sohamshah",
-        text: "Wow!",
-        votes: {
-          upvotedBy: [],
-          downvotedBy: [],
-        },
-      },
-    ],
+    updatedAt: formatDate()
   },
   {
     _id: uuid(),
@@ -49,28 +29,8 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "shubhamsoni",
+    username: "adarshbalak",
 
-    comments: [
-      {
-        _id: uuid(),
-        username: "shubhamsoni",
-        text: "Interesting",
-        votes: {
-          upvotedBy: [],
-          downvotedBy: [],
-        },
-      },
-      {
-        _id: uuid(),
-        username: "sohamshah",
-        text: "Wow!",
-        votes: {
-          upvotedBy: [],
-          downvotedBy: [],
-        },
-      },
-    ],
     createdAt: formatDate(),
     updatedAt: formatDate(),
   },
