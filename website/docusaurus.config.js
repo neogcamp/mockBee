@@ -8,6 +8,19 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "neogcamp", // Usually your GitHub org/user name.
   projectName: "mockBee", // Usually your repo name.
+  plugins: [
+    [
+      require.resolve("@docusaurus/plugin-ideal-image"),
+      {
+        quality: 70,
+        max: 1030,
+        min: 640,
+        steps: 2,
+        // Use false to debug, but it incurs huge perf costs
+        disableInDev: true,
+      },
+    ],
+  ],
   presets: [
     [
       "@docusaurus/preset-classic",
@@ -40,6 +53,7 @@ module.exports = {
           position: "left",
         },
         { to: "/docs/api/introduction", label: "API", position: "left" },
+        { to: "/showcase", label: "Showcase", position: "left" },
         {
           href: "https://github.com/neogcamp/neoG-Camp-mock-backend",
           label: "GitHub",
@@ -102,6 +116,6 @@ module.exports = {
   },
   onDuplicateRoutes: "warn",
   customFields: {},
-  plugins: [],
+  // plugins: [],
   themes: [],
 };

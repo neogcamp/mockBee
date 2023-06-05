@@ -1,0 +1,18 @@
+.showcase-header {
+  padding-top: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.showcase-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
