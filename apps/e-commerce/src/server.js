@@ -31,6 +31,7 @@ import {
 import { categories } from "./backend/db/categories";
 import { products } from "./backend/db/products";
 import { users } from "./backend/db/users";
+import { coupons } from "./backend/db/coupons";
 
 export function makeServer({ environment = "development" } = {}) {
   return new Server({
@@ -60,6 +61,7 @@ export function makeServer({ environment = "development" } = {}) {
       );
 
       categories.forEach((item) => server.create("category", { ...item }));
+      coupons.forEach((item) => server.create("coupon", { ...item }));
     },
 
     routes() {
